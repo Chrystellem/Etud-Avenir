@@ -1,0 +1,9 @@
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.csproj.AssemblyReference.cache
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.AssemblyInfoInputs.cache
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.AssemblyInfo.cs
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.csproj.CoreCompileInputs.cache
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.RazorAssemblyInfo.cache
+C:\Users\rhonb\Documents\EfreiCours\Sem9\Projet-transverse\Code\Etud'Avenir\Etud'Avenir\obj\Debug\net5.0\Etud'Avenir.RazorAssemblyInfo.cs
