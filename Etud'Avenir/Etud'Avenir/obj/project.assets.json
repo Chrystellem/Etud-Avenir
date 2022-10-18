@@ -6600,7 +6600,8 @@
       "Microsoft.EntityFrameworkCore.SqlServer >= 5.0.9",
       "Microsoft.EntityFrameworkCore.Tools >= 5.0.9",
       "MySql.Data >= 8.0.31",
-      "MySqlConnector >= 2.1.13"
+      "MySqlConnector >= 2.1.13",
+      "System.Collections >= 4.3.0"
     ]
   },
   "packageFolders": {
@@ -6673,6 +6674,10 @@
           "MySqlConnector": {
             "target": "Package",
             "version": "[2.1.13, )"
+          },
+          "System.Collections": {
+            "target": "Package",
+            "version": "[4.3.0, )"
           }
         },
         "imports": [

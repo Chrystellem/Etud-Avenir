@@ -21,20 +21,24 @@ namespace Etud_Avenir.Features
         public DBConnect()
         {
             Initialize();
+            //OpenConnection();
+            //MySqlCommand select = new MySqlCommand("")
+            this.Select();
         }
 
         //Initialize values
         private void Initialize()
         {
             server = "localhost";
-            database = "connectcsharptomysql";
-            uid = "username";
-            password = "password";
+            database = "bdds8";
+            uid = "root";
+            password = "root";
             string connectionString;
             connectionString = "SERVER=" + server + ";" + "DATABASE=" +
             database + ";" + "UID=" + uid + ";" + "PASSWORD=" + password + ";";
 
             connection = new MySqlConnection(connectionString);
+
         }
 
         //open connection to database
@@ -94,6 +98,57 @@ namespace Etud_Avenir.Features
         //Delete statement
         public void Delete()
         {
+        }
+//Select statement
+        public void Select()
+        {
+            string query = "SELECT * FROM voyageur";
+
+            //Create a list to store the result
+            List<string>[] list = new List<string>[4];
+            list[0] = new List<string>();
+            list[1] = new List<string>();
+            list[2] = new List<string>();
+            list[3] = new List<string>();
+
+            //Open connection
+            if (this.OpenConnection() == true)
+            {
+                //Create Command
+                MySqlCommand cmd = new MySqlCommand(query, connection);
+                //Create a data reader and Execute the command
+                MySqlDataReader dataReader = cmd.ExecuteReader();
+
+                //Read the data and store them in the list
+                while (dataReader.Read())
+                {
+                    list[0].Add(dataReader["idVoyageur"] + "");
+                    list[1].Add(dataReader["nomVoyageur"] + "");
+                    list[2].Add(dataReader["ville"] + "");
+                    list[3].Add(dataReader["age"] + "");
+                }
+
+                //close Data Reader
+                dataReader.Close();
+
+                //close Connection
+                this.CloseConnection();
+
+                //return list to be displayed
+                foreach (var colomn in list)
+                {
+                    foreach (var value in colomn)
+                    {
+                        Console.Write(value+"\t");
+                    }
+                    Console.WriteLine();
+                }
+                
+            }
+            else
+            {
+                Console.WriteLine("list vide");
+            }
         }
 
         //Backup
@@ -172,5 +227,7 @@ namespace Etud_Avenir.Features
                 Console.WriteLine("Error , unable to Restore!");
             }
         }
+
+
     }
 }
