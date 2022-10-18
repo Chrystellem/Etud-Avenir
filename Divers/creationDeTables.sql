@@ -81,7 +81,7 @@ CREATE TABLE Note(
         note       Float NOT NULL,
         CONSTRAINT Note_PK PRIMARY KEY (idMatiere,idBulletin),
         FOREIGN KEY (idMatiere) REFERENCES Matiere(idMatiere),	
-        FOREIGN KEY (idBulletin) REFERENCES Buletin(idBulletin)
+        FOREIGN KEY (idBulletin) REFERENCES Bulletin(idBulletin)
 );
 
 
