@@ -15,7 +15,7 @@ namespace Etud_Avenir.Models
         private string mail { get; set; }
         private string pwd { get; set; }
         private string tel { get; set; }
-
+        
         private List<Report>[] reports = new List<Report>[3];
         private Dictionary<string, List<School>[]> favorites = new Dictionary<string, List<School>[]>();
         private List<School >[] lastSearch = new List<School>[5]; 

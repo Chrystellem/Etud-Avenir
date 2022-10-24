@@ -7,17 +7,11 @@ namespace Etud_Avenir.Models
 {
     public class Report
     {
-        private int idReport { get; set; }
+        private int ReportId { get; set; }
         //trimestre
         private int quarter { get; set; }
 
-        private Dictionary<Subject, float> reports = new();
-
-        public Report(int idReport, int quarter)
-        {
-            this.idReport = idReport;
-            this.quarter = quarter;
-        }
+        private Dictionary<Subject, float> subjects = new();
 
     }
 }

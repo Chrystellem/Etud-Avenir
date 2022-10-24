@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Etud_Avenir.Models;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -12,5 +13,12 @@ namespace Etud_Avenir.Data
             : base(options)
         {
         }
+
+
+        public DbSet<Report> Report { get; set; }
+        public DbSet<Subject> Subject { get; set; }
+
+        public DbSet<Grade> Grade { get; set; }
+
     }
 }

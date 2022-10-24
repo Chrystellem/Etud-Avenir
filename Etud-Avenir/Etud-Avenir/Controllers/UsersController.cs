@@ -8,6 +8,7 @@ using Etud_Avenir.Services;
 
 namespace Etud_Avenir.Controllers
 {
+
     public class UsersController : Controller
     {
         private readonly UserService _utilisateurService;
