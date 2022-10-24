@@ -1,4 +1,3 @@
-<<<<<<< HEAD:Etud'Avenir/Etud'Avenir/Startup.cs
 using Etud_Avenir.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
