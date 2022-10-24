@@ -30,7 +30,7 @@ namespace Etud_Avenir.Features
         private void Initialize()
         {
             server = "localhost";
-            database = "bdds8";
+            database = "ecole";
             uid = "root";
             password = "root";
             string connectionString;
@@ -102,7 +102,7 @@ namespace Etud_Avenir.Features
 //Select statement
         public void Select()
         {
-            string query = "SELECT * FROM voyageur";
+            string query = "SELECT * FROM etudiant";
 
             //Create a list to store the result
             List<string>[] list = new List<string>[4];
@@ -122,10 +122,10 @@ namespace Etud_Avenir.Features
                 //Read the data and store them in the list
                 while (dataReader.Read())
                 {
-                    list[0].Add(dataReader["idVoyageur"] + "");
-                    list[1].Add(dataReader["nomVoyageur"] + "");
-                    list[2].Add(dataReader["ville"] + "");
-                    list[3].Add(dataReader["age"] + "");
+                    list[0].Add(dataReader["NumEtu"] + "");
+                    list[1].Add(dataReader["Nom"] + "");
+                    list[2].Add(dataReader["Prenom"] + "");
+                    list[3].Add(dataReader["DateNais"] + "");
                 }
 
                 //close Data Reader

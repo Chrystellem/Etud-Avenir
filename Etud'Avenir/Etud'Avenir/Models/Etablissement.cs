@@ -16,7 +16,7 @@ namespace Etud_Avenir.Models
         private string adresse { get; set; }
         private string site { get; set; }
 
-        private List<Cursus> listCursus = new();
+        private List<Cursus> listeCursus = new();
 
         public Etablissement(int idEtablissement, string nom, float score, string adresse, string site)
         {

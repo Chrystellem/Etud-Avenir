@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\rhonb\\Documents\\EfreiCours\\Sem9\\Projet-transverse\\Code\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj": {}
+    "C:\\Users\\Chris\\Desktop\\projet transverse\\Etud-Avenir\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj": {}
   },
   "projects": {
-    "C:\\Users\\rhonb\\Documents\\EfreiCours\\Sem9\\Projet-transverse\\Code\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj": {
+    "C:\\Users\\Chris\\Desktop\\projet transverse\\Etud-Avenir\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\rhonb\\Documents\\EfreiCours\\Sem9\\Projet-transverse\\Code\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj",
+        "projectUniqueName": "C:\\Users\\Chris\\Desktop\\projet transverse\\Etud-Avenir\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj",
         "projectName": "Etud'Avenir",
-        "projectPath": "C:\\Users\\rhonb\\Documents\\EfreiCours\\Sem9\\Projet-transverse\\Code\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj",
-        "packagesPath": "C:\\Users\\rhonb\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\rhonb\\Documents\\EfreiCours\\Sem9\\Projet-transverse\\Code\\Etud'Avenir\\Etud'Avenir\\obj\\",
+        "projectPath": "C:\\Users\\Chris\\Desktop\\projet transverse\\Etud-Avenir\\Etud'Avenir\\Etud'Avenir\\Etud'Avenir.csproj",
+        "packagesPath": "C:\\Users\\Chris\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\Chris\\Desktop\\projet transverse\\Etud-Avenir\\Etud'Avenir\\Etud'Avenir\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\rhonb\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\Chris\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
