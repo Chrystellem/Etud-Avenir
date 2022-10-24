@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Controllers
 {
-    public class RecherchesController : Controller
+    public class SearchesController : Controller
     {
-        private readonly RechercheService _rechercheService;
+        private readonly SearchService _rechercheService;
         public IActionResult Index()
         {
             return View();

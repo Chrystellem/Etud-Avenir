@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Services
 {
-    public class EtablissementService
+    public class SchoolService
     {
     }
 }

@@ -8,9 +8,9 @@ using Etud_Avenir.Services;
 
 namespace Etud_Avenir.Controllers
 {
-    public class EtablissementsController : Controller
+    public class SchoolsController : Controller
     {
-        private readonly EtablissementService _etablissementService;
+        private readonly SchoolService _etablissementService;
         public IActionResult Index()
         {
             return View();

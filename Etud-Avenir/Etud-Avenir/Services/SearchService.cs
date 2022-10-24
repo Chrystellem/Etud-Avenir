@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Services
 {
-    public class RechercheService
+    public class SearchService
     {
     }
 }
