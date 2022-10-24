@@ -17,7 +17,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid d-flex justify-content-between">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index" alt="Etud'Avenir">
                     <img src="~/images/logo_color.png" height="36"/>
@@ -43,12 +43,7 @@
         </nav>
     </header>
 
-
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    @RenderBody()
 
     <footer class="border-top footer text-muted">
         <div class="container">

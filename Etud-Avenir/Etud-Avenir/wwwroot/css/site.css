@@ -7,3 +7,36 @@ for details on configuring this project to bundle and minify static web assets. 
     --primary-color: #253659;
     --secondary-color: #03A696;
 }
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    display: inline-block;
+}
+
+.font-title {
+    font-family: var(--font-title);
+    font-weight: 400;
+}
+
+.color-primary {
+    color: var(--primary-color);
+}
+
+.color-white {
+    color: #fff;
+}
+
+p, div, li, span, section, article {
+    font-family: var(--font-content);
+    color: #111;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
