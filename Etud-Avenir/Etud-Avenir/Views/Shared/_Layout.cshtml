@@ -17,13 +17,13 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid d-flex justify-content-between">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index" alt="Etud'Avenir">
                     <img src="~/images/logo_color.png" height="36"/>
                 </a>
                 <ul class="navbar-nav">
-                    <li class="nav-item active">
+                    <li class="nav-item">
                         <a class="nav-link" asp-controller="Home" asp-action="Index">Rechercher</a>
                     </li>
                     <li class="nav-item">
@@ -43,16 +43,32 @@
         </nav>
     </header>
 
+    @RenderBody()
 
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <footer class="footer bg-primary pt-2 pb-2">
 
-    <footer class="border-top footer text-muted">
+        <div class="row">
+
+            <div class="col-md-6">
+                <ul class="list-style-none color-white">
+                    <li class="color-white"><a>Rechercher</a></li>
+                    <li class="color-white"><a>Base de données</a></li>
+                </ul>
+            </div>
+
+            <div class="col-md-6">
+                <h3 class="color-white">Qui sommes-nous ?</h3>
+                <p class="color-white mt-3">
+                    Des étudiants en dernières années bien déterminés à ce que vous fassiez de meilleurs choix que nous. 
+                    Non, nous ne sommes pas chauvin, d’ailleurs difficile de deviner dans quelle école nous sommes. 
+                    Ici, aucun favoritisme, nous essayons d’être les plus transparents possibles afin que vous fassiez le meilleur choix pour vous, pour vos études.
+                </p>
+            </div>
+        </div>
+
+
         <div class="container">
-            &copy; 2022 - Etud_Avenir - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+            &copy; 2022 - Etud'Avenir
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

@@ -1,8 +1,92 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<main role="main" class="pb-3">
+
+    <section class="main-header pt-5">
+        <div class="container">
+            <div class="row align-items-center">
+
+                <div class="col-md-6">
+                    <img src="/images/decoration/home/rocket.svg" style="width:100%;height:350px;" />
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-5">
+                    <h1 class="font-title color-primary">Etud’Avenir</h1>
+                    <p>La plateforme qui te propulse vers ton avenir</p>
+
+                    <div class="mt-5">
+                        <a class="btn-primary">Trouver ma future école</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mt-5 d-flex align-items-center flex-column justify-content-center">
+            <span class="color-white font-weight-bold col-12 text-center">Etud'Avenir c'est quoi ?</span>
+            <img class="mt-2 arrow-bottom " src="images/decoration/arrow.svg" />
+        </div>
+    </section>
+
+    <div class="container">
+        <section class="main-presentation mt-5">
+
+            <div class="d-flex justify-content-center">
+                <h2>Le site qui te conseille des écoles en fonction de tes envies et de ton niveau</h2>
+            </div>
+
+            <div class="row align-items-center mt-3">
+                <div class="col-lg-5 text-center">
+                    <img src="images/decoration/home/chart.svg" class="presentation-img" />
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-6">
+                    <p>
+                        Envie de rejoindre une école d’ingénieur dans l’informatique mais tu ne sais pas si tu as le niveau ?
+                        <br /><br />
+                        Ne t’inquiète pas, nous sommes capable de te recommander des écoles en fonction de tes bulletins.
+                        <br /><br />
+                        Basée sur une IA et une base de données riche, nous sommes capable de comparer tes résultats en fonction de milliers d’autres. Notre IA sera capable de retourner tes chances de rejoindre quelques écoles selon des critères que tu auras définis !
+                    </p>
+                </div>
+            </div>
+        </section>
+    </div>
+</main>
+
+<style>
+
+    h1 {
+        font-size: 5rem;
+    }
+
+    .main-header {
+        background: bottom / cover no-repeat url('/images/decoration/home/wave-home.svg');
+        background-position: left 0 bottom -90px;
+        padding-bottom: 3rem;
+        height: 540px;
+    }
+
+    .arrow-bottom {
+        width: 25px;
+    }
+
+    .presentation-img {
+        width: auto;
+        height: 375px;
+    }
+
+    @@media only screen and (max-width : 768px) {
+
+        .main-header {
+            height: auto;
+        }
+
+            h1, .main-header p {
+                color: #fff!important;
+            }
+    }
+
+</style>
