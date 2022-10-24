@@ -1,6 +1,16 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Etud'Avenir\\Etud'Avenir",
+    "\\Etud'Avenir\\Etud'Avenir\\bin\\Debug",
+    "\\Etud'Avenir\\Etud'Avenir\\bin\\Debug\\net5.0",
+    "\\Etud-Avenir\\Etud-Avenir",
+    "\\Etud-Avenir\\Etud-Avenir\\Areas",
+    "\\Etud-Avenir\\Etud-Avenir\\Areas\\Identity",
+    "\\Etud-Avenir\\Etud-Avenir\\Areas\\Identity\\Pages",
+    "\\Etud-Avenir\\Etud-Avenir\\Controllers",
+    "\\Etud-Avenir\\Etud-Avenir\\Views\\Home"
   ],
+  "SelectedNode": "\\Etud-Avenir",
   "PreviewInSolutionExplorer": false
 }

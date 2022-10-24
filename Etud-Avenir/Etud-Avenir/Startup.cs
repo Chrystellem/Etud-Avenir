@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Etud_Avenir.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,9 +35,13 @@ namespace Etud_Avenir
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-
+            
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
+
+            services.AddSingleton<EtablissementService>();
+            services.AddSingleton<RechercheService>();
+            services.AddSingleton<UtilisateurService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

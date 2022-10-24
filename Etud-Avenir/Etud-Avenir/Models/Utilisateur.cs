@@ -18,7 +18,7 @@ namespace Etud_Avenir.Models
 
         private List<Bulletin>[] bulletins = new List<Bulletin>[3];
         private Dictionary<string, List<Etablissement>[]> favoris = new Dictionary<string, List<Etablissement>[]>();
-        private List<Etablissement >[] recherche = new List<Etablissement>[5]; 
+        private List<Etablissement >[] derniereRecherche = new List<Etablissement>[5]; 
 
         public Utilisateur(int idUtilisateur, string nom, string prenom, string mail, string pwd, string tel)
         {
