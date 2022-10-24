@@ -8,9 +8,10 @@ using Etud_Avenir.Services;
 
 namespace Etud_Avenir.Controllers
 {
-    public class UtilisateursController : Controller
+
+    public class UsersController : Controller
     {
-        private readonly UtilisateurService _utilisateurService;
+        private readonly UserService _utilisateurService;
 
         public IActionResult Index()
         {

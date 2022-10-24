@@ -1,4 +1,4 @@
-using Etud_Avenir.Features;
+
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -14,7 +14,6 @@ namespace Etud_Avenir
     {
         public static void Main(string[] args)
         {
-            DBConnect dbc = new DBConnect(); 
             CreateHostBuilder(args).Build().Run();
         }
 
