@@ -7,9 +7,10 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Controllers
 {
+
     public class SearchesController : Controller
     {
-        private readonly SearchService _rechercheService;
+        private readonly SearchService _searchService;
         public IActionResult Index()
         {
             return View();

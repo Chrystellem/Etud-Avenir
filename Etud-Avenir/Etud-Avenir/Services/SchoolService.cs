@@ -5,6 +5,10 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Services
 {
+    /// <summary>
+    /// creation ecole 
+    /// selects
+    /// </summary>
     public class SchoolService
     {
     }
