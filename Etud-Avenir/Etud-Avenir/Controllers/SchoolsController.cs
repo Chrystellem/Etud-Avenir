@@ -10,7 +10,7 @@ namespace Etud_Avenir.Controllers
 {
     public class SchoolsController : Controller
     {
-        private readonly SchoolService _etablissementService;
+        private readonly SchoolService _schoolService;
         public IActionResult Index()
         {
             return View();
