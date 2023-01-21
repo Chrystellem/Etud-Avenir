@@ -7,7 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\js\components\CloseModalButton.tsx" />
+    <Content Remove="wwwroot\js\components\FormButton.tsx" />
+    <Content Remove="wwwroot\js\components\Input.tsx" />
     <Content Remove="wwwroot\js\components\LikeButton.tsx" />
+    <Content Remove="wwwroot\js\components\modal.tsx" />
+    <Content Remove="wwwroot\js\modals\login.tsx" />
+    <Content Remove="wwwroot\src\import.tsx" />
+    <Content Remove="wwwroot\src\login.tsx" />
   </ItemGroup>
 
   <ItemGroup>
@@ -27,7 +34,14 @@
   </ItemGroup>
 
   <ItemGroup>
-    <TypeScriptCompile Include="wwwroot\js\components\LikeButton.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\closeModalButton.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\formButton.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\input.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\likeButton.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\modal.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\modals\login.tsx" />
+    <TypeScriptCompile Include="wwwroot\src\login.tsx" />
+    <TypeScriptCompile Include="wwwroot\src\import.tsx" />
   </ItemGroup>
 
   <ProjectExtensions><VisualStudio><UserProperties appsettings_1json__JsonSchema="" /></VisualStudio></ProjectExtensions>

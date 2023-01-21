@@ -1,0 +1,103 @@
+﻿/* Permet d'écraser certaines classes par défaut de Bootstrap*/
+
+@import "variables";
+@import "colors";
+
+a {
+    color: $blue;
+    cursor: pointer;
+}
+
+a.navbar-brand {
+    white-space: normal;
+    text-align: center;
+    word-break: break-all;
+}
+
+.nav-link {
+    color: $primary-color;
+    font-family: $font-title;
+}
+.active .nav-link {
+    color: $secondary-color!important;
+}
+
+.btn-primary {
+    color: $white!important;
+    background-color: $green;
+    border-radius: 10px;
+    font-family: 'Kanit';
+    font-weight: 400;
+    border: none;
+    padding: 0.5rem 1.2rem;
+}
+.btn-primary:hover {
+    background-color: $green-hover!important;
+}
+
+.bg-primary {
+    background-color: $primary-color!important;
+}
+
+.bg-secondary {
+    background-color: $secondary-color!important;
+}
+
+
+
+/* Provide sufficient contrast against white background */
+
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: $white;
+    background-color: #1b6ec2;
+    border-color: #1861ac;
+}
+
+
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.border-top {
+    border-top: 1px solid #e5e5e5;
+}
+
+.border-bottom {
+    border-bottom: 1px solid #e5e5e5;
+}
+
+.box-shadow {
+    box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
+
+button.accept-policy {
+    font-size: 1rem;
+    line-height: inherit;
+}
+
+/* Sticky footer styles
+-------------------------------------------------- */
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
+}
+
+.footer {
+    width: 100%;
+    color: $white;
+}

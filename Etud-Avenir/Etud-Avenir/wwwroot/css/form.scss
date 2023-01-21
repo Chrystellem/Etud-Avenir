@@ -1,0 +1,31 @@
+﻿@import "variables";
+@import "colors";
+
+legend {
+    font-size: $font-title;
+    color: $green;
+    font-weight: 700;
+}
+
+.react-form-group {
+
+    margin: 1.3rem 0;
+
+    label {
+        display: block;
+        font-family: $font-content;
+        font-size: 1.3rem;
+        color: $blue;
+        margin-bottom: 0;
+    }
+
+    input {
+        display: block;
+        font-family: $font-content;
+        font-size: 1rem;
+        border: none;
+        border-bottom: 2px solid $blue;
+        padding: 0 0 0.2rem 0;
+        outline: none;
+    }
+}

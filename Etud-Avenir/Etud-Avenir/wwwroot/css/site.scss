@@ -1,0 +1,45 @@
+﻿@import "variables";
+@import "colors";
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    display: inline-block;
+}
+
+.font-title {
+    font-family: $font-title;
+    font-weight: 400;
+}
+
+.color-primary {
+    color: $primary-color;
+}
+
+.color-white {
+    color: $white;
+}
+
+p, div, li, span, section, article {
+    font-family: $font-content;
+    color: $white;
+    font-weight: 400;
+    font-size: 1rem;
+}
+
+h2 {
+    font-weight: 500;
+    font-size: 1.5rem;
+}
+
+/***** Style sur les listes *****/
+
+.list-style-none {
+    list-style: none;
+    margin: 0;
+}
+.list-style-none li {
+    padding: 0.4rem 0;
+}

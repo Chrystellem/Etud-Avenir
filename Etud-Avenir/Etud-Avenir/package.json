@@ -11,8 +11,12 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "css-loader": "^6.7.3",
+    "node-sass": "^8.0.0",
     "path": "^0.12.7",
     "react-dom": "^18.2.0",
+    "sass-loader": "^13.2.0",
+    "style-loader": "^3.3.1",
     "webpack": "^5.75.0",
     "webpack-merge": "^5.8.0"
   },

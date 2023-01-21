@@ -1,0 +1,53 @@
+﻿@import "colors";
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    content: "";
+    background: $black-transparent;
+    z-index: 6;
+
+    &-close {
+        float: right;
+        border-radius: 50%;
+        background-color: $pink;
+        display: block;
+        width: 30px;
+        height: 30px;
+        cursor: pointer;   
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-top: 5px;
+    }
+
+    &-body {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        content: "";
+        background: $white;
+        z-index: 7;
+        padding: 0;
+        border-radius: 20px;
+
+        &-border {
+            padding: 1rem 1rem 1rem 3rem;
+            overflow: hidden;
+
+            &::before {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 0;
+                width: 2rem;
+                height: 100%;
+                background: $green;
+            }
+        }
+    }
+}
