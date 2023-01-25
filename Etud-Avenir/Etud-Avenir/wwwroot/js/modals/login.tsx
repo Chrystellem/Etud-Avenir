@@ -1,25 +1,34 @@
 ﻿import React = require("react");
 import FormButton from "../components/formButton";
 import Input from "../components/input";
-import Modal from "../components/modal";
 
-export default class LoginModal extends Modal {
+type LoginModalState = {
+    email: string;
+    password: string;
+}
 
-    loginModalRenderer = <form>
-                            <legend>Se connecter</legend>
+export default class LoginModal extends React.Component<{}, LoginModalState> {
 
-                            <Input label="Label test" inputType="email" placeholder="email@efrei.fr" />
-                            <Input label="Label test 2" inputType="password" placeholder="************" />
+    state: LoginModalState = {
+        email: '',
+        password: ''
+    }
 
-                            <FormButton name="Valider" isImg={false} />
-                        </form>
-
-    componentDidMount = () => {
-        const loginButton = document.querySelector('.nav-item-login');
-        loginButton.addEventListener('click', this.toggleModal);
+    handleChangeEmail = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ email: event.target.value })
+    }
+    handleChangePassword = (event: React.ChangeEvent<HTMLInputElement>) => {
+        this.setState({ password: event.target.value })
     }
 
     render = () => {
-        return this.modalRenderer(this.loginModalRenderer);
-    } 
+        return <form action="">
+            <legend>Se connecter</legend>
+
+            <Input label="Email" inputType="email" placeholder="email@efrei.fr" value={this.state.email} onChange={this.handleChangeEmail} />
+            <Input label="Mot de passe" inputType="password" placeholder="************" value={this.state.password} onChange={this.handleChangePassword} />
+
+            <FormButton name="Valider" isImg={false} />
+        </form>
+    }
 }
