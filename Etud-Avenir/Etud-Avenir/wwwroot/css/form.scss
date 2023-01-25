@@ -27,5 +27,15 @@ legend {
         border-bottom: 2px solid $blue;
         padding: 0 0 0.2rem 0;
         outline: none;
+
+        &:focus {
+            border-bottom-color: $green;
+        }
+    }
+
+    &__checkbox {
+        input {
+            cursor: pointer;
+        }
     }
 }

@@ -7,7 +7,8 @@ type ModalState = {
 type ModalChildComponent = {
     children: React.ReactNode,
     toggleBtnId: string,
-    toggleEvent: 'hover' | 'click'
+    toggleEvent: 'hover' | 'click',
+    minWidth: number
 }
 
 export default class Modal extends React.Component<ModalChildComponent, ModalState> {
@@ -29,18 +30,9 @@ export default class Modal extends React.Component<ModalChildComponent, ModalSta
         const { children } = this.props;
 
         return <div className={`modal ${this.state.isModalClosed ? 'd-none' : 'd-block'}`}>
-            <div className="modal-body modal-body-border">
+            <div className="modal-body modal-body-border" style={{minWidth:this.props.minWidth + 'px'}}>
                 <CloseModalButton onClick={this.toggleModal} />
                 {children }
-            </div>
-        </div>
-    }
-
-    modalRenderer = (childComponent: JSX.Element) => {
-        return <div className={`modal ${this.state.isModalClosed ? 'd-none' : 'd-block'}`}>
-            <div className="modal-body modal-body-border">
-                <CloseModalButton onClick={this.toggleModal} />
-                {childComponent}
             </div>
         </div>
     }

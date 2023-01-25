@@ -6,6 +6,6 @@ import LoginModal from '../js/modals/login';
 const container = document.getElementById('login');
 const root = createRoot(container!); // createRoot(container!) if you use TypeScript
 root.render(
-    <Modal toggleBtnId='nav-item-login' toggleEvent='click' >
+    <Modal toggleBtnId='nav-item-login' toggleEvent='click' minWidth={ 350 } >
         <LoginModal />
     </Modal>);

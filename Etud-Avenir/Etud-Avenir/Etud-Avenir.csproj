@@ -9,10 +9,12 @@
   <ItemGroup>
     <Content Remove="wwwroot\js\components\CloseModalButton.tsx" />
     <Content Remove="wwwroot\js\components\FormButton.tsx" />
+    <Content Remove="wwwroot\js\components\form\checkbox.tsx" />
     <Content Remove="wwwroot\js\components\Input.tsx" />
     <Content Remove="wwwroot\js\components\LikeButton.tsx" />
     <Content Remove="wwwroot\js\components\modal.tsx" />
     <Content Remove="wwwroot\js\modals\login.tsx" />
+    <Content Remove="wwwroot\js\types\ErrorAPI.ts" />
     <Content Remove="wwwroot\src\import.tsx" />
     <Content Remove="wwwroot\src\login.tsx" />
   </ItemGroup>
@@ -20,11 +22,15 @@
   <ItemGroup>
     <PackageReference Include="Extended.Wpf.Toolkit" Version="4.4.0" />
     <PackageReference Include="Microsoft.AspNetCore.Diagnostics.EntityFrameworkCore" Version="5.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.9" />
-    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.9" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.17" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.17" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="5.0.17" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.9" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.9" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="5.0.17" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="5.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="MySql.Data" Version="8.0.31" />
     <PackageReference Include="System.Collections" Version="4.3.0" />
   </ItemGroup>
@@ -36,10 +42,12 @@
   <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\components\closeModalButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\formButton.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\form\checkbox.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\input.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\likeButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\modal.tsx" />
     <TypeScriptCompile Include="wwwroot\js\modals\login.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\types\ErrorAPI.ts" />
     <TypeScriptCompile Include="wwwroot\src\login.tsx" />
     <TypeScriptCompile Include="wwwroot\src\import.tsx" />
   </ItemGroup>
