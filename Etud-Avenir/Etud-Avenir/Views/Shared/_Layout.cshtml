@@ -14,7 +14,8 @@
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 </head>
 <body class="mb-0">
-    <header>
+    <div id="shared-app"></div>
+   @* <header>
         <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
             <div class="container-fluid d-flex justify-content-between">
                 <a class="navbar-brand" asp-controller="Home" asp-action="Index" alt="Etud'Avenir">
@@ -39,7 +40,7 @@
                 <partial name="_LoginPartial" />
             </div>
         </nav>
-    </header>
+    </header>*@
 
     @RenderBody()
 
@@ -71,9 +72,13 @@
     </footer>
 
     <script src="~/dist/bundledImport.js" asp-append-version="true"></script>
+    <script>
+        const isUserAuthentified = @Json.Serialize(SignInManager.IsSignedIn(User));
+        window.isUserAuthentified = isUserAuthentified;
+    </script>
+    <script src="~/dist/bundledShared.js" asp-append-version="true" de></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
     <script src="https://kit.fontawesome.com/bd6408e1f8.js" crossorigin="anonymous"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

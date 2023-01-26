@@ -1,9 +1,9 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Xml.Linq;
 
-namespace Etud_Avenir.ViewModels.Identity
+namespace Etud_Avenir.DTOs.Identity
 {
-    public class LoginViewModel
+    public class LoginDTO
     {
         [Required]
         [EmailAddress]

@@ -18,6 +18,9 @@ namespace Etud_Avenir.Controllers
             _logger = logger;
         }
 
+        [Route("/")]
+        [Route("/connexion")]
+        [Route("/inscription")]
         public IActionResult Index()
         {
             return View();

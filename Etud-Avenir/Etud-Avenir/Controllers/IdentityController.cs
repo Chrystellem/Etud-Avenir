@@ -1,4 +1,4 @@
-﻿using Etud_Avenir.ViewModels.Identity;
+﻿using Etud_Avenir.DTOs.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -23,7 +23,7 @@ namespace Etud_Avenir.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> LoginAPI([FromBody]LoginViewModel model)
+        public async Task<IActionResult> LoginAPI([FromBody]LoginDTO model)
         {
             if (!ModelState.IsValid)
             {
@@ -38,6 +38,31 @@ namespace Etud_Avenir.Controllers
                 return NotFound(JsonConvert.SerializeObject(new
                 {
                     error = "Identifiant ou mot de passe erroné"
+                }));
+            }
+
+            return Ok();
+        }
+
+
+        [HttpPost]
+        public async Task<IActionResult> RegistrationAPI([FromBody]RegistrationDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    error = "Pas bon"
+                }));
+            }
+
+            var user = new IdentityUser { UserName = model.Email, Email = model.Email };
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return BadRequest(JsonConvert.SerializeObject(new
+                {
+                    error = "Pas bon 2"
                 }));
             }
 

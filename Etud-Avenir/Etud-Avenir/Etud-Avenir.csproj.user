@@ -13,6 +13,21 @@
     <WebStackScaffolding_ViewDialogWidth>800</WebStackScaffolding_ViewDialogWidth>
   </PropertyGroup>
   <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\modals\registration.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\stores\session.ts">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\layouts\nav.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup>
     <TypeScriptCompile Update="wwwroot\js\types\ErrorAPI.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
@@ -53,7 +68,7 @@
     </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\src\login.tsx">
+    <TypeScriptCompile Update="wwwroot\src\shared.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
