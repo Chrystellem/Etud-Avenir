@@ -1,3 +1,4 @@
 ﻿export type ErrorAPI = {
-    error: string;
+    error?: string;
+    errors?: string[]
 }

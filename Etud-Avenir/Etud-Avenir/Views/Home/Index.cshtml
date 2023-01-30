@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Etud_Avenir.ViewModels.Home.IndexViewModel
+@{
     ViewData["Title"] = "";
 }
 
@@ -92,6 +93,15 @@
 
 </style>
 
+@section BeforeScripts {
+    <script>
+        window['feedback'] = {
+            show: @Json.Serialize(Model.ShouldDisplayFeedback),
+            isSuccessfull: @Json.Serialize(Model.IsSuccessfullFeedback),
+            content: @Json.Serialize(Model.FeedbackContent),
+        }
+    </script>
+}
 @section Scripts {
     <script src="~/dist/bundledLogin.js" asp-append-version="true"></script>
 }

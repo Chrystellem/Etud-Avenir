@@ -38,23 +38,14 @@ a.navbar-brand {
 .bg-primary {
     background-color: $primary-color!important;
 }
-
 .bg-secondary {
     background-color: $secondary-color!important;
 }
-
-.color-danger {
-    color: $pink;
+.bg-green {
+    background-color: $green!important;
 }
-
-.italic {
-    font-style: italic;
-}
-.underline {
-    text-decoration: underline!important;
-}
-.underline-hover:hover {
-    text-decoration: underline!important;
+.bg-danger {
+    background-color: $pink!important;
 }
 
 /* Provide sufficient contrast against white background */

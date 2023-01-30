@@ -34,6 +34,23 @@ h2 {
     font-size: 1.5rem;
 }
 
+
+.color-danger {
+    color: $pink!important;
+}
+
+.italic {
+    font-style: italic;
+}
+
+.underline {
+    text-decoration: underline !important;
+}
+
+.underline-hover:hover {
+    text-decoration: underline !important;
+}
+
 /***** Style sur les listes *****/
 
 .list-style-none {

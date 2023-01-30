@@ -1,25 +1,27 @@
 ﻿import React = require("react");
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import FormError from "../components/form/error";
 import FormButton from "../components/formButton";
 import Input from "../components/input";
 import { ErrorAPI } from "../types/ErrorAPI";
+import { MessageModal } from "./message";
 
 type RegistrationProperties = {
 
 }
 
 type RegistrationState = {
-    errorMessage: string,
+    errors: string[],
     email: string
     password: string
     passwordConfirmation: string
     redirection: string
 }
 
-export class Registration extends React.Component<RegistrationProperties, RegistrationState> {
+export default class RegistrationModal extends React.Component<RegistrationProperties, RegistrationState> {
 
     state: RegistrationState = {
-        errorMessage: '',
+        errors: [],
         email: '', 
         password: '',
         passwordConfirmation: '',
@@ -50,25 +52,30 @@ export class Registration extends React.Component<RegistrationProperties, Regist
             })
         })
 
-        if (response.ok) return this.setState({ redirection: "/connexion" });
+        if (response.ok) return this.setState({ redirection: "/confirmation-email" });
 
-        const payload = JSON.parse(await response.json()) as ErrorAPI;
-        this.setState({ errorMessage: payload.error })
+        const payload = await response.json() as ErrorAPI;
+        this.setState({ errors: payload.errors })
     }
 
     render = () => {
-        if (this.state.redirection) return <Navigate to={this.state.redirection} />
+        if (this.state.redirection) {
+            return <MessageModal content="Un email de confirmation vient de t'être envoyé. Clique sur le lien pour valider définitivement ton inscription" />
+        }
 
         return <>
             <form onSubmit={this.handleSubmit}>
                 <legend>Inscris toi !</legend>
-                <div className={`color-danger font-weight-bolder ${this.state.errorMessage ? 'd-block' : 'd-none'}`}>{this.state.errorMessage}</div>
+
+                <FormError errors={this.state.errors} />
 
                 <Input label="Email" name="Email" inputType="email" placeholder="utilisateur@efrei.net" value={this.state.email} onChange={this.handleEmailChange} />
-                <Input label="Mot de passe" name="Password" inputType="password" placeholder="*******" value={this.state.password} onChange={this.handlePasswordChange} />
+                <Input label="Mot de passe" name="Password" inputType="password" placeholder="*******" value={this.state.password} onChange={this.handlePasswordChange} showPasswordRequirements={true} />
                 <Input label="Répete le mot de passe" name="Password" inputType="password" placeholder="*******" value={this.state.passwordConfirmation} onChange={this.handlePasswordConfirmationChange} />
 
                 <FormButton name="Valider" isImg={false} />
+                <hr />
+                <span className="d-block">Déjà inscris ?<Link to="/connexion" className="ml-2 italic underline-hover">Connecte toi</Link></span>
             </form>
         </>
     }

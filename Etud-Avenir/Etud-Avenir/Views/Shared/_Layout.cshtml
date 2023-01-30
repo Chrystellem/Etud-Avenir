@@ -76,6 +76,7 @@
         const isUserAuthentified = @Json.Serialize(SignInManager.IsSignedIn(User));
         window.isUserAuthentified = isUserAuthentified;
     </script>
+    @await RenderSectionAsync("BeforeScripts", required: false)
     <script src="~/dist/bundledShared.js" asp-append-version="true" de></script>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

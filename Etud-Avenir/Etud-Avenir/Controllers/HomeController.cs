@@ -1,5 +1,8 @@
 ﻿using Etud_Avenir.Models;
+using Etud_Avenir.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -21,9 +24,21 @@ namespace Etud_Avenir.Controllers
         [Route("/")]
         [Route("/connexion")]
         [Route("/inscription")]
-        public IActionResult Index()
+        [Route("/mot-de-passe-oublie")]
+        [Route("/confirmation-inscription-email")]
+        [Route("/reinitialisation-mot-de-passe")]
+        public IActionResult Index(string confirm = null)
         {
-            return View();
+            if (confirm == null) return View(new IndexViewModel { ShouldDisplayFeedback = false });
+
+            // Gère le cas d'une confirmation d'inscription
+            var model = new IndexViewModel
+            {
+                ShouldDisplayFeedback = true,
+                IsSuccessfullFeedback = confirm == "success",
+                FeedbackContent = confirm == "success" ? "Votre inscription a bien été confirmée" : "Nous n'avons pas vu valider votre inscription"
+            };
+            return View(model);
         }
 
         public IActionResult Privacy()

@@ -1,5 +1,7 @@
 ﻿import React = require("react");
+import { Link, useParams } from "react-router-dom";
 import { Checkbox } from "../components/form/checkbox";
+import FormError from "../components/form/error";
 import FormButton from "../components/formButton";
 import Input from "../components/input";
 import { ErrorAPI } from "../types/ErrorAPI";
@@ -46,7 +48,7 @@ export default class LoginModal extends React.Component<{}, LoginModalState> {
 
         if (response.ok) return window.location.href = '/';
 
-        const payload = JSON.parse(await response.json()) as ErrorAPI;
+        const payload = await response.json() as ErrorAPI;
         this.setState({ errorMessage: payload.error })
     }
 
@@ -54,7 +56,7 @@ export default class LoginModal extends React.Component<{}, LoginModalState> {
         return <div>
             <form onSubmit={this.handleSubmit}>
                 <legend>Se connecter</legend>
-                <div className={`color-danger font-weight-bolder ${this.state.errorMessage ? 'd-block' : 'd-none'}`}>{this.state.errorMessage}</div>
+                <FormError error={this.state.errorMessage} />
 
                 <Input name="Email" label="Email" inputType="email" placeholder="email@efrei.fr" value={this.state.email} onChange={this.handleChangeEmail} />
                 <Input name="Password" label="Mot de passe" inputType="password" placeholder="************" value={this.state.password} onChange={this.handleChangePassword} />
@@ -63,8 +65,8 @@ export default class LoginModal extends React.Component<{}, LoginModalState> {
                 <FormButton name="Valider" isImg={false} />
             </form>
             <hr />
-            <span className="d-block">Mot de passe oublié ?<a className="ml-2 italic underline-hover">Réinitialise-le</a></span>
-            <span className="d-block mt-2">Tu n'as pas de compte ? <a className="ml-2 italic underline-hover">Inscris-toi</a></span>
+            <span className="d-block">Mot de passe oublié ?<Link to="/mot-de-passe-oublie" className="ml-2 italic underline-hover">Réinitialise-le</Link></span>
+            <span className="d-block mt-2">Tu n'as pas de compte ? <Link to="/inscription" className="ml-2 italic underline-hover">Inscris-toi</Link></span>
         </div>
     }
 }

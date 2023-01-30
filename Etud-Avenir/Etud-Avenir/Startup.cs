@@ -39,6 +39,8 @@ namespace Etud_Avenir
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
+            services.AddTransient<LogEmailService>();
+
             services.AddSingleton<SchoolService>();
             services.AddSingleton<SearchService>();
             services.AddSingleton<UserService>();

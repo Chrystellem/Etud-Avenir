@@ -1,6 +1,5 @@
 ﻿import React = require("react");
 import { Link } from "react-router-dom";
-import { isUserAuthentified, setAuthentication } from "../stores/session";
 
 type NavProperties = {
     isUserAuthentified: boolean
@@ -40,7 +39,7 @@ class NavLogin extends React.Component {
                     <a className="nav-link">Contact</a>
                 </li>
             </ul>
-            <ul>
+            <ul className="navbar-nav">
                 <li className="nav-item">
                     <form className="form-inline" action="/Identity/Account/Logout">
                         <button type="submit" className="nav-link btn btn-link text-dark">Déconnexion</button>
@@ -68,7 +67,7 @@ class NavLogout extends React.Component {
                     <a className="nav-link">Contact</a>
                 </li>
             </ul>
-            <ul>
+            <ul className="navbar-nav">
                 <li className="nav-item">
                     <Link className="nav-link" to="/inscription">Inscription</Link>
                 </li>
