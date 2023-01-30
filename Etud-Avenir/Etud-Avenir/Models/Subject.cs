@@ -8,8 +8,8 @@ namespace Etud_Avenir.Models
     public class Subject
     {
 
-        private int SubjectId { get; set; }
-        private string name { get; set; }
+        public int SubjectId { get; set; }
+        public string Name { get; set; }
 
 
     }

@@ -8,11 +8,13 @@ namespace Etud_Avenir.Models
     public class Grade
     {
 
-        private int? subjectId { get; set; }
+        public int GradeId { get; set; }
 
-        private int? reportId { get; set; }
+        public int? SubjectId { get; set; }
 
-        private float grade { get; set; }
+        public int? ReportId { get; set; }
+
+        public float GradeValue { get; set; }
 
     }
 }
