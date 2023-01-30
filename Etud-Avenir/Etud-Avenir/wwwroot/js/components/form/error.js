@@ -16,30 +16,23 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
-var react_router_dom_1 = require("react-router-dom");
-var closeModalButton_1 = require("./closeModalButton");
-var Modal = /** @class */ (function (_super) {
-    __extends(Modal, _super);
-    function Modal() {
+var FormError = /** @class */ (function (_super) {
+    __extends(FormError, _super);
+    function FormError() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            isModalClosed: false
-        };
-        _this.toggleModal = function () {
-            _this.setState({ isModalClosed: !_this.state.isModalClosed });
-        };
         _this.render = function () {
-            var children = _this.props.children;
-            if (_this.state.isModalClosed)
-                return React.createElement(react_router_dom_1.Navigate, { to: "/" });
-            return React.createElement("div", { className: 'modal d-block' },
-                React.createElement("div", { className: "modal-body modal-body-border", style: { minWidth: _this.props.minWidth + 'px' } },
-                    React.createElement(closeModalButton_1.default, { onClick: _this.toggleModal }),
-                    children));
+            if (_this.props.error) {
+                return React.createElement("div", { className: "color-danger font-weight-bolder ".concat(_this.props.error ? 'd-block' : 'd-none') }, _this.props.error);
+            }
+            if (_this.props.errors) {
+                var errors = _this.props.errors.map(function (error, index) { return React.createElement("li", { className: "color-danger", key: index }, error); });
+                return React.createElement("ul", { className: "list-style-none font-weight-bolder d-block pl-0" }, errors);
+            }
+            return;
         };
         return _this;
     }
-    return Modal;
+    return FormError;
 }(React.Component));
-exports.default = Modal;
-//# sourceMappingURL=modal.js.map
+exports.default = FormError;
+//# sourceMappingURL=error.js.map

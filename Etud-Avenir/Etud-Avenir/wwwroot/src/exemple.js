@@ -13,6 +13,6 @@ var element = React.createElement("div", null,
     React.createElement(LikeButton_1.default, { title: "LIKEZZZ MOIIII" }),
     React.createElement(Welcome, { name: "Jean" }));
 var container = document.getElementById('test');
-var root = client_1.createRoot(container); // createRoot(container!) if you use TypeScript
+var root = (0, client_1.createRoot)(container); // createRoot(container!) if you use TypeScript
 root.render(element);
 //# sourceMappingURL=exemple.js.map

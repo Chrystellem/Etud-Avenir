@@ -52,80 +52,65 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
-var react_router_dom_1 = require("react-router-dom");
-var checkbox_1 = require("../components/form/checkbox");
-var error_1 = require("../components/form/error");
 var formButton_1 = require("../components/formButton");
 var input_1 = require("../components/input");
-var LoginModal = /** @class */ (function (_super) {
-    __extends(LoginModal, _super);
-    function LoginModal() {
+var message_1 = require("./message");
+var ForgotPasswordModal = /** @class */ (function (_super) {
+    __extends(ForgotPasswordModal, _super);
+    function ForgotPasswordModal() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.state = {
             email: '',
-            password: '',
-            rememberMe: false,
-            errorMessage: ''
+            isSubmitted: false,
+            error: ''
         };
-        _this.handleChangeEmail = function (event) {
+        _this.handleEmailChange = function (event) {
             _this.setState({ email: event.target.value });
         };
-        _this.handleChangePassword = function (event) {
-            _this.setState({ password: event.target.value });
-        };
-        _this.handleChangeRememberMe = function () {
-            _this.setState({ rememberMe: !_this.state.rememberMe });
-        };
         _this.handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
-            var response, payload;
+            var response, error;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         event.preventDefault();
-                        return [4 /*yield*/, fetch('/Identity/LoginAPI', {
+                        return [4 /*yield*/, fetch('/Identity/ForgotPasswordAPI', {
                                 method: 'POST',
                                 headers: {
                                     'Accept': 'application/json',
                                     'Content-Type': 'application/json'
                                 },
                                 body: JSON.stringify({
-                                    Email: this.state.email,
-                                    Password: this.state.password,
-                                    RememberMe: this.state.rememberMe
+                                    Email: this.state.email
                                 })
                             })];
                     case 1:
                         response = _a.sent();
-                        if (response.ok)
-                            return [2 /*return*/, window.location.href = '/'];
+                        if (response.ok) {
+                            this.setState({ isSubmitted: true });
+                            return [2 /*return*/];
+                        }
                         return [4 /*yield*/, response.json()];
                     case 2:
-                        payload = _a.sent();
-                        this.setState({ errorMessage: payload.error });
+                        error = (_a.sent()).error;
+                        this.setState({ error: error });
                         return [2 /*return*/];
                 }
             });
         }); };
         _this.render = function () {
-            return React.createElement("div", null,
-                React.createElement("form", { onSubmit: _this.handleSubmit },
-                    React.createElement("legend", null, "Se connecter"),
-                    React.createElement(error_1.default, { error: _this.state.errorMessage }),
-                    React.createElement(input_1.default, { name: "Email", label: "Email", inputType: "email", placeholder: "email@efrei.fr", value: _this.state.email, onChange: _this.handleChangeEmail }),
-                    React.createElement(input_1.default, { name: "Password", label: "Mot de passe", inputType: "password", placeholder: "************", value: _this.state.password, onChange: _this.handleChangePassword }),
-                    React.createElement(checkbox_1.Checkbox, { name: "RememberMe", label: "Se souvenir de moi ?", value: "true", checked: _this.state.rememberMe, onChange: _this.handleChangeRememberMe }),
-                    React.createElement(formButton_1.default, { name: "Valider", isImg: false })),
-                React.createElement("hr", null),
-                React.createElement("span", { className: "d-block" },
-                    "Mot de passe oubli\u00E9 ?",
-                    React.createElement(react_router_dom_1.Link, { to: "/mot-de-passe-oublie", className: "ml-2 italic underline-hover" }, "R\u00E9initialise-le")),
-                React.createElement("span", { className: "d-block mt-2" },
-                    "Tu n'as pas de compte ? ",
-                    React.createElement(react_router_dom_1.Link, { to: "/inscription", className: "ml-2 italic underline-hover" }, "Inscris-toi")));
+            if (_this.state.isSubmitted) {
+                return React.createElement(message_1.MessageModal, { content: "Un email pour r\u00E9initialiser ton mot de passe a \u00E9t\u00E9 envoy\u00E9 !" });
+            }
+            return React.createElement("form", { onSubmit: _this.handleSubmit },
+                React.createElement("legend", null, "Reinitialise ton mot de passe"),
+                React.createElement("span", null, "Nous allons t'envoyer un mail pour r\u00E9initialiser ton email"),
+                React.createElement("div", { className: "color-danger font-weight-bolder pt-2 ".concat(_this.state.error ? 'd-block' : 'd-none') }, _this.state.error),
+                React.createElement(input_1.default, { inputType: "email", label: "Email", name: "Email", placeholder: "utilisateur@efrei.net", value: _this.state.email, required: true, onChange: _this.handleEmailChange }),
+                React.createElement(formButton_1.default, { isImg: false, name: "Valider" }));
         };
         return _this;
     }
-    return LoginModal;
+    return ForgotPasswordModal;
 }(React.Component));
-exports.default = LoginModal;
-//# sourceMappingURL=login.js.map
+exports.default = ForgotPasswordModal;
+//# sourceMappingURL=forgotPassword.js.map

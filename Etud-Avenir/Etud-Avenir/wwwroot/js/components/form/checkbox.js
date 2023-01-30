@@ -15,17 +15,20 @@ var __extends = (this && this.__extends) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.Checkbox = void 0;
 var React = require("react");
-var CloseModalButton = /** @class */ (function (_super) {
-    __extends(CloseModalButton, _super);
-    function CloseModalButton() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var Checkbox = /** @class */ (function (_super) {
+    __extends(Checkbox, _super);
+    function Checkbox() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.render = function () {
+            return React.createElement("div", { className: "d-flex align-items-center mb-3 react-form-group__checkbox" },
+                React.createElement("input", { type: "checkbox", className: "mr-3 cursor-pointer", name: _this.props.name, value: _this.props.value, checked: _this.props.checked, onChange: _this.props.onChange }),
+                React.createElement("label", { htmlFor: _this.props.name, className: "mb-0" }, _this.props.label));
+        };
+        return _this;
     }
-    CloseModalButton.prototype.render = function () {
-        return React.createElement("div", { className: "modal-close color-white", onClick: this.props.onClick },
-            React.createElement("i", { className: "fa-solid fa-xmark" }));
-    };
-    return CloseModalButton;
+    return Checkbox;
 }(React.Component));
-exports.default = CloseModalButton;
-//# sourceMappingURL=closeModalButton.js.map
+exports.Checkbox = Checkbox;
+//# sourceMappingURL=checkbox.js.map

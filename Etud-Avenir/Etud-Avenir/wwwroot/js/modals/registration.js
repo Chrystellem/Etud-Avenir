@@ -53,28 +53,29 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_router_dom_1 = require("react-router-dom");
-var checkbox_1 = require("../components/form/checkbox");
 var error_1 = require("../components/form/error");
 var formButton_1 = require("../components/formButton");
 var input_1 = require("../components/input");
-var LoginModal = /** @class */ (function (_super) {
-    __extends(LoginModal, _super);
-    function LoginModal() {
+var message_1 = require("./message");
+var RegistrationModal = /** @class */ (function (_super) {
+    __extends(RegistrationModal, _super);
+    function RegistrationModal() {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.state = {
+            errors: [],
             email: '',
             password: '',
-            rememberMe: false,
-            errorMessage: ''
+            passwordConfirmation: '',
+            redirection: ''
         };
-        _this.handleChangeEmail = function (event) {
+        _this.handleEmailChange = function (event) {
             _this.setState({ email: event.target.value });
         };
-        _this.handleChangePassword = function (event) {
+        _this.handlePasswordChange = function (event) {
             _this.setState({ password: event.target.value });
         };
-        _this.handleChangeRememberMe = function () {
-            _this.setState({ rememberMe: !_this.state.rememberMe });
+        _this.handlePasswordConfirmationChange = function (event) {
+            _this.setState({ passwordConfirmation: event.target.value });
         };
         _this.handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
             var response, payload;
@@ -82,7 +83,7 @@ var LoginModal = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         event.preventDefault();
-                        return [4 /*yield*/, fetch('/Identity/LoginAPI', {
+                        return [4 /*yield*/, fetch('/Identity/RegistrationAPI', {
                                 method: 'POST',
                                 headers: {
                                     'Accept': 'application/json',
@@ -91,41 +92,41 @@ var LoginModal = /** @class */ (function (_super) {
                                 body: JSON.stringify({
                                     Email: this.state.email,
                                     Password: this.state.password,
-                                    RememberMe: this.state.rememberMe
+                                    PasswordConfirmation: this.state.passwordConfirmation
                                 })
                             })];
                     case 1:
                         response = _a.sent();
                         if (response.ok)
-                            return [2 /*return*/, window.location.href = '/'];
+                            return [2 /*return*/, this.setState({ redirection: "/confirmation-email" })];
                         return [4 /*yield*/, response.json()];
                     case 2:
                         payload = _a.sent();
-                        this.setState({ errorMessage: payload.error });
+                        this.setState({ errors: payload.errors });
                         return [2 /*return*/];
                 }
             });
         }); };
         _this.render = function () {
-            return React.createElement("div", null,
+            if (_this.state.redirection) {
+                return React.createElement(message_1.MessageModal, { content: "Un email de confirmation vient de t'\u00EAtre envoy\u00E9. Clique sur le lien pour valider d\u00E9finitivement ton inscription" });
+            }
+            return React.createElement(React.Fragment, null,
                 React.createElement("form", { onSubmit: _this.handleSubmit },
-                    React.createElement("legend", null, "Se connecter"),
-                    React.createElement(error_1.default, { error: _this.state.errorMessage }),
-                    React.createElement(input_1.default, { name: "Email", label: "Email", inputType: "email", placeholder: "email@efrei.fr", value: _this.state.email, onChange: _this.handleChangeEmail }),
-                    React.createElement(input_1.default, { name: "Password", label: "Mot de passe", inputType: "password", placeholder: "************", value: _this.state.password, onChange: _this.handleChangePassword }),
-                    React.createElement(checkbox_1.Checkbox, { name: "RememberMe", label: "Se souvenir de moi ?", value: "true", checked: _this.state.rememberMe, onChange: _this.handleChangeRememberMe }),
-                    React.createElement(formButton_1.default, { name: "Valider", isImg: false })),
-                React.createElement("hr", null),
-                React.createElement("span", { className: "d-block" },
-                    "Mot de passe oubli\u00E9 ?",
-                    React.createElement(react_router_dom_1.Link, { to: "/mot-de-passe-oublie", className: "ml-2 italic underline-hover" }, "R\u00E9initialise-le")),
-                React.createElement("span", { className: "d-block mt-2" },
-                    "Tu n'as pas de compte ? ",
-                    React.createElement(react_router_dom_1.Link, { to: "/inscription", className: "ml-2 italic underline-hover" }, "Inscris-toi")));
+                    React.createElement("legend", null, "Inscris toi !"),
+                    React.createElement(error_1.default, { errors: _this.state.errors }),
+                    React.createElement(input_1.default, { label: "Email", name: "Email", inputType: "email", placeholder: "utilisateur@efrei.net", value: _this.state.email, onChange: _this.handleEmailChange }),
+                    React.createElement(input_1.default, { label: "Mot de passe", name: "Password", inputType: "password", placeholder: "*******", value: _this.state.password, onChange: _this.handlePasswordChange, showPasswordRequirements: true }),
+                    React.createElement(input_1.default, { label: "R\u00E9pete le mot de passe", name: "Password", inputType: "password", placeholder: "*******", value: _this.state.passwordConfirmation, onChange: _this.handlePasswordConfirmationChange }),
+                    React.createElement(formButton_1.default, { name: "Valider", isImg: false }),
+                    React.createElement("hr", null),
+                    React.createElement("span", { className: "d-block" },
+                        "D\u00E9j\u00E0 inscris ?",
+                        React.createElement(react_router_dom_1.Link, { to: "/connexion", className: "ml-2 italic underline-hover" }, "Connecte toi"))));
         };
         return _this;
     }
-    return LoginModal;
+    return RegistrationModal;
 }(React.Component));
-exports.default = LoginModal;
-//# sourceMappingURL=login.js.map
+exports.default = RegistrationModal;
+//# sourceMappingURL=registration.js.map

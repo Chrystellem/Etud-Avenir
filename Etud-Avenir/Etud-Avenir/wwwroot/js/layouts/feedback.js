@@ -16,16 +16,18 @@ var __extends = (this && this.__extends) || (function () {
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
-var CloseModalButton = /** @class */ (function (_super) {
-    __extends(CloseModalButton, _super);
-    function CloseModalButton() {
-        return _super !== null && _super.apply(this, arguments) || this;
+var Feedback = /** @class */ (function (_super) {
+    __extends(Feedback, _super);
+    function Feedback() {
+        var _this = _super !== null && _super.apply(this, arguments) || this;
+        _this.render = function () {
+            if (!_this.props.show)
+                return;
+            return React.createElement("div", { className: "d-flex justify-content-center p-3 color-white ".concat(_this.props.isSuccessfull ? "bg-green" : "bg-danger") }, _this.props.content);
+        };
+        return _this;
     }
-    CloseModalButton.prototype.render = function () {
-        return React.createElement("div", { className: "modal-close color-white", onClick: this.props.onClick },
-            React.createElement("i", { className: "fa-solid fa-xmark" }));
-    };
-    return CloseModalButton;
+    return Feedback;
 }(React.Component));
-exports.default = CloseModalButton;
-//# sourceMappingURL=closeModalButton.js.map
+exports.default = Feedback;
+//# sourceMappingURL=feedback.js.map
