@@ -43,7 +43,19 @@ a.navbar-brand {
     background-color: $secondary-color!important;
 }
 
+.color-danger {
+    color: $pink;
+}
 
+.italic {
+    font-style: italic;
+}
+.underline {
+    text-decoration: underline!important;
+}
+.underline-hover:hover {
+    text-decoration: underline!important;
+}
 
 /* Provide sufficient contrast against white background */
 

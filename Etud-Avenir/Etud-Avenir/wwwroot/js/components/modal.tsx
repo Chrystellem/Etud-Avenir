@@ -1,29 +1,35 @@
 ﻿import React = require("react");
+import { Navigate } from "react-router-dom";
 import CloseModalButton from "./closeModalButton";
-import FormButton from './formButton';
-import Input from './input';
-
 type ModalState = {
     isModalClosed: boolean
 }
 
-export default class Modal extends React.Component {
+type ModalChildComponent = {
+    children: React.ReactNode,
+    minWidth: number
+}
 
-    state: ModalState = {
-        isModalClosed: true
+export default class Modal extends React.Component<ModalChildComponent, ModalState> {
+
+    state = {
+        isModalClosed: false
     }
 
     toggleModal = () => {
         this.setState({ isModalClosed: !this.state.isModalClosed })
     }
 
-    modalRenderer = (childComponent: JSX.Element) => {
-        return <div className={`modal ${this.state.isModalClosed ? 'd-none' : 'd-block' }`}>
-            <div className="modal-body modal-body-border">
+    render = () => {
+        const { children } = this.props;
+
+        if (this.state.isModalClosed) return <Navigate to="/" />
+
+        return <div className='modal d-block'>
+            <div className="modal-body modal-body-border" style={{minWidth:this.props.minWidth + 'px'}}>
                 <CloseModalButton onClick={this.toggleModal} />
-                {childComponent}
+                {children}
             </div>
         </div>
     }
-
 }
