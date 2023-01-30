@@ -15,12 +15,18 @@ namespace Etud_Avenir.Data
         }
 
 
-        public DbSet<Animal> Test { get; set; }
-        public DbSet<LogEmail> LogEmails { get; set; }
-        //public DbSet<Report> Report { get; set; }
-        //public DbSet<Subject> Subject { get; set; }
+        public DbSet<Curriculum> Curriculum { get; set; }
 
-        //public DbSet<Grade> Grade { get; set; }
+        public DbSet<Grade> Grade { get; set; }
+
+        public DbSet<Report> Report { get; set; }
+
+        public DbSet<School> School { get; set; }
+
+        public DbSet<Subject> Subject { get; set; }
+
+        public DbSet<LogEmail> LogEmails { get; set; }
+
 
     }
 }

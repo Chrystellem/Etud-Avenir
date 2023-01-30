@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Etud_Avenir.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20230128104658_LogEmail")]
-    partial class LogEmail
+    [Migration("20230130150911_initial")]
+    partial class initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -21,19 +21,43 @@ namespace Etud_Avenir.Data.Migrations
                 .HasAnnotation("ProductVersion", "5.0.17")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-            modelBuilder.Entity("Etud_Avenir.Models.Animal", b =>
+            modelBuilder.Entity("Etud_Avenir.Models.Curriculum", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("CurriculumID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<int>("Duration")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("CurriculumID");
 
-                    b.ToTable("Test");
+                    b.ToTable("Curriculum");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Grade", b =>
+                {
+                    b.Property<int>("GradeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<float>("GradeValue")
+                        .HasColumnType("real");
+
+                    b.Property<int?>("ReportId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("SubjectId")
+                        .HasColumnType("int");
+
+                    b.HasKey("GradeId");
+
+                    b.ToTable("Grade");
                 });
 
             modelBuilder.Entity("Etud_Avenir.Models.LogEmail", b =>
@@ -58,6 +82,60 @@ namespace Etud_Avenir.Data.Migrations
                     b.HasKey("LogEmailId");
 
                     b.ToTable("LogEmails");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Report", b =>
+                {
+                    b.Property<int>("ReportId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Quarter")
+                        .HasColumnType("int");
+
+                    b.HasKey("ReportId");
+
+                    b.ToTable("Report");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.School", b =>
+                {
+                    b.Property<int>("SchoolId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("Score")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Website")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SchoolId");
+
+                    b.ToTable("School");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Subject", b =>
+                {
+                    b.Property<int>("SubjectId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SubjectId");
+
+                    b.ToTable("Subject");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>

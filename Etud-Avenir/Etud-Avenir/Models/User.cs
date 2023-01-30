@@ -9,35 +9,26 @@ namespace Etud_Avenir.Models
     public class User
     {
 
-        private int idUser { get; set; }
-        private string lastname { get; set; }
-        private string firstname { get; set; }
-        private string mail { get; set; }
-        private string pwd { get; set; }
-        private string tel { get; set; }
-        
-        private List<Report>[] reports = new List<Report>[3];
-        private Dictionary<string, List<School>[]> favorites = new Dictionary<string, List<School>[]>();
-        private List<School >[] lastSearch = new List<School>[5]; 
+        public int UserId { get; set; }
+        public string Lastname { get; set; }
+        public string Firstname { get; set; }
+        public string Mail { get; set; }
+        public string PWD { get; set; }
+        public string Tel { get; set; }
 
-        public User(int idUser, string lastname, string firstname, string mail, string pwd, string tel)
-        {
-            this.idUser = idUser;
-            this.lastname = lastname;
-            this.firstname = firstname;
-            this.mail = mail;
-            this.pwd = pwd;
-            this.tel = tel;
-        }
+        public List<Report>[] reports = new List<Report>[3];
+        public Dictionary<string, List<School>[]> favorites = new Dictionary<string, List<School>[]>();
+        public List<School >[] lastSearch = new List<School>[5]; 
+
 
         public void updateUser(int idUser, string lastname, string firstname, string mail, string pwd, string tel)
         {
-            this.idUser = idUser;
-            this.lastname = lastname;
-            this.firstname = firstname;
-            this.mail = mail;
-            this.pwd = pwd;
-            this.tel = tel;
+            this.UserId = idUser;
+            this.Lastname = lastname;
+            this.Firstname = firstname;
+            this.Mail = mail;
+            this.PWD = pwd;
+            this.Tel = tel;
         }
 
         
