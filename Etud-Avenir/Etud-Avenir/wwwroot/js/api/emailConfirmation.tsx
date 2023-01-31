@@ -1,8 +1,12 @@
 ﻿import React = require("react");
+import { Navigate } from "react-router";
 import FeedbackContext from "../context/feedbackContext";
 import { getParams } from "../services/UrlService";
 
+let launched = false
 export default function EmailConfirmation({ }) {
+    if (launched) return;
+
     // Récupérer les paramètres de l'url
     const params = getParams(window.location.href) as { userId: string, code: string }
     if (!params.code || !params.userId) return;
@@ -15,7 +19,8 @@ export default function EmailConfirmation({ }) {
         }
 
         setFeedbackContent({ content: "Email vérifié. Tu peux maintenant te connecter !", isSuccessFull: true })
+        launched = true
     })
 
-    return <></>;
+    return <Navigate to="/" />;
 }

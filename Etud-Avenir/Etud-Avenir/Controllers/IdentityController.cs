@@ -117,6 +117,7 @@ namespace Etud_Avenir.Controllers
 
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
+            if (!result.Succeeded) return BadRequest();
 
             return Ok();
         }

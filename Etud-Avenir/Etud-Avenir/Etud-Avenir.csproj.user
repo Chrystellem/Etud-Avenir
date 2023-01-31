@@ -10,17 +10,23 @@
     <Controller_SelectedScaffolderCategoryPath>root/Common/MVC/Controller</Controller_SelectedScaffolderCategoryPath>
   </PropertyGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\js\services\UrlService.tsx">
+    <TypeScriptCompile Update="wwwroot\js\modals\registration.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+  <ItemGroup />
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\js\layouts\nav.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\js\api\emailConfirmation.tsx">
+    <TypeScriptCompile Update="wwwroot\js\types\ErrorAPI.ts">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
   <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\js\modals\login.tsx">
+    <TypeScriptCompile Update="wwwroot\js\components\form\checkbox.tsx">
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
@@ -49,11 +55,7 @@
       <SubType>Code</SubType>
     </TypeScriptCompile>
   </ItemGroup>
-  <ItemGroup>
-    <TypeScriptCompile Update="wwwroot\js\components\test.tsx">
-      <SubType>Code</SubType>
-    </TypeScriptCompile>
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <TypeScriptCompile Update="wwwroot\js\components\likeButton.tsx">
       <SubType>Code</SubType>
