@@ -62,10 +62,10 @@ namespace Etud_Avenir.Controllers
         {
             if (!ModelState.IsValid)
             {
-                return BadRequest(JsonConvert.SerializeObject(new
+                return BadRequest(new
                 {
                     errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
-                }));
+                });
             }
 
             var user = new IdentityUser { UserName = model.Email, Email = model.Email };
@@ -86,10 +86,9 @@ namespace Etud_Avenir.Controllers
             // Création du token de vérification d'email
             var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
             code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
-            var callbackUrl = Url.Action("EmailConfirmation", new { userId = user.Id, code = code });
-            //callbackUrl = HttpUtility.UrlEncode(callbackUrl);
+            var callbackUrl = $"confirmation-email?userId={user.Id}&code={code}";
 
-            var callbackWithDomains = $"{Request.Scheme}://{Request.Host}{callbackUrl}";
+            var callbackWithDomains = $"{Request.Scheme}://{Request.Host}/{callbackUrl}";
 
             // Pas besoin d'attendre la création de l'email
             _ = _logEmailService.AddLogEmail(new LogEmail
@@ -107,10 +106,7 @@ namespace Etud_Avenir.Controllers
         {
             if (userId == null || code == null)
             {
-                return RedirectToAction("Index", "Home", new
-                {
-                    confirm = "error"
-                });
+                return BadRequest();
             }
 
             var user = await _userManager.FindByIdAsync(userId);
@@ -122,10 +118,7 @@ namespace Etud_Avenir.Controllers
             code = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(code));
             var result = await _userManager.ConfirmEmailAsync(user, code);
 
-            return RedirectToAction("Index", "Home", new
-            {
-                confirm = result.Succeeded ? "success" : "error"
-            });
+            return Ok();
         }
 
 

@@ -1,5 +1,6 @@
 ﻿import React = require("react");
 import { Route, Routes } from "react-router-dom";
+import EmailConfirmation from "../api/emailConfirmation";
 import Modal from "../components/modal";
 import ForgotPasswordModal from "../modals/forgotPassword";
 import LoginModal from "../modals/login";
@@ -19,6 +20,9 @@ export default class Identity extends React.Component {
                 <Modal minWidth={400}>
                     <RegistrationModal />
                 </Modal>
+            } />
+            <Route path="/confirmation-email" element={
+                <EmailConfirmation />
             } />
             <Route path="/mot-de-passe-oublie" element={
                 <Modal minWidth={350}>

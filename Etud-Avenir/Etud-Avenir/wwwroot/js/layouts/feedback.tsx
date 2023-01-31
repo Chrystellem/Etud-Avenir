@@ -1,19 +1,12 @@
 ﻿import React = require("react");
+import FeedbackContext from "../context/feedbackContext";
 
-type FeedbackProperties = {
-    show: boolean,
-    isSuccessfull: boolean,
-    content: string
-}
+export default function Feedback() {
+    let feedback = React.useContext(FeedbackContext);
 
-export default class Feedback extends React.Component<FeedbackProperties, {}> {
-    render = () => {
-        if (!this.props.show) return;
+    if (!feedback.state.show) return
 
-        return <div className={`d-flex justify-content-center p-3 color-white ${this.props.isSuccessfull ? "bg-green" : "bg-danger"}`}>
-            {this.props.content}
+    return <div className={`d-flex justify-content-center p-3 color-white ${feedback.state.isSuccessFull ? "bg-green" : "bg-danger"}`}>
+        {feedback.state.content}
         </div>
-    }
-
-
 }

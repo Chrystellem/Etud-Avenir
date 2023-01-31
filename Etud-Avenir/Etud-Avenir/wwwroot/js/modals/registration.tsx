@@ -54,8 +54,8 @@ export default class RegistrationModal extends React.Component<RegistrationPrope
 
         if (response.ok) return this.setState({ redirection: "/confirmation-email" });
 
-        const payload = await response.json() as ErrorAPI;
-        this.setState({ errors: payload.errors })
+        const { errors } = await response.json() as ErrorAPI;
+        this.setState({ errors })
     }
 
     render = () => {

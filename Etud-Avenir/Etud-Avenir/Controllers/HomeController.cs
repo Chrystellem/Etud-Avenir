@@ -27,18 +27,10 @@ namespace Etud_Avenir.Controllers
         [Route("/mot-de-passe-oublie")]
         [Route("/confirmation-inscription-email")]
         [Route("/reinitialisation-mot-de-passe")]
-        public IActionResult Index(string confirm = null)
+        [Route("/confirmation-email")]
+        public IActionResult Index()
         {
-            if (confirm == null) return View(new IndexViewModel { ShouldDisplayFeedback = false });
-
-            // Gère le cas d'une confirmation d'inscription
-            var model = new IndexViewModel
-            {
-                ShouldDisplayFeedback = true,
-                IsSuccessfullFeedback = confirm == "success",
-                FeedbackContent = confirm == "success" ? "Votre inscription a bien été confirmée" : "Nous n'avons pas vu valider votre inscription"
-            };
-            return View(model);
+            return View();
         }
 
         public IActionResult Privacy()
