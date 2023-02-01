@@ -17,6 +17,7 @@ var __extends = (this && this.__extends) || (function () {
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
 var react_router_dom_1 = require("react-router-dom");
+var emailConfirmation_1 = require("../api/emailConfirmation");
 var modal_1 = require("../components/modal");
 var forgotPassword_1 = require("../modals/forgotPassword");
 var login_1 = require("../modals/login");
@@ -32,6 +33,7 @@ var Identity = /** @class */ (function (_super) {
                         React.createElement(login_1.default, null)) }),
                 React.createElement(react_router_dom_1.Route, { path: "/inscription", element: React.createElement(modal_1.default, { minWidth: 400 },
                         React.createElement(registration_1.default, null)) }),
+                React.createElement(react_router_dom_1.Route, { path: "/confirmation-email", element: React.createElement(emailConfirmation_1.default, null) }),
                 React.createElement(react_router_dom_1.Route, { path: "/mot-de-passe-oublie", element: React.createElement(modal_1.default, { minWidth: 350 },
                         React.createElement(forgotPassword_1.default, null)) }),
                 React.createElement(react_router_dom_1.Route, { path: "/reinitialisation-mot-de-passe", element: React.createElement(modal_1.default, { minWidth: 350 },

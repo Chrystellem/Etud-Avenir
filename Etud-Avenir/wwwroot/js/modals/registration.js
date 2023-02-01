@@ -78,7 +78,7 @@ var RegistrationModal = /** @class */ (function (_super) {
             _this.setState({ passwordConfirmation: event.target.value });
         };
         _this.handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
-            var response, payload;
+            var response, errors;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
@@ -101,8 +101,8 @@ var RegistrationModal = /** @class */ (function (_super) {
                             return [2 /*return*/, this.setState({ redirection: "/confirmation-email" })];
                         return [4 /*yield*/, response.json()];
                     case 2:
-                        payload = _a.sent();
-                        this.setState({ errors: payload.errors });
+                        errors = (_a.sent()).errors;
+                        this.setState({ errors: errors });
                         return [2 /*return*/];
                 }
             });

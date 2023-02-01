@@ -1,6 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.FeedbackContext = void 0;
 var react_1 = require("react");
-exports.FeedbackContext = (0, react_1.createContext)("");
+var FeedbackContext = (0, react_1.createContext)({
+    state: {
+        content: "",
+        isSuccessFull: false,
+        show: false
+    },
+    setFeedbackContent: function (state) { },
+});
+exports.default = FeedbackContext;
 //# sourceMappingURL=feedbackContext.js.map
