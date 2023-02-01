@@ -13,7 +13,7 @@ export default class Nav extends React.Component<NavProperties, NavState> {
             <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
                 <div className="container-fluid d-flex justify-content-between">
                     <a className="navbar-brand" asp-controller="Home" asp-action="Index">
-                        <img src="~/images/logo_color.png" height="36" />
+                        <img src="/images/logo_color.png" height="36" />
                     </a>
                     {this.props.isUserAuthentified ? <NavLogin /> : <NavLogout />}
                 </div>
