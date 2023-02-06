@@ -14,17 +14,14 @@ using System.Net.Http.Json;
 using Etud_Avenir.Tests.Helpers;
 using System.Transactions;
 using Xunit.Sdk;
+using System.ComponentModel.DataAnnotations;
 
 namespace Etud_Avenir.Tests.Identity
 {
-    public class RegistrationTest : IClassFixture<EtudAvenirTestFactory<Startup>>
+    public class RegistrationTest : EtudAvenirBaseTest, IClassFixture<EtudAvenirTestFactory<Startup>>
     {
-        private readonly EtudAvenirTestFactory<Startup> _factory;
-        private readonly HttpClient _client;
-
-        public RegistrationTest(EtudAvenirTestFactory<Startup> factory) {
-            _factory = factory;
-            _client = factory.CreateClient();
+        public RegistrationTest(EtudAvenirTestFactory<Startup> factory) : base(factory)
+        {
         }
 
         [Theory]
@@ -34,19 +31,12 @@ namespace Etud_Avenir.Tests.Identity
         [InlineData("jeangmail.com", "ThisIsASuperPassw0rd!", "ThisIsASuperPassw0rd!")]
         public async Task BadRequest_Returns404(string email, string password, string passwordConfirmation)
         {
-            var payload = new RegistrationDTO
+            var response = await _client.PostAsJsonAsync("/Identity/RegistrationAPI", new
             {
                 Email = email,
                 Password = password,
                 PasswordConfirmation = passwordConfirmation
-            };
-
-            var content = new StringContent(
-                JsonSerializer.Serialize(payload),
-                System.Text.Encoding.UTF8,
-                "application/json");
-
-            var response = await _client.PostAsync("/Identity/RegistrationAPI", content);
+            });
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -63,19 +53,12 @@ namespace Etud_Avenir.Tests.Identity
         [InlineData("!!!!!!!!!!!!")]
         public async Task InvalidPassword_Returns404(string password)
         {
-            var payload = new RegistrationDTO
+            var response = await _client.PostAsJsonAsync("/Identity/RegistrationAPI", new
             {
                 Email = "jeangmail.com",
                 Password = password,
                 PasswordConfirmation = password
-            };
-
-            var content = new StringContent(
-                JsonSerializer.Serialize(payload),
-                System.Text.Encoding.UTF8,
-                "application/json");
-
-            var response = await _client.PostAsync("/Identity/RegistrationAPI", content);
+            });
 
             Assert.Equal(HttpStatusCode.BadRequest, response.StatusCode);
         }
@@ -83,21 +66,27 @@ namespace Etud_Avenir.Tests.Identity
         [Fact]
         public async Task Should_RegisterUser()
         {
-            var payload = new RegistrationDTO
+            var response = await _client.PostAsJsonAsync("/Identity/RegistrationAPI", new
             {
-                Email = "jean@gmail.com",
+                Email = $"{Guid.NewGuid()}@gmail.com",
                 Password = "ThisIsASuperPassw0rd!",
                 PasswordConfirmation = "ThisIsASuperPassw0rd!"
-            };
-
-            var content = new StringContent(
-                JsonSerializer.Serialize(payload),
-                System.Text.Encoding.UTF8,
-                "application/json");
-
-            var response = await _client.PostAsync("/Identity/RegistrationAPI", content);
+            });
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task CannotCreateUsersWithSameEmail()
+        {
+            var sameEmail = "robert@gmail.com";
+            var password = "ThisIsASuperPassw0rd!";
+
+            var responseUser1 = await RegisterUser(sameEmail, password);
+            Assert.Equal(HttpStatusCode.OK, responseUser1.StatusCode);
+
+            var responseUser2 = await RegisterUser(sameEmail, password);
+            Assert.Equal(HttpStatusCode.InternalServerError, responseUser2.StatusCode);
         }
     }
 }
