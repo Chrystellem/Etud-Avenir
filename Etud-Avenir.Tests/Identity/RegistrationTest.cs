@@ -14,17 +14,14 @@ using System.Net.Http.Json;
 using Etud_Avenir.Tests.Helpers;
 using System.Transactions;
 using Xunit.Sdk;
+using System.ComponentModel.DataAnnotations;
 
 namespace Etud_Avenir.Tests.Identity
 {
-    public class RegistrationTest : IClassFixture<EtudAvenirTestFactory<Startup>>
+    public class RegistrationTest : EtudAvenirBaseTest, IClassFixture<EtudAvenirTestFactory<Startup>>
     {
-        private readonly EtudAvenirTestFactory<Startup> _factory;
-        private readonly HttpClient _client;
-
-        public RegistrationTest(EtudAvenirTestFactory<Startup> factory) {
-            _factory = factory;
-            _client = factory.CreateClient();
+        public RegistrationTest(EtudAvenirTestFactory<Startup> factory) : base(factory)
+        {
         }
 
         [Theory]
@@ -71,12 +68,25 @@ namespace Etud_Avenir.Tests.Identity
         {
             var response = await _client.PostAsJsonAsync("/Identity/RegistrationAPI", new
             {
-                Email = "jean@gmail.com",
+                Email = $"{Guid.NewGuid()}@gmail.com",
                 Password = "ThisIsASuperPassw0rd!",
                 PasswordConfirmation = "ThisIsASuperPassw0rd!"
             });
 
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+        }
+
+        [Fact]
+        public async Task CannotCreateUsersWithSameEmail()
+        {
+            var sameEmail = "robert@gmail.com";
+            var password = "ThisIsASuperPassw0rd!";
+
+            var responseUser1 = await RegisterUser(sameEmail, password);
+            Assert.Equal(HttpStatusCode.OK, responseUser1.StatusCode);
+
+            var responseUser2 = await RegisterUser(sameEmail, password);
+            Assert.Equal(HttpStatusCode.InternalServerError, responseUser2.StatusCode);
         }
     }
 }
