@@ -10,8 +10,6 @@ namespace Etud_Avenir.Controllers
 {
     public class UsersController : Controller
     {
-        private readonly UserService _userService;
-
         public IActionResult Index()
         {
             return View();

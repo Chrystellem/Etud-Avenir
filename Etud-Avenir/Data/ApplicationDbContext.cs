@@ -35,6 +35,8 @@ namespace Etud_Avenir.Data
 
         public DbSet<Test> Test { get; set; }
 
+        public DbSet<Test2> Test2 { get; set; }
+
 
     }
 }

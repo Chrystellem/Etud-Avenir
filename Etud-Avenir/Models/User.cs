@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -6,7 +7,7 @@ using System.Threading.Tasks;
 namespace Etud_Avenir.Models
 {
 
-    public class User
+    public class User : IdentityUser
     {
 
         public int UserId { get; set; }
@@ -16,22 +17,9 @@ namespace Etud_Avenir.Models
         public string PWD { get; set; }
         public string Tel { get; set; }
 
-        public List<Report>[] reports = new List<Report>[3];
-        public Dictionary<string, List<School>[]> favorites = new Dictionary<string, List<School>[]>();
-        public List<School >[] lastSearch = new List<School>[5]; 
-
-
-        public void updateUser(int idUser, string lastname, string firstname, string mail, string pwd, string tel)
-        {
-            this.UserId = idUser;
-            this.Lastname = lastname;
-            this.Firstname = firstname;
-            this.Mail = mail;
-            this.PWD = pwd;
-            this.Tel = tel;
-        }
-
-        
+        //public List<Report>[] reports = new List<Report>[3];
+        //public Dictionary<string, List<School>[]> favorites = new Dictionary<string, List<School>[]>();
+        //public List<School >[] lastSearch = new List<School>[5];        
 
 
     }

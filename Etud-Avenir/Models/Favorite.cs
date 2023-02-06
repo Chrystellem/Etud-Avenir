@@ -12,7 +12,7 @@ namespace Etud_Avenir.Models
         public int? SchoolId { get; set; }
         public int? UserId { get; set; }
 
-        public int Label { get; set; }
+        public String Label { get; set; }
 
     }
 }

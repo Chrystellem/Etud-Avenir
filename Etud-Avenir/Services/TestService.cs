@@ -12,36 +12,57 @@ namespace Etud_Avenir.Services
     {
 
         private readonly ApplicationDbContext _dbContext;
-        public virtual DbSet<Test> tests { get; set; }
 
         public TestService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public void printTest()
-        {
-            Console.WriteLine(" ======================================== PRINT TEST ====================================== ");
-        }
 
         public async Task addTestAsync()
         {
 
-            Test testEntity = new Test {Name = "tutu" };
+            Test testEntity = new Test {Name = "coco" };
             
             await _dbContext.AddAsync(testEntity);
             _dbContext.SaveChanges();
+        }
 
-            printTest();
+        public async Task addTest2Async()
+        {
+
+            Test2 test2Entity = new Test2 { City = "Montreal", TestId = _dbContext.Test.Where(t => t.Name == "coco").First().Id};
+
+            await _dbContext.AddAsync(test2Entity);
+            _dbContext.SaveChanges();
         }
 
         public void getTests()
         {
-            Test test2 = _dbContext.Test.Where(t => t.Id == 2).Single();
-            Console.WriteLine("id = 2 --> " + test2.Name);
+            var test2 = _dbContext.Test2.Where(t => t.Id == 2).Single();
+            Console.WriteLine(" Test2 : id = " + test2.Id + " --> " + test2.City);
 
-            Test test16 = _dbContext.Test.Where(t => t.Id == 16).Single();
-            Console.WriteLine("id = 16 --> " + test16.Name);
+            var testFromTest2 =_dbContext.Test.Where(t => t.Id == test2.TestId).Single();
+            Console.WriteLine(" Test From Test2 : id = " + testFromTest2.Id +" --> " + testFromTest2.Name);
+
+            List<Test> tests = _dbContext.Test.Where(t => t.Name == "toto").ToList();
+            Console.WriteLine("ALL TOTO TESTS --> ");
+
+            foreach (Test test in tests)
+            {
+                Console.WriteLine(" + " + test.Id + " - " + test.Name);
+            }
+            
+            var nullTest = _dbContext.Test.Where(t => t.Name == "coco");
+            
+            if (nullTest.Any())
+            {
+                Test nt = nullTest.First();
+                Console.WriteLine(" nullTest : id = " + nt.Id + " --> " + nt.Name);
+            }
+
+            var twoAttributesTest = _dbContext.Test2.Where(t => t.City == "Montreal" && t.TestId == _dbContext.Test.Where(t => t.Name == "coco").First().Id).Single();
+            Console.WriteLine(" twoAttributesTest : id = " + twoAttributesTest.Id + " --> " + twoAttributesTest.City);
 
         }
 
