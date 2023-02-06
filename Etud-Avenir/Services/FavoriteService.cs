@@ -36,8 +36,8 @@ namespace Etud_Avenir.Services
             if (isFavorite.Any())
             {
                 _dbContext.Remove(isFavorite);
+                _dbContext.SaveChanges();
             }
-            _dbContext.SaveChanges();
         }
     }
 }
