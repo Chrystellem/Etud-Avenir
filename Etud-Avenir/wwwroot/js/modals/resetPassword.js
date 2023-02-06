@@ -1,19 +1,15 @@
 "use strict";
-var __extends = (this && this.__extends) || (function () {
-    var extendStatics = function (d, b) {
-        extendStatics = Object.setPrototypeOf ||
-            ({ __proto__: [] } instanceof Array && function (d, b) { d.__proto__ = b; }) ||
-            function (d, b) { for (var p in b) if (Object.prototype.hasOwnProperty.call(b, p)) d[p] = b[p]; };
-        return extendStatics(d, b);
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
     };
-    return function (d, b) {
-        if (typeof b !== "function" && b !== null)
-            throw new TypeError("Class extends value " + String(b) + " is not a constructor or null");
-        extendStatics(d, b);
-        function __() { this.constructor = d; }
-        d.prototype = b === null ? Object.create(b) : (__.prototype = b.prototype, new __());
-    };
-})();
+    return __assign.apply(this, arguments);
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -52,73 +48,69 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
+var react_router_dom_1 = require("react-router-dom");
 var error_1 = require("../components/form/error");
 var formButton_1 = require("../components/formButton");
 var input_1 = require("../components/input");
-var ResetPasswordModal = /** @class */ (function (_super) {
-    __extends(ResetPasswordModal, _super);
-    function ResetPasswordModal() {
-        var _this = _super !== null && _super.apply(this, arguments) || this;
-        _this.state = {
-            password: '',
-            passwordConfirmation: '',
-            error: '',
-            code: location.search.replace("?code=", ""),
-            email: ''
-        };
-        _this.handleEmailChange = function (event) {
-            _this.setState({ email: event.target.value });
-        };
-        _this.handlePasswordChange = function (event) {
-            _this.setState({ password: event.target.value });
-        };
-        _this.handlePasswordConfirmationChange = function (event) {
-            _this.setState({ passwordConfirmation: event.target.value });
-        };
-        _this.handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
-            var response, error;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        event.preventDefault();
-                        return [4 /*yield*/, fetch('/Identity/ResetPasswordAPI', {
-                                method: 'POST',
-                                headers: {
-                                    'Accept': 'application/json',
-                                    'Content-Type': 'application/json'
-                                },
-                                body: JSON.stringify({
-                                    Email: this.state.email,
-                                    Password: this.state.password,
-                                    PasswordConfirmation: this.state.passwordConfirmation,
-                                    Code: this.state.code
-                                })
-                            })];
-                    case 1:
-                        response = _a.sent();
-                        if (response.ok) {
-                            return [2 /*return*/, window.location.href = '/'];
-                        }
-                        return [4 /*yield*/, response.json()];
-                    case 2:
-                        error = (_a.sent()).error;
-                        this.setState({ error: error });
+var feedbackContext_1 = require("../context/feedbackContext");
+var ResetPasswordModalv2 = function () {
+    var _a = React.useState({
+        password: '',
+        passwordconfirmation: '',
+        error: '',
+        code: location.search.replace("?code=", ""),
+        email: '',
+        redirectToHome: false
+    }), formValues = _a[0], setFormValues = _a[1];
+    var setFeedbackContent = React.useContext(feedbackContext_1.default).setFeedbackContent;
+    var handleChange = function (event) {
+        var _a;
+        setFormValues(__assign(__assign({}, formValues), (_a = {}, _a[event.target.name.toLowerCase()] = event.target.value, _a)));
+    };
+    var handleSubmit = function (event) { return __awaiter(void 0, void 0, void 0, function () {
+        var response, errorResponse;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    event.preventDefault();
+                    return [4 /*yield*/, fetch('/Identity/ResetPasswordAPI', {
+                            method: 'POST',
+                            headers: {
+                                'Accept': 'application/json',
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                Email: formValues.email,
+                                Password: formValues.password,
+                                PasswordConfirmation: formValues.passwordconfirmation,
+                                Code: formValues.code
+                            })
+                        })];
+                case 1:
+                    response = _a.sent();
+                    if (response.ok) {
+                        setFeedbackContent({ content: "Mot de passe réinitialisé !", isSuccessFull: true });
+                        setFormValues(__assign(__assign({}, formValues), { redirectToHome: true }));
                         return [2 /*return*/];
-                }
-            });
-        }); };
-        _this.render = function () {
-            return React.createElement("form", { onSubmit: _this.handleSubmit },
-                React.createElement("legend", null, "R\u00E9initialise ton mot de passe"),
-                React.createElement(error_1.default, { error: _this.state.error }),
-                React.createElement(input_1.default, { label: "Email", name: "Email", inputType: "email", required: true, onChange: _this.handleEmailChange, placeholder: "utilisateur@efrei.net", value: _this.state.email }),
-                React.createElement(input_1.default, { label: "Nouveau mot de passe", name: "Password", inputType: "password", required: true, onChange: _this.handlePasswordChange, placeholder: "********", showPasswordRequirements: true, value: _this.state.password }),
-                React.createElement(input_1.default, { label: "Confirme le mot de passe", name: "Password", inputType: "password", required: true, onChange: _this.handlePasswordConfirmationChange, placeholder: "********", value: _this.state.passwordConfirmation }),
-                React.createElement(formButton_1.default, { isImg: false, name: "Valider" }));
-        };
-        return _this;
+                    }
+                    return [4 /*yield*/, response.json()];
+                case 2:
+                    errorResponse = _a.sent();
+                    setFormValues(__assign(__assign({}, formValues), { error: errorResponse.error }));
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    if (formValues.redirectToHome) {
+        return React.createElement(react_router_dom_1.Navigate, { to: "/" });
     }
-    return ResetPasswordModal;
-}(React.Component));
-exports.default = ResetPasswordModal;
+    return React.createElement("form", { onSubmit: handleSubmit },
+        React.createElement("legend", null, "R\u00E9initialise ton mot de passe"),
+        React.createElement(error_1.default, { error: formValues.error }),
+        React.createElement(input_1.default, { label: "Email", name: "Email", inputType: "email", required: true, onChange: handleChange, placeholder: "utilisateur@efrei.net", value: formValues.email }),
+        React.createElement(input_1.default, { label: "Nouveau mot de passe", name: "Password", inputType: "password", required: true, onChange: handleChange, placeholder: "********", showPasswordRequirements: true, value: formValues.password }),
+        React.createElement(input_1.default, { label: "Confirme le mot de passe", name: "PasswordConfirmation", inputType: "password", required: true, onChange: handleChange, placeholder: "********", value: formValues.passwordconfirmation }),
+        React.createElement(formButton_1.default, { isImg: false, name: "Valider" }));
+};
+exports.default = ResetPasswordModalv2;
 //# sourceMappingURL=resetPassword.js.map
