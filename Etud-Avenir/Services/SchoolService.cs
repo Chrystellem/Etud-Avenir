@@ -12,10 +12,12 @@ namespace Etud_Avenir.Services
     {
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly FavoriteService _favoriteService;
 
-        public SchoolService(ApplicationDbContext dbContext)
+        public SchoolService(ApplicationDbContext dbContext, FavoriteService favoriteService)
         {
             _dbContext = dbContext;
+            _favoriteService = favoriteService;
         }
 
 
@@ -43,19 +45,12 @@ namespace Etud_Avenir.Services
 
         public async Task AddSchoolToFavoritesAsync(int SchoolId, string label, int UserId)
         {
-            Favorite newFavorite = new Favorite { Label = label, SchoolId = SchoolId, UserId =  UserId};
-            await _dbContext.AddAsync(newFavorite);
-            _dbContext.SaveChanges();
+            await _favoriteService.AddSchoolToFavoritesAsync(SchoolId, label, UserId);
         }
 
-        public void RemoveSchoolToFavoritesAsync(int SchoolId, string label, int UserId)
+        public void RemoveSchoolToFavorites(int SchoolId, string label, int UserId)
         {
-            var isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId);
-            if (isFavorite.Any())
-            {
-                _dbContext.Remove(isFavorite);
-            }
-            _dbContext.SaveChanges();
+            _favoriteService.RemoveSchoolToFavorites(SchoolId, label, UserId);
         }
 
 

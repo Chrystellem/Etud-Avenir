@@ -16,5 +16,28 @@ namespace Etud_Avenir.Services
 
     public class SearchService
     {
+
+        private readonly ApplicationDbContext _dbContext;
+        private readonly FavoriteService _favoriteService;
+
+        public SearchService(ApplicationDbContext dbContext, FavoriteService favoriteService)
+        {
+            _dbContext = dbContext;
+            _favoriteService = favoriteService;
+        }
+
+
+
+
+        public async Task AddSchoolToFavoritesAsync(int SchoolId, string label, int UserId)
+        {
+            await _favoriteService.AddSchoolToFavoritesAsync(SchoolId, label, UserId);
+        }
+
+        public void RemoveSchoolToFavorites(int SchoolId, string label, int UserId)
+        {
+            _favoriteService.RemoveSchoolToFavorites(SchoolId, label, UserId);
+        }
+
     }
 }

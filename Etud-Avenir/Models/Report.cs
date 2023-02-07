@@ -13,7 +13,9 @@ namespace Etud_Avenir.Models
         //trimestre
         public int Quarter { get; set; }
 
-        public Dictionary<Subject, float> Subjects = new();
+        public string ClassReport { get; set;}
+
+        //public Dictionary<Subject, float> Subjects = new();
 
     }
 }
