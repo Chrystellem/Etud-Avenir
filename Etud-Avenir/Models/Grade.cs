@@ -11,6 +11,9 @@ namespace Etud_Avenir.Models
 
         public int GradeId { get; set; }
 
+        public float GradeValue { get; set; }
+
+
         [ForeignKey("Subject")]
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
@@ -19,7 +22,6 @@ namespace Etud_Avenir.Models
         public int ReportId { get; set; }
         public virtual Report Report { get; set; }
 
-        public float GradeValue { get; set; }
 
     }
 }

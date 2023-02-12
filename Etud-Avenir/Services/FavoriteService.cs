@@ -32,8 +32,8 @@ namespace Etud_Avenir.Services
 
         public void RemoveSchoolToFavorites(int SchoolId, string label, int UserId)
         {
-            var isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId);
-            if (isFavorite.Any())
+            Favorite isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId).Single();
+            if (isFavorite is not null)
             {
                 _dbContext.Remove(isFavorite);
                 _dbContext.SaveChanges();

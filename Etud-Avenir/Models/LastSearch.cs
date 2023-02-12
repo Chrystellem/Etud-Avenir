@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -10,16 +11,15 @@ namespace Etud_Avenir.Models
     {
 
         public int LastSearchId { get; set; }
+        public int Score { get; set; }
 
         [ForeignKey("School")]
         public int SchoolId { get; set; }
         public virtual School School { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("IdentityUser")]
         public int UserId { get; set; }
-        public virtual ICollection<User> User { get; set; }
-
-        public int Score { get; set; }
+        public virtual IdentityUser User { get; set; }
 
     }
 }

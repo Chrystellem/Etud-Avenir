@@ -18,22 +18,77 @@ namespace Etud_Avenir.Services
             _dbContext = dbContext;
         }
 
-        public async Task AddReportAsync(int UserId, int quarter, string classReport)
+        public Report getReportByInfos(int userId, int quarter, string schoolYear)
         {
-            if( QuarterPossibilities.Contains(quarter) && ClassPossibilities.Contains(classReport) ) {
-                Report NewReport = new Report { Quarter = quarter, ClassReport = classReport }; //manque FK
-                await _dbContext.AddAsync(NewReport);
-                _dbContext.SaveChanges();
-            }
-
-            
+            return _dbContext.Report.Where(r => r.Quarter == quarter && r.SchoolYear == schoolYear && r.UserId == userId).Single();
         }
 
-        public void RemoveReport(int UserId, int quarter, string classReport)
+        public Report GetReportById(int reportId)
+        {
+            return _dbContext.Report.Where(r => r.ReportId == reportId).Single();
+        }
+
+        public List<Report> getAllReports(int userId)
+        {
+            return _dbContext.Report.Where(r => r.UserId == userId).ToList();
+        }
+
+        public Dictionary<string,float> getReportGrades(int reportId) 
+        {
+            Dictionary<string, float> reportGrades = new Dictionary<string, float>();
+
+            List<Grade> grades = new List<Grade>();
+            grades = _dbContext.Grade.Where(g => g.ReportId == reportId).ToList();
+
+            foreach(Grade grade in grades)
+            {
+                string subject = _dbContext.Subject.Where(s => s.SubjectId == grade.SubjectId).Single().Name;
+                reportGrades.Add(subject, grade.GradeValue);
+            }
+
+            return reportGrades;
+        }
+
+        public void UpdateReport(int reportId, Dictionary<string, float> grades) //update schoolyear and quarter too
+        {
+            Report report = GetReportById(reportId);
+            if (report is not null)
+            {
+                foreach (string subject in grades.Keys) {
+                    int subjectId = _dbContext.Subject.Where(s => s.Name == subject).Single().SubjectId;
+                    //update bdd with grade value
+                    Grade grade = _dbContext.Grade.Where(g => g.ReportId == reportId && g.SubjectId == subjectId).Single();
+                    grade.GradeValue = grades[subject];
+                }
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public async Task AddReportAsync(int userId, int quarter, string schoolYear, Dictionary<string, float> grades)
+        {
+            if( QuarterPossibilities.Contains(quarter) && ClassPossibilities.Contains(schoolYear) ) {
+                Report NewReport = new Report { Quarter = quarter, SchoolYear = schoolYear, UserId = userId };
+                await _dbContext.AddAsync(NewReport);
+                await AddGradesToReport(getReportByInfos(userId, quarter,schoolYear).ReportId, grades);
+                _dbContext.SaveChanges();
+            }
+        }
+
+        public async Task AddGradesToReport(int reportId, Dictionary<string, float> grades )
+        {
+            foreach(string subject in grades.Keys)
+            {
+                int subjectId = _dbContext.Subject.Where(s => s.Name == subject).Single().SubjectId ;
+                Grade newGrade = new Grade { GradeValue = grades[subject], ReportId = reportId, SubjectId = subjectId };
+                await _dbContext.AddAsync(newGrade);
+            }
+        }
+
+        public void RemoveReport(int reportId) 
         {
 
-            Report isReport = _dbContext.Report.Where(r => r.Quarter == quarter && r.ClassReport == classReport).Single(); //manque FK
-            if (isReport is null)
+            Report isReport = GetReportById(reportId);
+            if (isReport is not null)
             {
                 _dbContext.Remove(isReport);
                 _dbContext.SaveChanges();

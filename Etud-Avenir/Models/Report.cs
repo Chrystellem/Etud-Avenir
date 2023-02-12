@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -10,12 +12,13 @@ namespace Etud_Avenir.Models
     {
         public int ReportId { get; set; }
 
-        //trimestre
-        public int Quarter { get; set; }
+        public int Quarter { get; set; } //trimestre
 
-        public string ClassReport { get; set;}
+        public string SchoolYear { get; set; } //premiere ou terminale
 
-        //public Dictionary<Subject, float> Subjects = new();
+        [ForeignKey("IdentityUser")]
+        public int UserId { get; set; }
+        public virtual IdentityUser User { get; set; }
 
     }
 }
