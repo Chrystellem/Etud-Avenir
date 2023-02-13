@@ -7,12 +7,11 @@ type NavProperties = {
 type NavState = {}
 
 export default class Nav extends React.Component<NavProperties, NavState> {
-
     render = () => {
         return <header>
             <nav className="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow">
                 <div className="container-fluid d-flex justify-content-between">
-                    <a className="navbar-brand" asp-controller="Home" asp-action="Index">
+                    <a className="navbar-brand" href="/">
                         <img src="/images/logo_color.png" height="36" />
                     </a>
                     {this.props.isUserAuthentified ? <NavLogin /> : <NavLogout />}
@@ -30,7 +29,7 @@ class NavLogin extends React.Component {
         return <>
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <a className="nav-link" asp-controller="Research" asp-action="Grade">Rechercher</a>
+                    <a className="nav-link">Rechercher</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link">Base de données</a>
@@ -40,6 +39,9 @@ class NavLogin extends React.Component {
                 </li>
             </ul>
             <ul className="navbar-nav">
+                <li className="nav-item">
+                    <a className="nav-link" href="/profil">Profil</a>
+                </li>
                 <li className="nav-item">
                     <form className="form-inline" action="/Identity/Account/Logout">
                         <button type="submit" className="nav-link btn btn-link text-dark">Déconnexion</button>

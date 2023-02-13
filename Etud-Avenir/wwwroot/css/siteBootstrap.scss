@@ -22,17 +22,26 @@ a.navbar-brand {
     color: $secondary-color!important;
 }
 
-.btn-primary {
-    color: $white!important;
-    background-color: $green;
+.btn {
+    color: $white !important;
     border-radius: 10px;
     font-family: 'Kanit';
     font-weight: 400;
     border: none;
     padding: 0.5rem 1.2rem;
 }
+
+.btn-primary {
+    background-color: $green;
+}
+.btn-danger {
+    background-color: $pink;
+}
 .btn-primary:hover {
     background-color: $green-hover!important;
+}
+.btn-danger:hover {
+    background-color: $pink-hover!important;
 }
 
 .bg-primary {
@@ -44,8 +53,15 @@ a.navbar-brand {
 .bg-green {
     background-color: $green!important;
 }
+.bg-white {
+    background-color: $white!important;
+}
 .bg-danger {
     background-color: $pink!important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
 }
 
 /* Provide sufficient contrast against white background */

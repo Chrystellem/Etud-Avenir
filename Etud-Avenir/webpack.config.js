@@ -10,6 +10,7 @@ module.exports = {
         example: { import: './wwwroot/src/exemple.tsx', filename: 'bundledExample.js' },
         import: { import: './wwwroot/src/import.tsx', filename: 'bundledImport.js' },
         login: { import: './wwwroot/src/shared.tsx', filename: 'bundledShared.js' },
+        profile: { import: './wwwroot/src/profile.tsx', filename: 'bundledProfile.js' },
     },
     module: {
         rules: [

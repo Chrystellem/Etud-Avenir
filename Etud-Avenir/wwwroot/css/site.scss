@@ -4,6 +4,11 @@
 * {
     box-sizing: border-box;
 }
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
 
 a {
     display: inline-block;
@@ -21,6 +26,9 @@ a {
 .color-white {
     color: $white;
 }
+.color-green {
+    color: $green!important;
+}
 
 p, div, li, span, section, article {
     font-family: $font-content;
@@ -33,6 +41,15 @@ h2 {
     font-weight: 500;
     font-size: 1.5rem;
 }
+
+#app {
+    flex: 1;
+    display: grid;
+}
+
+/*footer {
+    margin-top: auto;
+}*/
 
 
 .color-danger {
@@ -51,6 +68,16 @@ h2 {
     text-decoration: underline !important;
 }
 
+.radius-20 {
+    border-radius: 20px;
+}
+.border-3 {
+    border-width: 3px;
+}
+.border-solid {
+    border-style: solid;
+}
+
 /***** Style sur les listes *****/
 
 .list-style-none {
@@ -59,4 +86,248 @@ h2 {
 }
 .list-style-none li {
     padding: 0.4rem 0;
+}
+
+
+/******
+*** Style le profil
+********/
+.profile-container {
+    background-repeat:no-repeat;
+    background-image: url('../images/decoration/profile/wave.png');
+    background-position: left -30px bottom 0;
+    background-size: 100% 100%;
+
+    h2 {
+        color: $white;
+    }
+
+    ul li {
+        color: $white;
+    }
+}
+
+section .container-profile-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+
+    .saveButtons {
+        background-color: $white;
+        min-height: 200px;
+        max-width: 281px;
+        padding: 20px;
+        flex: 1 0 100%;
+        display: flex;
+        border-radius: 20px !important;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+        i {
+            font-size: 60px;
+        }
+
+        span {
+            font-weight: bold;
+        }
+    }
+}
+
+@media (max-width: 938px) {
+    .profile-container {
+        h2.my-saves-title {
+            color: $blue;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 850px) {
+    .profile-container {
+        h2.other-actions-title {
+            color: $blue;
+            text-align: center;
+        }
+    }
+}
+
+
+/***** Style Profil > Bulletins ******/
+
+.template-profile-page {
+    background-repeat: no-repeat;
+    background-image: url('../images/decoration/profile/wave_bottom.png');
+    background-position: left 0 bottom -10px;
+    background-size: 100% 50%;
+
+    p {
+        margin: 0 5rem;
+    }
+
+    &__main {
+        display: flex;
+        justify-content: center;
+        flex-wrap: nowrap;
+    }
+
+    &__description-element {
+        margin: 2rem;
+        border-radius: 10px;
+        background: $white;
+        box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+        min-width: 400px;
+
+        &__header {
+            padding: 2rem;
+        }
+
+        &__program {
+            background-color: $blue;
+            padding: 2rem;
+            
+            h5 {
+                color: $white;
+            }
+            
+            span {
+                color: $white;
+            }
+        }
+
+        &__fees {
+            padding: 2rem;
+        }
+
+        &__other {
+            padding: 2rem;
+        }
+
+        .btn {
+            margin: 0 0 1rem 2rem;
+        }
+    }
+
+    &__container {
+        /*width: 320px;*/
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem;
+
+        article {
+            max-width: 320px;
+            flex: 1 0 100%;
+            border-radius: 10px;
+            background-color: white;
+            box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+
+            i {
+                font-size: 50px;
+            }
+
+            .info {
+                h5 {
+                    font-weight: bolder;
+                }
+            }
+        }
+    }
+}
+
+.report-modal__grades {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+
+    .react-form-group {
+
+    }
+}
+
+/***** Style Profil > Ecoles ******/
+article.saved-school {
+    .saved-school__img {
+        width: 75px;
+        height: 100%;
+        display: block;
+
+        img {
+            object-fit: contain;
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .school-info {
+    }
+}
+
+
+/**********************
+***** Composants ******
+***********************/
+
+.action-danger {
+    border-radius: 50%;
+    background-color: rgb(242, 102, 139);
+    width: 35px;
+    height: 35px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.hidden-actions {
+    opacity: 0;
+    transition: 0.1s ease-in;
+    flex: 1 0 300px;
+
+    .action-icon-btn {
+        margin-top: 5px;
+    }
+}
+
+.actions-on-hover:hover {
+    .hidden-actions {
+        opacity: 1;
+    }
+}
+
+.action-icon-btn {
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: 0.2s ease-out;
+    min-width: 30px;
+
+    &:hover {
+        opacity: 0.8;
+    }
+
+    &__delete-confirmation {
+        border-radius: 10px;
+        background: $white;
+        padding: 0.2rem;
+        margin-top: 0.2rem;
+        align-items: center; 
+        display: flex;
+
+        .action-icon-btn {
+            margin-top: 0!important;
+        }
+
+        span {
+            margin: 0 1rem;
+        }
+    }
 }

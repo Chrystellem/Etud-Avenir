@@ -39,6 +39,9 @@ namespace Etud_Avenir
             services.AddControllersWithViews()
                 .AddRazorRuntimeCompilation();
 
+            services.AddAuthentication(options => 
+                options.DefaultSignInScheme = "/connexion");
+
             services.AddTransient<LogEmailService>();
             services.AddTransient<TestService>();
             services.AddTransient<SchoolService>();

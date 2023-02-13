@@ -19,7 +19,8 @@ legend {
         margin-bottom: 0;
     }
 
-    input {
+    input, 
+    select {
         display: block;
         font-family: $font-content;
         font-size: 1rem;

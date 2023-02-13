@@ -25,8 +25,8 @@ var Nav = /** @class */ (function (_super) {
             return React.createElement("header", null,
                 React.createElement("nav", { className: "navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow" },
                     React.createElement("div", { className: "container-fluid d-flex justify-content-between" },
-                        React.createElement("a", { className: "navbar-brand", "asp-controller": "Home", "asp-action": "Index" },
-                            React.createElement("img", { src: "~/images/logo_color.png", height: "36" })),
+                        React.createElement("a", { className: "navbar-brand", href: "/" },
+                            React.createElement("img", { src: "/images/logo_color.png", height: "36" })),
                         _this.props.isUserAuthentified ? React.createElement(NavLogin, null) : React.createElement(NavLogout, null))));
         };
         return _this;
@@ -45,12 +45,14 @@ var NavLogin = /** @class */ (function (_super) {
             return React.createElement(React.Fragment, null,
                 React.createElement("ul", { className: "navbar-nav" },
                     React.createElement("li", { className: "nav-item" },
-                        React.createElement("a", { className: "nav-link", "asp-controller": "Research", "asp-action": "Grade" }, "Rechercher")),
+                        React.createElement("a", { className: "nav-link" }, "Rechercher")),
                     React.createElement("li", { className: "nav-item" },
                         React.createElement("a", { className: "nav-link" }, "Base de donn\u00E9es")),
                     React.createElement("li", { className: "nav-item" },
                         React.createElement("a", { className: "nav-link" }, "Contact"))),
                 React.createElement("ul", { className: "navbar-nav" },
+                    React.createElement("li", { className: "nav-item" },
+                        React.createElement("a", { className: "nav-link", href: "/profil" }, "Profil")),
                     React.createElement("li", { className: "nav-item" },
                         React.createElement("form", { className: "form-inline", action: "/Identity/Account/Logout" },
                             React.createElement("button", { type: "submit", className: "nav-link btn btn-link text-dark" }, "D\u00E9connexion")))));

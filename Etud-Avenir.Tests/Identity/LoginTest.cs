@@ -46,7 +46,7 @@ namespace Etud_Avenir.Tests.Identity
             var responseRegistration = await RegisterUser(email, password);
             Assert.Equal(HttpStatusCode.OK, responseRegistration.StatusCode);
 
-            ConfirmEmail(email);
+            await ConfirmEmail(email);
 
             var response = await LoginUser(email, password);
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
