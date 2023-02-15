@@ -32,7 +32,7 @@ class NavLogin extends React.Component {
                     <a className="nav-link">Rechercher</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">Base de données</a>
+                    <a className="nav-link" href="/ecoles">Base de données</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link">Contact</a>
