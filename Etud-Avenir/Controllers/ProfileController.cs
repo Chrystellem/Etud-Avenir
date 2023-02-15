@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Controllers
 {
+    [Authorize]
     public class ProfileController : Controller
     {
 

@@ -43,9 +43,7 @@ class NavLogin extends React.Component {
                     <a className="nav-link" href="/profil">Profil</a>
                 </li>
                 <li className="nav-item">
-                    <form className="form-inline" action="/Identity/Account/Logout">
-                        <button type="submit" className="nav-link btn btn-link text-dark">Déconnexion</button>
-                    </form>
+                    <a className="nav-link" href="/Identity/Account/Logout">Déconnexion</a>
                 </li>
             </ul>
         </>

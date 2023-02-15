@@ -4,6 +4,7 @@ exports.ReportPage = void 0;
 var React = require("react");
 var article_icon_1 = require("../../components/article-icon");
 var button_1 = require("../../components/button");
+var modal_1 = require("../../components/modal");
 var colors_1 = require("../../constants/colors");
 var report_1 = require("../../modals/report");
 var page_template_1 = require("./page-template");
@@ -16,7 +17,11 @@ function ReportPage() {
         React.createElement(article_icon_1.ArticleIcon, { classIcon: "fa-solid fa-file", title: "Trimestre 1", otherInfo: "xxx", color: colors_1.default.GREEN }),
         React.createElement("div", { className: "text-center" },
             React.createElement(button_1.Button, { name: "Ajouter un bulletin", template: "primary", customStyle: { margin: '2rem auto 0 auto' }, onClick: function () { return setShowModal(true); } })),
-        showModal ? React.createElement(report_1.ReportModal, null) : "");
+        React.createElement(modal_1.default, { minWidth: 600, parentControl: {
+                toggler: setShowModal,
+                isVisible: showModal
+            } },
+            React.createElement(report_1.ReportModal, { reportId: 0 })));
 }
 exports.ReportPage = ReportPage;
 //# sourceMappingURL=report.js.map

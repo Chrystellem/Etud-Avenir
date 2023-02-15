@@ -29,14 +29,14 @@ var Identity = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.render = function () {
             return React.createElement(react_router_dom_1.Routes, null,
-                React.createElement(react_router_dom_1.Route, { path: "/connexion", element: React.createElement(modal_1.default, { minWidth: 350, closeByDefault: false },
+                React.createElement(react_router_dom_1.Route, { path: "/connexion", element: React.createElement(modal_1.default, { minWidth: 350 },
                         React.createElement(login_1.default, null)) }),
-                React.createElement(react_router_dom_1.Route, { path: "/inscription", element: React.createElement(modal_1.default, { minWidth: 400, closeByDefault: false },
+                React.createElement(react_router_dom_1.Route, { path: "/inscription", element: React.createElement(modal_1.default, { minWidth: 400 },
                         React.createElement(registration_1.default, null)) }),
                 React.createElement(react_router_dom_1.Route, { path: "/confirmation-email", element: React.createElement(emailConfirmation_1.default, null) }),
-                React.createElement(react_router_dom_1.Route, { path: "/mot-de-passe-oublie", element: React.createElement(modal_1.default, { minWidth: 350, closeByDefault: false },
+                React.createElement(react_router_dom_1.Route, { path: "/mot-de-passe-oublie", element: React.createElement(modal_1.default, { minWidth: 350 },
                         React.createElement(forgotPassword_1.default, null)) }),
-                React.createElement(react_router_dom_1.Route, { path: "/reinitialisation-mot-de-passe", element: React.createElement(modal_1.default, { minWidth: 350, closeByDefault: false },
+                React.createElement(react_router_dom_1.Route, { path: "/reinitialisation-mot-de-passe", element: React.createElement(modal_1.default, { minWidth: 350 },
                         React.createElement(resetPassword_1.default, null)) }));
         };
         return _this;

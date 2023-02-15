@@ -14,7 +14,7 @@ function Profile(props, state) {
             React.createElement(react_router_dom_1.Route, { path: "/profil", element: React.createElement(ProfileMainPage_1.ProfileMainPage, null) }),
             React.createElement(react_router_dom_1.Route, { path: "/profil/email", element: React.createElement(React.Fragment, null,
                     React.createElement(ProfileMainPage_1.ProfileMainPage, null),
-                    React.createElement(modal_1.default, { minWidth: 350, closeByDefault: true },
+                    React.createElement(modal_1.default, { minWidth: 350 },
                         React.createElement(resetEmail_1.ResetEmailModal, null))) }),
             React.createElement(react_router_dom_1.Route, { path: "/profil/bulletins", element: React.createElement(report_1.ReportPage, null) }),
             React.createElement(react_router_dom_1.Route, { path: "/profil/ecoles", element: React.createElement(schools_1.default, null) })));
