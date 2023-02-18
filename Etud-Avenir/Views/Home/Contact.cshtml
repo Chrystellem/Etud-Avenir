@@ -1,0 +1,31 @@
+﻿@model Etud_Avenir.ViewModels.Home.ContactViewModel
+
+<div class="p-5">
+	 <div class="d-flex flex-wrap align-items-center justify-content-center">
+            <img class="database-img" src="/images/decoration/home/contact-us.svg" />
+            <div class="ml-4 w-50" >
+                <h1>Contact</h1>
+                <span>Un problème, une information manquante, un besoin en particulier ? N’attend pas, contacte nous !</span>
+            </div>
+        </div>
+
+    <div class="contact-main">
+        <form class="contact-form p-4">
+            <div class="d-flex flex-wrap align-items-center">
+                <div class="react-form-group">
+                    <label asp-for="Object">Objet</label>
+                    <input asp-for="Object" placeholder="Objet de ta requête" />
+                </div>
+                <div class="react-form-group ml-5">
+                    <label asp-for="Email">Mail</label>
+                    <input asp-for="Email" placeholder="utilisateur@efrei.net" />
+                </div>
+            </div>
+            <div class="react-form-group">
+                    <label asp-for="Content">Contenu</label>
+                    <textarea asp-for="Content"></textarea>
+                </div>
+           <button class='btn-primary btn'>Envoyer</button>
+        </form>
+    </div>
+</div>

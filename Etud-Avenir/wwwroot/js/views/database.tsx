@@ -14,7 +14,7 @@ export default function Database() {
                 <span>Tu veux voir la liste des écoles prises en compte par notre algorithme ? Fais toi plaisir, on essaie d’en prendre en compte le plus grand nombre possible</span>
             </div>
         </div>
-        <div className="mt-4 d-flex">
+        <div className="mt-4 d-flex align-items-sm-start">
             <div className="filter p-4">
                 <form>
                     <Select label="Domaine" name="Domain" required={false} onChange={() => undefined}>

@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\contact.cshtml" />
     <Content Remove="wwwroot\js\api\emailConfirmation.tsx" />
     <Content Remove="wwwroot\js\components\CloseModalButton.tsx" />
     <Content Remove="wwwroot\js\components\FormButton.tsx" />
@@ -62,6 +63,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\Contact.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\api\emailConfirmation.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\closeModalButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\formButton.tsx" />
@@ -69,7 +74,6 @@
     <TypeScriptCompile Include="wwwroot\js\components\form\error.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\input.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\likeButton.tsx" />
-    <TypeScriptCompile Include="wwwroot\js\components\modal.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\ProfileSaveButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\test.tsx" />
     <TypeScriptCompile Include="wwwroot\js\context\feedbackContext.tsx" />
