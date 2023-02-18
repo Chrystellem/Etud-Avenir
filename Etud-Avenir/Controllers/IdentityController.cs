@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Security.Claims;
 using System.Text;
 using System.Text.Encodings.Web;
 using System.Threading.Tasks;
@@ -184,6 +185,44 @@ namespace Etud_Avenir.Controllers
                 return BadRequest(new
                 {
                     error = "Le code ne correspond pas à l'email ayant fait la demande de réinitialisation"
+                });
+            }
+
+            return Ok();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPasswordAPI(EditPasswordDTO model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(new { errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage) });
+            }
+
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var resetPasswordToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var result = await _userManager.ResetPasswordAsync(user, resetPasswordToken, model.NewPassword);
+            if (!result.Succeeded) return StatusCode(500, new
+            {
+                error = "Une erreur est survenue, nous nous excusons pour cela et vous invitons à réesayer plus tard"
+            });
+
+            return Ok();
+        }
+
+        [HttpDelete]
+        public async Task<IActionResult> DeleteAccountAPI()
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+            var result = await _userManager.DeleteAsync(user);
+            if (!result.Succeeded)
+            {
+                return StatusCode(500, new
+                {
+                    error = "Une erreur est survenue, nous nous excusons pour cela et vous invitons à réesayer plus tard"
                 });
             }
 

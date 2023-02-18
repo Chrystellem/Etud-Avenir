@@ -20,6 +20,7 @@ namespace Etud_Avenir.Services
             _favoriteService = favoriteService;
         }
 
+        //getCurriculumDurationConversion --> a voir
 
         public School GetSchool(int SchoolId)
         {
@@ -36,11 +37,14 @@ namespace Etud_Avenir.Services
 
         public async Task AddSchoolCurriculumAsync(string name, int duration, int idSchool)
         {
-            Curriculum newCurriculum = new Curriculum{Name = name, Duration = duration};
-            CurriculumSchool schoolCurriculum = new CurriculumSchool { SchoolId = _dbContext.School.Where(s => s.SchoolId == idSchool).Single().SchoolId, CurriculumId = newCurriculum.CurriculumID };
-            await _dbContext.AddAsync(newCurriculum);
-            await _dbContext.AddAsync(schoolCurriculum);
-            _dbContext.SaveChanges();
+            if ( GetSchool(idSchool) is not null) 
+            {
+                Curriculum newCurriculum = new Curriculum { Name = name, Duration = duration }; //convertir la durée
+                CurriculumSchool schoolCurriculum = new CurriculumSchool { SchoolId = idSchool, CurriculumId = newCurriculum.CurriculumID };
+                await _dbContext.AddAsync(newCurriculum);
+                await _dbContext.AddAsync(schoolCurriculum);
+                _dbContext.SaveChanges();
+            }
         }
 
         public async Task AddSchoolToFavoritesAsync(int SchoolId, string label, int UserId)

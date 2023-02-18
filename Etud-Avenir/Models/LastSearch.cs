@@ -11,6 +11,7 @@ namespace Etud_Avenir.Models
     {
 
         public int LastSearchId { get; set; }
+        public int Score { get; set; }
 
         [ForeignKey("School")]
         public int SchoolId { get; set; }
@@ -20,7 +21,7 @@ namespace Etud_Avenir.Models
         public int UserId { get; set; }
         public virtual ICollection<IdentityUser> User { get; set; }
 
-        public int Score { get; set; }
+
 
     }
 }

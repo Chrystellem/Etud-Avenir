@@ -71,7 +71,7 @@ namespace Etud_Avenir.Tests
         /// </summary>
         /// <param name="email"></param>
         /// <exception cref="Exception"></exception>
-        public void ConfirmEmail(string email)
+        public async Task ConfirmEmail(string email)
         {
             var dbContext = GetDatabaseContext();
             var user = dbContext.Users.FirstOrDefault(x => x.Email == email);
@@ -79,7 +79,7 @@ namespace Etud_Avenir.Tests
             if (user == null) throw new Exception("User not found");
 
             user.EmailConfirmed = true;
-            dbContext.SaveChanges();
+            await dbContext.SaveChangesAsync();
         }
     }
 }

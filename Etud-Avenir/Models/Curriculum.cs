@@ -10,10 +10,7 @@ namespace Etud_Avenir.Models
        
         public int CurriculumID { get; set; }
         public string Name { get; set; }
-        public int Duration { get; set; }
-
-      
-
+        public int Duration { get; set; } // in months? year ? 
 
     }
 }

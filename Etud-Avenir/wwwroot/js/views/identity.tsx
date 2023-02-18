@@ -7,12 +7,14 @@ import LoginModal from "../modals/login";
 import RegistrationModal from "../modals/registration";
 import ResetPasswordModal from "../modals/resetPassword";
 
+
+
 export default class Identity extends React.Component {
 
     render = () => {
         return <Routes>
             <Route path="/connexion" element={
-                <Modal minWidth={350} >
+                <Modal minWidth={350}>
                     <LoginModal />
                 </Modal>
             } />

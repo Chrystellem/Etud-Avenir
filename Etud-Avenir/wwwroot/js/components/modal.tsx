@@ -1,35 +1,32 @@
 ﻿import React = require("react");
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import CloseModalButton from "./closeModalButton";
-type ModalState = {
-    isModalClosed: boolean
+
+export type ParentControlModal = {
+    toggler: React.Dispatch<React.SetStateAction<boolean>>,
+    isVisible: boolean
 }
 
 type ModalChildComponent = {
     children: React.ReactNode,
-    minWidth: number
+    minWidth: number,
+
+    parentControl?: ParentControlModal
 }
 
-export default class Modal extends React.Component<ModalChildComponent, ModalState> {
+export default function Modal(props: ModalChildComponent) {
+    const navigate = useNavigate()
 
-    state = {
-        isModalClosed: false
+    const closeModal = () => {
+        navigate(-1)
     }
 
-    toggleModal = () => {
-        this.setState({ isModalClosed: !this.state.isModalClosed })
-    }
+    if (props.parentControl && !props.parentControl.isVisible) return;
 
-    render = () => {
-        const { children } = this.props;
-
-        if (this.state.isModalClosed) return <Navigate to="/" />
-
-        return <div className='modal d-block'>
-            <div className="modal-body modal-body-border" style={{minWidth:this.props.minWidth + 'px'}}>
-                <CloseModalButton onClick={this.toggleModal} />
-                {children}
-            </div>
+    return <div className='modal d-block'>
+        <div className="modal-body modal-body-border" style={{ minWidth: props.minWidth + 'px' }}>
+            <CloseModalButton onClick={props.parentControl ? () => props.parentControl.toggler(!props.parentControl.isVisible) : closeModal} />
+            {props.children}
         </div>
-    }
+    </div>
 }

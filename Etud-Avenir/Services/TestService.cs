@@ -34,8 +34,8 @@ namespace Etud_Avenir.Services
 
         public async Task addTest2Async()
         {
-
-            Test2 test2Entity = new Test2 { City = "Montreal", TestId = _dbContext.Test.Where(t => t.Name == "coco").First().Id};
+            Test test1 = _dbContext.Test.Where(t => t.Name == "coco").First();
+            Test2 test2Entity = new Test2 { City = "Montreal", TestId = test1.Id, Test = test1};
 
             await _dbContext.AddAsync(test2Entity);
             _dbContext.SaveChanges();
@@ -65,7 +65,7 @@ namespace Etud_Avenir.Services
                 Console.WriteLine(" nullTest : id = " + nt.Id + " --> " + nt.Name);
             }
 
-            var twoAttributesTest = _dbContext.Test2.Where(t => t.City == "Montreal" && t.TestId == _dbContext.Test.Where(t => t.Name == "coco").First().Id).Single();
+            var twoAttributesTest = _dbContext.Test2.Where(t => t.City == "Montreal" && t.TestId == _dbContext.Test.Where(t => t.Name == "coco").First().Id).First();
             Console.WriteLine(" twoAttributesTest : id = " + twoAttributesTest.Id + " --> " + twoAttributesTest.City);
 
         }

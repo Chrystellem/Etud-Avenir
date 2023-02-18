@@ -7,9 +7,10 @@ module.exports = {
      * Ajouter ci-dessous les fichiers ts à compiler indépendamment des autres (import = le fichier à importer, filename = le fichier JS de sortie dans le dossier /dist)
      */
     entry: {
-        example: { import: './wwwroot/src/exemple.tsx', filename: 'bundledExample.js' },
         import: { import: './wwwroot/src/import.tsx', filename: 'bundledImport.js' },
         login: { import: './wwwroot/src/shared.tsx', filename: 'bundledShared.js' },
+        profile: { import: './wwwroot/src/profile.tsx', filename: 'bundledProfile.js' },
+        profile: { import: './wwwroot/src/database.tsx', filename: 'bundledDatabase.js' },
     },
     module: {
         rules: [

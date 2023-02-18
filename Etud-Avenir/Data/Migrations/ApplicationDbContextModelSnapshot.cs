@@ -44,13 +44,17 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("CurriculumId")
+                    b.Property<int>("CurriculumId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SchoolId")
+                    b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
                     b.HasKey("CurriculumSchoolId");
+
+                    b.HasIndex("CurriculumId");
+
+                    b.HasIndex("SchoolId");
 
                     b.ToTable("CurriculumSchool");
                 });
@@ -62,16 +66,23 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("Label")
+                    b.Property<string>("Label")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SchoolId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("FavoriteId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Favorite");
                 });
@@ -86,13 +97,17 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<float>("GradeValue")
                         .HasColumnType("real");
 
-                    b.Property<int?>("ReportId")
+                    b.Property<int>("ReportId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("SubjectId")
+                    b.Property<int>("SubjectId")
                         .HasColumnType("int");
 
                     b.HasKey("GradeId");
+
+                    b.HasIndex("ReportId");
+
+                    b.HasIndex("SubjectId");
 
                     b.ToTable("Grade");
                 });
@@ -104,16 +119,23 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("SchoolId")
+                    b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
+                    b.Property<int>("UserId")
                         .HasColumnType("int");
 
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("LastSearchId");
+
+                    b.HasIndex("SchoolId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("LastSearch");
                 });
@@ -152,7 +174,18 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<int>("Quarter")
                         .HasColumnType("int");
 
+                    b.Property<string>("SchoolYear")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("UserId1")
+                        .HasColumnType("nvarchar(450)");
+
                     b.HasKey("ReportId");
+
+                    b.HasIndex("UserId1");
 
                     b.ToTable("Report");
                 });
@@ -429,6 +462,87 @@ namespace Etud_Avenir.Data.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.CurriculumSchool", b =>
+                {
+                    b.HasOne("Etud_Avenir.Models.Curriculum", "Curriculum")
+                        .WithMany()
+                        .HasForeignKey("CurriculumId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Etud_Avenir.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Curriculum");
+
+                    b.Navigation("School");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Favorite", b =>
+                {
+                    b.HasOne("Etud_Avenir.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("School");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Grade", b =>
+                {
+                    b.HasOne("Etud_Avenir.Models.Report", "Report")
+                        .WithMany()
+                        .HasForeignKey("ReportId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Etud_Avenir.Models.Subject", "Subject")
+                        .WithMany()
+                        .HasForeignKey("SubjectId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Report");
+
+                    b.Navigation("Subject");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.LastSearch", b =>
+                {
+                    b.HasOne("Etud_Avenir.Models.School", "School")
+                        .WithMany()
+                        .HasForeignKey("SchoolId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("School");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Report", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                        .WithMany()
+                        .HasForeignKey("UserId1");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Etud_Avenir.Models.Test2", b =>

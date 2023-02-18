@@ -19,7 +19,9 @@ legend {
         margin-bottom: 0;
     }
 
-    input {
+    input, 
+    select,
+    textarea {
         display: block;
         font-family: $font-content;
         font-size: 1rem;
@@ -34,9 +36,24 @@ legend {
         }
     }
 
+    textarea {
+        min-height: 150px;
+    }
+
     &__checkbox {
         input {
             cursor: pointer;
         }
     }
+}
+
+
+/****************
+*** Contact *****
+*****************/
+
+form.contact-form {
+    background-color: $white;
+    box-shadow: $shadow-box;
+    border-radius: 20px;
 }

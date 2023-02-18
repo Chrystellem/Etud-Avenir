@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Views\Home\contact.cshtml" />
     <Content Remove="wwwroot\js\api\emailConfirmation.tsx" />
     <Content Remove="wwwroot\js\components\CloseModalButton.tsx" />
     <Content Remove="wwwroot\js\components\FormButton.tsx" />
@@ -15,6 +16,7 @@
     <Content Remove="wwwroot\js\components\Input.tsx" />
     <Content Remove="wwwroot\js\components\LikeButton.tsx" />
     <Content Remove="wwwroot\js\components\modal.tsx" />
+    <Content Remove="wwwroot\js\components\ProfileSaveButton.tsx" />
     <Content Remove="wwwroot\js\components\test.tsx" />
     <Content Remove="wwwroot\js\context\feedbackContext.tsx" />
     <Content Remove="wwwroot\js\layouts\feedback.tsx" />
@@ -23,11 +25,15 @@
     <Content Remove="wwwroot\js\modals\login.tsx" />
     <Content Remove="wwwroot\js\modals\message.tsx" />
     <Content Remove="wwwroot\js\modals\registration.tsx" />
+    <Content Remove="wwwroot\js\modals\resetEmail.tsx" />
     <Content Remove="wwwroot\js\modals\resetPassword.tsx" />
     <Content Remove="wwwroot\js\services\UrlService.tsx" />
     <Content Remove="wwwroot\js\types\ErrorAPI.ts" />
     <Content Remove="wwwroot\js\views\identity.tsx" />
+    <Content Remove="wwwroot\js\views\profile.tsx" />
+    <Content Remove="wwwroot\js\views\profile\ProfileMainPage.tsx" />
     <Content Remove="wwwroot\src\import.tsx" />
+    <Content Remove="wwwroot\src\profile.tsx" />
     <Content Remove="wwwroot\src\shared.tsx" />
   </ItemGroup>
 
@@ -57,6 +63,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="Views\Home\Contact.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
     <TypeScriptCompile Include="wwwroot\js\api\emailConfirmation.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\closeModalButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\formButton.tsx" />
@@ -64,7 +74,7 @@
     <TypeScriptCompile Include="wwwroot\js\components\form\error.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\input.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\likeButton.tsx" />
-    <TypeScriptCompile Include="wwwroot\js\components\modal.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\components\ProfileSaveButton.tsx" />
     <TypeScriptCompile Include="wwwroot\js\components\test.tsx" />
     <TypeScriptCompile Include="wwwroot\js\context\feedbackContext.tsx" />
     <TypeScriptCompile Include="wwwroot\js\layouts\feedback.tsx" />
@@ -73,10 +83,14 @@
     <TypeScriptCompile Include="wwwroot\js\modals\login.tsx" />
     <TypeScriptCompile Include="wwwroot\js\modals\forgotPassword.tsx" />
     <TypeScriptCompile Include="wwwroot\js\modals\registration.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\modals\resetEmail.tsx" />
     <TypeScriptCompile Include="wwwroot\js\modals\resetPassword.tsx" />
     <TypeScriptCompile Include="wwwroot\js\services\UrlService.tsx" />
     <TypeScriptCompile Include="wwwroot\js\types\ErrorAPI.ts" />
     <TypeScriptCompile Include="wwwroot\js\views\identity.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\views\profile.tsx" />
+    <TypeScriptCompile Include="wwwroot\js\views\profile\profileMainPage.tsx" />
+    <TypeScriptCompile Include="wwwroot\src\profile.tsx" />
     <TypeScriptCompile Include="wwwroot\src\shared.tsx" />
     <TypeScriptCompile Include="wwwroot\src\import.tsx" />
   </ItemGroup>

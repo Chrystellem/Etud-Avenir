@@ -11,6 +11,8 @@ namespace Etud_Avenir.Models
     {
 
         public int FavoriteId { get; set; }
+        public string Label { get; set; } // a GARDER ??
+
 
         [ForeignKey("School")]
         public int SchoolId { get; set; }
@@ -21,7 +23,6 @@ namespace Etud_Avenir.Models
         public int UserId { get; set; }
         public virtual ICollection<IdentityUser> User { get; set; }
 
-        public String Label { get; set; }
 
     }
 }
