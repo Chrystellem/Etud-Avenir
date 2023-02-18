@@ -12,7 +12,7 @@ namespace Etud_Avenir.Data
 
     public class FillDBFromCSV
     {
-        private const string Value = "Main Method";
+        private const string Value = "FILL DB Method";
         private readonly ApplicationDbContext _dbContext;
 
         public FillDBFromCSV(ApplicationDbContext dbContext)
@@ -24,11 +24,13 @@ namespace Etud_Avenir.Data
         {
 
             // path to the csv file
-            string path = "Matierer.csv";
+            string path = "Data/Matiere.csv";
 
             string[] lines = System.IO.File.ReadAllLines(path);
             foreach (string line in lines)
             {
+
+                Console.WriteLine("line =" + line);
                 Subject Subject = new Subject { Name = line };
 
                 await _dbContext.AddAsync(Subject);
@@ -40,7 +42,7 @@ namespace Etud_Avenir.Data
         {
 
             Console.WriteLine(Value);
-            object p = await ExtractSubject();
+            //await ExtractSubject();
 
         }
 
