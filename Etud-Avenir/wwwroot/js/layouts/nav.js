@@ -25,7 +25,11 @@ var Nav = /** @class */ (function (_super) {
             return React.createElement("header", null,
                 React.createElement("nav", { className: "navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow" },
                     React.createElement("div", { className: "container-fluid d-flex justify-content-between" },
+<<<<<<< HEAD
+                        React.createElement("a", { className: "navbar-brand", "asp-controller": "Home", "asp-action": "Index" },
+=======
                         React.createElement("a", { className: "navbar-brand", href: "/" },
+>>>>>>> c25b26f5c6e31b12d63d5c3f689134895911fb80
                             React.createElement("img", { src: "/images/logo_color.png", height: "36" })),
                         _this.props.isUserAuthentified ? React.createElement(NavLogin, null) : React.createElement(NavLogout, null))));
         };

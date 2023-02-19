@@ -19,7 +19,9 @@ namespace Etud_Avenir.Models
 
         [ForeignKey("IdentityUser")]
         public int UserId { get; set; }
-        public virtual IdentityUser User { get; set; }
+        public virtual ICollection<IdentityUser> User { get; set; }
+
+
 
     }
 }
