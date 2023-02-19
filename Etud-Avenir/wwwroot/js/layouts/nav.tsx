@@ -29,7 +29,7 @@ class NavLogin extends React.Component {
         return <>
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <a className="nav-link">Rechercher</a>
+                    <a className="nav-link" href="/recherche">Rechercher</a>
                 </li>
                 <li className="nav-item">
                     <a className="nav-link" href="/ecoles">Base de données</a>

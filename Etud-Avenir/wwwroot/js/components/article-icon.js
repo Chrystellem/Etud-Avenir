@@ -8,9 +8,13 @@ var report_1 = require("../modals/report");
 var action_button_1 = require("./action-button");
 var modal_1 = require("./modal");
 function ArticleIcon(_a) {
-    var classIcon = _a.classIcon, title = _a.title, otherInfo = _a.otherInfo, color = _a.color;
+    var classIcon = _a.classIcon, title = _a.title, otherInfo = _a.otherInfo, color = _a.color, showActionButtons = _a.showActionButtons;
     var _b = React.useState(false), showModal = _b[0], setShowModal = _b[1];
     var _c = React.useState(0), reportId = _c[0], setReportId = _c[1];
+    if (showActionButtons === undefined || showActionButtons == null) {
+        showActionButtons = false;
+    }
+    console.log(showActionButtons);
     var editReport = function () {
         setShowModal(true);
         setReportId(12);
@@ -18,14 +22,16 @@ function ArticleIcon(_a) {
     };
     return React.createElement(React.Fragment, null,
         React.createElement("div", { className: "my-3 d-flex actions-on-hover cursor-pointer" },
-            React.createElement("article", { className: "p-3 d-flex align-items-center cursor-pointer actions-on-hover" },
+            React.createElement("article", { className: "p-3 d-flex align-items-center cursor-pointer actions-on-hover article-icon" },
                 React.createElement("i", { className: "mr-4 ".concat(classIcon), style: { color: color } }),
                 React.createElement("div", { className: "info" },
                     React.createElement("h5", null, title),
                     React.createElement("span", null, otherInfo))),
-            React.createElement("div", { className: "hidden-actions ml-2" },
-                React.createElement(action_button_1.ActionButton, { onClickHandler: editReport, classIcon: icons_1.default.EDIT, styleParent: { backgroundColor: colors_1.default.GREEN }, manageConfirmation: false }),
-                React.createElement(action_button_1.ActionButton, { onClickHandler: function () { return console.log("coucou"); }, classIcon: icons_1.default.DELETE, styleParent: { backgroundColor: colors_1.default.PINK }, manageConfirmation: true }))),
+            showActionButtons ?
+                React.createElement("div", { className: "hidden-actions ml-2" },
+                    React.createElement(action_button_1.ActionButton, { onClickHandler: editReport, classIcon: icons_1.default.EDIT, styleParent: { backgroundColor: colors_1.default.GREEN }, manageConfirmation: false }),
+                    React.createElement(action_button_1.ActionButton, { onClickHandler: function () { return console.log("coucou"); }, classIcon: icons_1.default.DELETE, styleParent: { backgroundColor: colors_1.default.PINK }, manageConfirmation: true }))
+                : ""),
         React.createElement(modal_1.default, { minWidth: 600, parentControl: {
                 toggler: setShowModal,
                 isVisible: showModal
