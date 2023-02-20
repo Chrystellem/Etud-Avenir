@@ -10,12 +10,18 @@ type ArticleIconProps = {
     classIcon: string,
     title: string,
     otherInfo: string,
-    color: string
+    color: string,
+    showActionButtons?: boolean
 }
 
-export function ArticleIcon({ classIcon, title, otherInfo, color }: ArticleIconProps) {
+export function ArticleIcon({ classIcon, title, otherInfo, color, showActionButtons }: ArticleIconProps) {
     let [showModal, setShowModal] = React.useState(false)
     let [reportId, setReportId] = React.useState(0)
+
+    if (showActionButtons === undefined || showActionButtons == null) {
+        showActionButtons = false;
+    }
+    console.log(showActionButtons)
 
     const editReport = () => {
         setShowModal(true)
@@ -25,24 +31,28 @@ export function ArticleIcon({ classIcon, title, otherInfo, color }: ArticleIconP
     }
 
     return <>
-            <div className="my-3 d-flex actions-on-hover cursor-pointer">
-            <article className="p-3 d-flex align-items-center cursor-pointer actions-on-hover">
+        <div className="my-3 d-flex actions-on-hover cursor-pointer">
+            <article className="p-3 d-flex align-items-center cursor-pointer actions-on-hover article-icon">
                 <i className={`mr-4 ${classIcon}`} style={{ color }}></i>
                 <div className="info">
                     <h5>{title}</h5>
                     <span>{otherInfo}</span>
                 </div>
             </article>
-            <div className="hidden-actions ml-2">
-                <ActionButton onClickHandler={editReport} classIcon={Icons.EDIT} styleParent={{ backgroundColor: Colors.GREEN }} manageConfirmation={false} />
-                <ActionButton onClickHandler={() => console.log("coucou")} classIcon={Icons.DELETE} styleParent={{ backgroundColor: Colors.PINK }} manageConfirmation={true} />
-            </div>
+            {
+                showActionButtons ?
+                    <div className="hidden-actions ml-2">
+                        <ActionButton onClickHandler={editReport} classIcon={Icons.EDIT} styleParent={{ backgroundColor: Colors.GREEN }} manageConfirmation={false} />
+                        <ActionButton onClickHandler={() => console.log("coucou")} classIcon={Icons.DELETE} styleParent={{ backgroundColor: Colors.PINK }} manageConfirmation={true} />
+                    </div>
+                    : ""
+            }
         </div>
-            <Modal minWidth={600} parentControl={{
-                toggler: setShowModal,
-                isVisible: showModal
-            }}>
-                <ReportModal reportId={reportId} />
-            </Modal>
-        </>
+        <Modal minWidth={600} parentControl={{
+            toggler: setShowModal,
+            isVisible: showModal
+        }}>
+            <ReportModal reportId={reportId} />
+        </Modal>
+    </>
 }

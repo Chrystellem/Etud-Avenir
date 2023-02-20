@@ -6,18 +6,21 @@ using System.Threading.Tasks;
 
 namespace Etud_Avenir.Controllers
 {
-    [Route("Recherche")]
+    [Route("recherche")]
     public class ResearchController : Controller
     {
+
+        [Route("")]
+        [Route("resultats")]
         public IActionResult Index()
         {
             return View();
         }
 
-        [Route("/Note")]
-        public IActionResult Grade()
-        {
-            return View();
-        }
+        //[Route("/Note")]
+        //public IActionResult Grade()
+        //{
+        //    return View();
+        //}
     }
 }

@@ -4,6 +4,7 @@ import { Checkbox } from '../components/form/checkbox'
 import Select from '../components/form/select'
 import FormButton from '../components/formButton'
 import Input from '../components/input'
+import Filter from '../components/research/filter'
 
 export default function Database() {
     return <div className="p-5">
@@ -15,25 +16,7 @@ export default function Database() {
             </div>
         </div>
         <div className="mt-4 d-flex align-items-sm-start">
-            <div className="filter p-4">
-                <form>
-                    <Select label="Domaine" name="Domain" required={false} onChange={() => undefined}>
-                        <option>Sélectionne un domaine</option>
-                    </Select>
-                    <Input label="Nom" placeholder="Ex: EFREI Paris" name="Name" value="" onChange={() => undefined} required={false} inputType="text" />
-                    <Input label="Localisation" placeholder="Ville/Département/Région" name="Localization" value="" onChange={() => undefined} required={false} inputType="text" />
-                    <Select label="Accessibilité" name="Accessibility" required={false} onChange={() => undefined}>
-                        <option>Sélectionne un mode d’accessibilité</option>
-                    </Select>
-
-                    <Checkbox name="IsPublic" label="Ecole publique" value="" onChange={() => undefined} checked={false} />
-                    <Checkbox name="IsPrivate" label="Ecole privée" value="" onChange={() => undefined} checked={false} />
-                    <Checkbox name="IsOfficial" label="Reconnu par l'état" value="" onChange={() => undefined} checked={false} />
-                    <Checkbox name="IsApprenticeshipProgram" label="Alternance" value="" onChange={() => undefined} checked={false} />
-
-                    <FormButton isImg={false} name="Rechercher" />
-                </form>
-            </div>
+            <Filter />
             <div className="school-container px-5">
                 <SchoolArticle />
                 <SchoolArticle />
