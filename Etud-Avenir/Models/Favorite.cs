@@ -11,8 +11,6 @@ namespace Etud_Avenir.Models
     {
 
         public int FavoriteId { get; set; }
-        public string Label { get; set; } // a GARDER ??
-
 
         [ForeignKey("School")]
         public int SchoolId { get; set; }

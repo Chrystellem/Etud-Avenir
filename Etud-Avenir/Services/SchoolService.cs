@@ -12,24 +12,47 @@ namespace Etud_Avenir.Services
     {
 
         private readonly ApplicationDbContext _dbContext;
-        private readonly FavoriteService _favoriteService;
 
-        public SchoolService(ApplicationDbContext dbContext, FavoriteService favoriteService)
+        public SchoolService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _favoriteService = favoriteService;
         }
 
-        //getCurriculumDurationConversion --> a voir
-
-        public School GetSchool(int SchoolId)
+        public School GetSchoolModel(int SchoolId) //only school model data
         {
             return _dbContext.School.Where(s => s.SchoolId == SchoolId).Single();
         }
 
-        public async Task AddSchoolAsync(string name, float score, string address, string website)
+        public List<School> GetAllSchoolsModel() //for databasePage --> GetSchoolsRequestsFromList(GetAllSchoolsModel())
         {
-            School NewSchool = new School { Name = name, Score=score, Address = address, Website = website };
+            return _dbContext.School.ToList(); 
+        }
+
+        public SchoolRequest GetSchoolRequest(int schoolId) //gives school info + all of its curriculums
+        {
+            return new SchoolRequest(GetSchoolModel(schoolId), GetSchoolAllCurriculums(schoolId));
+        }
+
+        public List<SchoolRequest> GetSchoolsRequestsFromList(List<School> schools)
+        {
+            List<SchoolRequest> schoolRequests = new List<SchoolRequest>();
+            foreach (School school in schools)
+            {
+                SchoolRequest newSchoolRequest = GetSchoolRequest(school.SchoolId);
+                schoolRequests.Add(newSchoolRequest);
+            }
+            return schoolRequests;
+        }
+
+        public List<Curriculum> GetSchoolAllCurriculums(int SchoolId)
+        {
+            List<CurriculumSchool> schoolCurriculums = _dbContext.CurriculumSchool.Where(cs => cs.SchoolId == SchoolId).ToList();
+            return _dbContext.Curriculum.Where(c => c.CurriculumId == schoolCurriculums.Find(sc => sc.CurriculumId == c.CurriculumId).CurriculumId).ToList();
+        }
+
+        public async Task AddSchoolAsync(string name, string address, string website)
+        {
+            School NewSchool = new School { Name = name, Address = address, Website = website };
 
             await _dbContext.AddAsync(NewSchool);
             _dbContext.SaveChanges();
@@ -37,26 +60,25 @@ namespace Etud_Avenir.Services
 
         public async Task AddSchoolCurriculumAsync(string name, int duration, int idSchool)
         {
-            if ( GetSchool(idSchool) is not null) 
+            if (GetSchoolModel(idSchool) is not null) 
             {
-                Curriculum newCurriculum = new Curriculum { Name = name, Duration = duration }; //convertir la durée
-                CurriculumSchool schoolCurriculum = new CurriculumSchool { SchoolId = idSchool, CurriculumId = newCurriculum.CurriculumID };
-                await _dbContext.AddAsync(newCurriculum);
+                await AddNewCurriculumAsync(name, duration);
+                int newCurriculumId = _dbContext.Curriculum.Where(c => c.Name == name && c.Duration == duration).Single().CurriculumId;
+                CurriculumSchool schoolCurriculum = new CurriculumSchool { SchoolId = idSchool, CurriculumId = newCurriculumId };
                 await _dbContext.AddAsync(schoolCurriculum);
                 _dbContext.SaveChanges();
             }
         }
 
-        public async Task AddSchoolToFavoritesAsync(int SchoolId, string label, int UserId)
+        private async Task AddNewCurriculumAsync(string name,int duration)
         {
-            await _favoriteService.AddSchoolToFavoritesAsync(SchoolId, label, UserId);
+            Curriculum newCurriculum = new Curriculum { Name = name, Duration = duration };
+            Curriculum isCurriculum = _dbContext.Curriculum.Where(c => c.Name == name && c.Duration == duration).Single();
+            if (isCurriculum is null)
+            {
+                await _dbContext.AddAsync(newCurriculum);
+            }
         }
-
-        public void RemoveSchoolToFavorites(int SchoolId, string label, int UserId)
-        {
-            _favoriteService.RemoveSchoolToFavorites(SchoolId, label, UserId);
-        }
-
 
     }
 }

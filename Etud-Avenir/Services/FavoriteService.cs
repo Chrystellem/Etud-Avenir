@@ -11,26 +11,34 @@ namespace Etud_Avenir.Services
     {
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly SchoolService _schoolService;
 
-        public FavoriteService(ApplicationDbContext dbContext)
+        public FavoriteService(ApplicationDbContext dbContext, SchoolService schoolService)
         {
             _dbContext = dbContext;
+            _schoolService = schoolService;
         }
 
-        public List<School> getUserFavorites(int UserId)
+        public List<SchoolRequest> GetUserFavorites(int UserId)
         {
             List<Favorite> favorites = _dbContext.Favorite.Where(f => f.UserId == UserId).ToList();
-            return _dbContext.School.Where(s => s.SchoolId == favorites.Find(f => f.SchoolId == s.SchoolId).SchoolId).ToList();
+            List<SchoolRequest> favoritesSchools = new List<SchoolRequest>();
+            foreach(Favorite school in favorites)
+            {
+                favoritesSchools.Add(_schoolService.GetSchoolRequest(school.SchoolId));
+            }
+
+            return favoritesSchools;
         }
 
-        public async Task AddSchoolToFavoritesAsync(int SchoolId, string label, int UserId)
+        public async Task AddSchoolToFavoritesAsync(int SchoolId, int UserId)
         {
-            Favorite newFavorite = new Favorite { Label = label, SchoolId = SchoolId, UserId = UserId };
+            Favorite newFavorite = new Favorite {SchoolId = SchoolId, UserId = UserId };
             await _dbContext.AddAsync(newFavorite);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveSchoolToFavorites(int SchoolId, string label, int UserId)
+        public void RemoveSchoolToFavorites(int SchoolId, int UserId)
         {
             Favorite isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId).Single();
             if (isFavorite is not null)

@@ -18,7 +18,7 @@ namespace Etud_Avenir.Services
             _dbContext = dbContext;
         }
 
-        public Report getReportByInfos(int userId, int quarter, string schoolYear)
+        public Report GetReportByInfos(int userId, int quarter, string schoolYear)
         {
             return _dbContext.Report.Where(r => r.Quarter == quarter && r.SchoolYear == schoolYear && r.UserId == userId).Single();
         }
@@ -28,12 +28,12 @@ namespace Etud_Avenir.Services
             return _dbContext.Report.Where(r => r.ReportId == reportId).Single();
         }
 
-        public List<Report> getAllReports(int userId)
+        public List<Report> GetUserAllReports(int userId)
         {
             return _dbContext.Report.Where(r => r.UserId == userId).ToList();
         }
 
-        public Dictionary<string,float> getReportGrades(int reportId) 
+        public Dictionary<string,float> GetReportGrades(int reportId) 
         {
             Dictionary<string, float> reportGrades = new Dictionary<string, float>();
 
@@ -49,14 +49,16 @@ namespace Etud_Avenir.Services
             return reportGrades;
         }
 
-        public void UpdateReport(int reportId, Dictionary<string, float> grades) //update schoolyear and quarter too
+        public void UpdateReport(int reportId, string schoolyear, int quarter, Dictionary<string, float> grades) //update schoolyear and quarter too
         {
             Report report = GetReportById(reportId);
             if (report is not null)
             {
+                report.SchoolYear = schoolyear;
+                report.Quarter = quarter;
+
                 foreach (string subject in grades.Keys) {
                     int subjectId = _dbContext.Subject.Where(s => s.Name == subject).Single().SubjectId;
-                    //update bdd with grade value
                     Grade grade = _dbContext.Grade.Where(g => g.ReportId == reportId && g.SubjectId == subjectId).Single();
                     grade.GradeValue = grades[subject];
                 }
@@ -64,17 +66,17 @@ namespace Etud_Avenir.Services
             }
         }
 
-        public async Task AddReportAsync(int userId, int quarter, string schoolYear, Dictionary<string, float> grades)
+        public async Task AddReportAsync(int userId, int quarter, string schoolYear, Dictionary<string, float> grades) //conversion quarter string to int ?
         {
             if( QuarterPossibilities.Contains(quarter) && ClassPossibilities.Contains(schoolYear) ) {
                 Report NewReport = new Report { Quarter = quarter, SchoolYear = schoolYear, UserId = userId };
                 await _dbContext.AddAsync(NewReport);
-                await AddGradesToReport(getReportByInfos(userId, quarter,schoolYear).ReportId, grades);
+                await AddGradesToReport(GetReportByInfos(userId, quarter,schoolYear).ReportId, grades);
                 _dbContext.SaveChanges();
             }
         }
 
-        public async Task AddGradesToReport(int reportId, Dictionary<string, float> grades )
+        public async Task AddGradesToReport(int reportId, Dictionary<string, float> grades)
         {
             foreach(string subject in grades.Keys)
             {
@@ -86,7 +88,6 @@ namespace Etud_Avenir.Services
 
         public void RemoveReport(int reportId) 
         {
-
             Report isReport = GetReportById(reportId);
             if (isReport is not null)
             {

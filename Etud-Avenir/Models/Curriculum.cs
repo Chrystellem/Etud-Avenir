@@ -8,9 +8,9 @@ namespace Etud_Avenir.Models
     public class Curriculum
     {
        
-        public int CurriculumID { get; set; }
+        public int CurriculumId { get; set; }
         public string Name { get; set; }
-        public int Duration { get; set; } // in months? year ? 
+        public int Duration { get; set; } // in year 
 
     }
 }
