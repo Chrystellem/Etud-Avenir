@@ -18,7 +18,7 @@ namespace Etud_Avenir.Models
         public virtual School School { get; set; }
 
         [ForeignKey("IdentityUser")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual ICollection<IdentityUser> User { get; set; }
 
 

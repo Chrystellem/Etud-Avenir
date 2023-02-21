@@ -17,7 +17,7 @@ namespace Etud_Avenir.Models
         public string SchoolYear { get; set; } //premiere ou terminale
 
         [ForeignKey("IdentityUser")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
         public virtual IdentityUser User { get; set; }
 
     }

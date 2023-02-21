@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etud_Avenir.Data;
 using Etud_Avenir.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace Etud_Avenir.Services
 {
@@ -18,7 +19,7 @@ namespace Etud_Avenir.Services
             _dbContext = dbContext;
         }
 
-        public Report GetReportByInfos(int userId, int quarter, string schoolYear)
+        public Report GetReportByInfos(string userId, int quarter, string schoolYear)
         {
             return _dbContext.Report.Where(r => r.Quarter == quarter && r.SchoolYear == schoolYear && r.UserId == userId).Single();
         }
@@ -28,9 +29,9 @@ namespace Etud_Avenir.Services
             return _dbContext.Report.Where(r => r.ReportId == reportId).Single();
         }
 
-        public List<Report> GetUserAllReports(int userId)
+        public Task<List<Report>> GetUserAllReportsAsync(string userId)
         {
-            return _dbContext.Report.Where(r => r.UserId == userId).ToList();
+            return _dbContext.Report.Where(r => r.UserId == userId).ToListAsync();
         }
 
         public Dictionary<string,float> GetReportGrades(int reportId) 
@@ -66,7 +67,7 @@ namespace Etud_Avenir.Services
             }
         }
 
-        public async Task AddReportAsync(int userId, int quarter, string schoolYear, Dictionary<string, float> grades) //conversion quarter string to int ?
+        public async Task AddReportAsync(string userId, int quarter, string schoolYear, Dictionary<string, float> grades) //conversion quarter string to int ?
         {
             if( QuarterPossibilities.Contains(quarter) && ClassPossibilities.Contains(schoolYear) ) {
                 Report NewReport = new Report { Quarter = quarter, SchoolYear = schoolYear, UserId = userId };

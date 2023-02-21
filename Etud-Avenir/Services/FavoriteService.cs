@@ -19,7 +19,7 @@ namespace Etud_Avenir.Services
             _schoolService = schoolService;
         }
 
-        public List<SchoolRequest> GetUserFavorites(int UserId)
+        public List<SchoolRequest> GetUserFavorites(string UserId)
         {
             List<Favorite> favorites = _dbContext.Favorite.Where(f => f.UserId == UserId).ToList();
             List<SchoolRequest> favoritesSchools = new List<SchoolRequest>();
@@ -31,14 +31,14 @@ namespace Etud_Avenir.Services
             return favoritesSchools;
         }
 
-        public async Task AddSchoolToFavoritesAsync(int SchoolId, int UserId)
+        public async Task AddSchoolToFavoritesAsync(int SchoolId, string UserId)
         {
             Favorite newFavorite = new Favorite {SchoolId = SchoolId, UserId = UserId };
             await _dbContext.AddAsync(newFavorite);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveSchoolToFavorites(int SchoolId, int UserId)
+        public void RemoveSchoolToFavorites(int SchoolId, string UserId)
         {
             Favorite isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId).Single();
             if (isFavorite is not null)
