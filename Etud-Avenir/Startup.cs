@@ -42,12 +42,22 @@ namespace Etud_Avenir
             services.AddAuthentication(options => 
                 options.DefaultSignInScheme = "/connexion");
 
+            services.AddDistributedMemoryCache();
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
             services.AddTransient<LogEmailService>();
             services.AddTransient<TestService>();
             services.AddTransient<SchoolService>();
             services.AddTransient<SearchService>();
             services.AddTransient<FavoriteService>();
-
+            services.AddTransient<ReportService>();
+            services.AddTransient<SubjectService>();
+            services.AddTransient<GradeService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -73,6 +83,8 @@ namespace Etud_Avenir
 
             app.UseAuthentication();
             app.UseAuthorization();
+
+            app.UseSession();
 
             app.UseEndpoints(endpoints =>
             {
