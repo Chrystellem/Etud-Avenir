@@ -19,6 +19,7 @@ namespace Etud_Avenir.Models
         [ForeignKey("IdentityUser")]
         public string UserId { get; set; }
         public virtual IdentityUser User { get; set; }
+        public DateTime CreatedAt { get; set; }
 
     }
 }
