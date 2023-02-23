@@ -79,7 +79,7 @@ namespace Etud_Avenir.Services
             }).ToListAsync();
         }
 
-        public async void UpdateReport(int reportId, string schoolyear, int quarter, Dictionary<string, float> grades) //update schoolyear and quarter too
+        public async void UpdateReport(int reportId, string schoolyear, int quarter, Dictionary<string, float> grades) 
         {
             Report report = await GetReportByIdAsync(reportId);
             if (report is not null)
@@ -96,7 +96,7 @@ namespace Etud_Avenir.Services
             }
         }
 
-        public async Task AddReportAsync(string userId, int quarter, string schoolYear, Dictionary<string, float> grades) //conversion quarter string to int ?
+        public async Task AddReportAsync(string userId, int quarter, string schoolYear, Dictionary<string, float> grades) 
         {
             if( QuarterPossibilities.Contains(quarter) && ClassPossibilities.Contains(schoolYear) ) {
                 Report NewReport = new Report { Quarter = quarter, SchoolYear = schoolYear, UserId = userId };

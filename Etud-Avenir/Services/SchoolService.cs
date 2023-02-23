@@ -33,12 +33,28 @@ namespace Etud_Avenir.Services
             return new SchoolRequest(GetSchoolModel(schoolId), GetSchoolAllCurriculums(schoolId));
         }
 
+        public SchoolRequest GetSchoolRequest(int schoolId, float score) //gives school info + all of its curriculums
+        {
+            return new SchoolRequest(GetSchoolModel(schoolId), GetSchoolAllCurriculums(schoolId), score);
+        }
+
         public List<SchoolRequest> GetSchoolsRequestsFromList(List<School> schools)
         {
             List<SchoolRequest> schoolRequests = new List<SchoolRequest>();
             foreach (School school in schools)
             {
                 SchoolRequest newSchoolRequest = GetSchoolRequest(school.SchoolId);
+                schoolRequests.Add(newSchoolRequest);
+            }
+            return schoolRequests;
+        }
+
+        public List<SchoolRequest> GetSchoolsRequestsFromList(Dictionary<School, float> schools) //for research
+        {
+            List<SchoolRequest> schoolRequests = new List<SchoolRequest>();
+            foreach (School school in schools.Keys)
+            {
+                SchoolRequest newSchoolRequest = GetSchoolRequest(school.SchoolId, schools[school]);
                 schoolRequests.Add(newSchoolRequest);
             }
             return schoolRequests;
