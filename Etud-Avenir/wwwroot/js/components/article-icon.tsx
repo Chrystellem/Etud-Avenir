@@ -1,34 +1,35 @@
 ﻿import * as React from 'react'
 import Colors from '../constants/colors';
 import Icons from '../constants/icons';
-import { ReportModal } from '../modals/report';
+import { EditReportModal } from '../modals/edit-report';
 import { ActionButton } from './action-button';
 import CloseModalButton from './closeModalButton';
 import Modal from './modal';
 
 type ArticleIconProps = {
+    reportId: number,
     classIcon: string,
     title: string,
     otherInfo: string,
     color: string,
-    showActionButtons?: boolean
+    showActionButtons?: boolean,
+    onDelete?: () => void
 }
 
-export function ArticleIcon({ classIcon, title, otherInfo, color, showActionButtons }: ArticleIconProps) {
+export function ArticleIcon({ reportId, classIcon, title, otherInfo, color, showActionButtons, onDelete }: ArticleIconProps) {
     let [showModal, setShowModal] = React.useState(false)
-    let [reportId, setReportId] = React.useState(0)
+    let [showArticle, setShowArticle] = React.useState(true)
+
+    const deleteElement = () => {
+        setShowArticle(false)
+        onDelete()
+    }
 
     if (showActionButtons === undefined || showActionButtons == null) {
-        showActionButtons = false;
+        showActionButtons = true;
     }
-    console.log(showActionButtons)
 
-    const editReport = () => {
-        setShowModal(true)
-        setReportId(12)
-
-        console.log(reportId)
-    }
+    if (!showArticle) return
 
     return <>
         <div className="my-3 d-flex actions-on-hover cursor-pointer">
@@ -42,8 +43,8 @@ export function ArticleIcon({ classIcon, title, otherInfo, color, showActionButt
             {
                 showActionButtons ?
                     <div className="hidden-actions ml-2">
-                        <ActionButton onClickHandler={editReport} classIcon={Icons.EDIT} styleParent={{ backgroundColor: Colors.GREEN }} manageConfirmation={false} />
-                        <ActionButton onClickHandler={() => console.log("coucou")} classIcon={Icons.DELETE} styleParent={{ backgroundColor: Colors.PINK }} manageConfirmation={true} />
+                        <ActionButton onClickHandler={() => setShowModal(true)} classIcon={Icons.EDIT} styleParent={{ backgroundColor: Colors.GREEN }} manageConfirmation={false} />
+                        <ActionButton onClickHandler={deleteElement} classIcon={Icons.DELETE} styleParent={{ backgroundColor: Colors.PINK }} manageConfirmation={true} />
                     </div>
                     : ""
             }
@@ -52,7 +53,7 @@ export function ArticleIcon({ classIcon, title, otherInfo, color, showActionButt
             toggler: setShowModal,
             isVisible: showModal
         }}>
-            <ReportModal reportId={reportId} />
+            <EditReportModal reportId={reportId} closeModal={() => setShowModal(false)} />
         </Modal>
     </>
 }

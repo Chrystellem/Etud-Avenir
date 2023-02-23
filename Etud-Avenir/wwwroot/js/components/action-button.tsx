@@ -8,7 +8,6 @@ type ActionButtonProps = {
     styleParent?: React.CSSProperties,
     styleIcon?: React.CSSProperties,
     manageConfirmation: boolean,
-    confirmationHandler?: React.MouseEventHandler<HTMLDivElement>,
 }
 
 export function ActionButton({
@@ -16,8 +15,8 @@ export function ActionButton({
     classIcon,
     styleParent,
     styleIcon,
-    manageConfirmation,
-    confirmationHandler }: ActionButtonProps)
+    manageConfirmation
+}: ActionButtonProps)
 {
     let [showDeleteConfirmation, setShowDeleteConfirmation] = React.useState(false);
 
@@ -41,7 +40,7 @@ export function ActionButton({
                 <span>
                     Confirmer la suppression ?
                 </span>
-                <div className="action-icon-btn color-white" onClick={confirmationHandler} style={{ backgroundColor: Colors.GREEN }}>
+                <div className="action-icon-btn color-white" onClick={onClickHandler} style={{ backgroundColor: Colors.GREEN }}>
                     <i className="fa-solid fa-check"></i>
                 </div>
             </div>

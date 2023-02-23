@@ -38,10 +38,20 @@ namespace Etud_Avenir.Services
             return _dbContext.Report.FirstOrDefaultAsync(r => r.ReportId == reportId);
         }
 
-        public Task<List<Report>> GetUserAllReportsAsync(string userId)
+        public Task<List<Report>> GetUserAllReportsAsync(string userId) 
+            => _dbContext.Report.Where(r => r.UserId == userId).ToListAsync();
+
+        public Task<List<SmallReportDTO>> GetSmallReportsDTOAsync(string userId)
         {
-            return _dbContext.Report.Where(r => r.UserId == userId).ToListAsync();
+            return _dbContext.Report.Where(r => r.UserId == userId).Select(r => new SmallReportDTO
+            {
+                ReportId = r.ReportId,
+                CreatedAt = r.CreatedAt,
+                SchoolYear = r.SchoolYear,
+                Quarter = r.Quarter
+            }).ToListAsync();
         }
+            
 
         public Dictionary<string,float> GetReportGrades(int reportId) 
         {
@@ -107,7 +117,8 @@ namespace Etud_Avenir.Services
             var report = new Report { 
                 Quarter = reportDTO.Quarter, 
                 SchoolYear = reportDTO.SchoolYear, 
-                UserId = userId 
+                UserId = userId,
+                CreatedAt = DateTime.Now,
             };
 
             _dbContext.Add(report);
@@ -117,6 +128,30 @@ namespace Etud_Avenir.Services
             // Retrouver les ids des notes
             return await _gradeService.AddGradeDTOs(reportDTO.GradeBySubject, report.ReportId);
         }
+
+
+        public async Task UpdateReportDTOAsync(ReportDTO reportDTO, string userId)
+        {
+            var report = await GetReportByIdAsync(reportDTO.ReportId);
+            if (report == null) throw new KeyNotFoundException();
+
+            report.Quarter = reportDTO.Quarter;
+            report.SchoolYear = reportDTO.SchoolYear;
+
+            var subjects = await _subjectService.GetSubjects();
+            var grades = await _gradeService.GetReportGradesAsync(report.ReportId);
+            foreach (var gradeBySubject in reportDTO.GradeBySubject)
+            {
+                var subject = subjects.FirstOrDefault(s => s.Name == gradeBySubject.Subject);
+                if (subject == null) continue;
+
+                var grade = grades.FirstOrDefault(g => g.SubjectId == subject.SubjectId);
+                grade.GradeValue = gradeBySubject.Grade;
+            }
+
+            await _dbContext.SaveChangesAsync();
+        }
+
 
         public async Task AddGradesToReport(int reportId, Dictionary<string, float> grades)
         {
@@ -128,14 +163,13 @@ namespace Etud_Avenir.Services
             }
         }
 
-        public async void RemoveReport(int reportId) 
+        public async Task<bool> RemoveReport(int reportId) 
         {
-            Report isReport = await GetReportByIdAsync(reportId);
-            if (isReport is not null)
-            {
-                _dbContext.Remove(isReport);
-                _dbContext.SaveChanges();
-            }
+            var report = await GetReportByIdAsync(reportId);
+            if (report == null) throw new KeyNotFoundException();
+
+            _dbContext.Remove(report);
+            return (await _dbContext.SaveChangesAsync()) == 1;
         }
 
         /// <summary>

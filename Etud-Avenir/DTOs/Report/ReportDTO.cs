@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Configuration;
 
@@ -15,6 +16,7 @@ namespace Etud_Avenir.DTOs.Report
         public string SchoolYear { get; set; }
         [Required]
         public List<GradeBySubjectDTO> GradeBySubject { get; set; }
+        public DateTime CreatedAt { get; set; }
     }
 
     public class GradeBySubjectDTO

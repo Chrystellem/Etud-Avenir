@@ -51,5 +51,9 @@ namespace Etud_Avenir.Services
 
             return nbGradesAdded == gradeBySubjectDTOs.Count();
         }
+
+
+        public Task<List<Grade>> GetReportGradesAsync(int reportId)
+            => _dbContext.Grade.Where(g => g.ReportId == reportId).ToListAsync();
     }
 }
