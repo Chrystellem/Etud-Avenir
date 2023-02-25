@@ -60,7 +60,7 @@ export default class LoginModal extends React.Component<{}, LoginModalState> {
 
                 <Input name="Email" label="Email" inputType="email" placeholder="email@efrei.fr" value={this.state.email} onChange={this.handleChangeEmail} />
                 <Input name="Password" label="Mot de passe" inputType="password" placeholder="************" value={this.state.password} onChange={this.handleChangePassword} />
-                <Checkbox name="RememberMe" label="Se souvenir de moi ?" value="true" checked={this.state.rememberMe} onChange={this.handleChangeRememberMe} />
+                <Checkbox name="RememberMe" label="Se souvenir de moi ?" checked={this.state.rememberMe} onChange={this.handleChangeRememberMe} />
 
                 <FormButton name="Valider" isImg={false} />
             </form>

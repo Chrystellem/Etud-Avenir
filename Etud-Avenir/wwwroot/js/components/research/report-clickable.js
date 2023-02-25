@@ -3,9 +3,10 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ReportClickable = void 0;
 var React = require("react");
 function ReportClickable(_a) {
-    var title = _a.title, otherInfo = _a.otherInfo;
+    var title = _a.title, otherInfo = _a.otherInfo, onClickHandler = _a.onClickHandler;
     var clickHandler = function (event) {
         event.currentTarget.classList.toggle('clicked');
+        onClickHandler();
     };
     return React.createElement(React.Fragment, null,
         React.createElement("div", { className: "my-3 d-flex cursor-pointer report-clickable", onClick: clickHandler },

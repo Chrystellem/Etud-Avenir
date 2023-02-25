@@ -14,10 +14,10 @@ function Filter() {
             React.createElement(input_1.default, { label: "Localisation", placeholder: "Ville/D\u00E9partement/R\u00E9gion", name: "Localization", value: "", onChange: function () { return undefined; }, required: false, inputType: "text" }),
             React.createElement(select_1.default, { label: "Accessibilit\u00E9", name: "Accessibility", required: false, onChange: function () { return undefined; } },
                 React.createElement("option", null, "S\u00E9lectionne un mode d\u2019accessibilit\u00E9")),
-            React.createElement(checkbox_1.Checkbox, { name: "IsPublic", label: "Ecole publique", value: "", onChange: function () { return undefined; }, checked: false }),
-            React.createElement(checkbox_1.Checkbox, { name: "IsPrivate", label: "Ecole priv\u00E9e", value: "", onChange: function () { return undefined; }, checked: false }),
-            React.createElement(checkbox_1.Checkbox, { name: "IsOfficial", label: "Reconnu par l'\u00E9tat", value: "", onChange: function () { return undefined; }, checked: false }),
-            React.createElement(checkbox_1.Checkbox, { name: "IsApprenticeshipProgram", label: "Alternance", value: "", onChange: function () { return undefined; }, checked: false }),
+            React.createElement(checkbox_1.Checkbox, { name: "IsPublic", label: "Ecole publique", onChange: function () { return undefined; }, checked: false }),
+            React.createElement(checkbox_1.Checkbox, { name: "IsPrivate", label: "Ecole priv\u00E9e", onChange: function () { return undefined; }, checked: false }),
+            React.createElement(checkbox_1.Checkbox, { name: "IsOfficial", label: "Reconnu par l'\u00E9tat", onChange: function () { return undefined; }, checked: false }),
+            React.createElement(checkbox_1.Checkbox, { name: "IsApprenticeshipProgram", label: "Alternance", onChange: function () { return undefined; }, checked: false }),
             React.createElement(formButton_1.default, { isImg: false, name: "Rechercher" }))));
 }
 exports.default = Filter;

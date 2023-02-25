@@ -43,7 +43,7 @@ var button_1 = require("../../components/button");
 var modal_1 = require("../../components/modal");
 var colors_1 = require("../../constants/colors");
 var add_report_1 = require("../../modals/add-report");
-var small_report_dto_1 = require("../../types/small-report-dto");
+var report_service_1 = require("../../services/report-service");
 var page_template_1 = require("./page-template");
 var description = "Renseigne ici tes bulletins, tu n'auras à les renseigner qu’une seule fois. Ensuite, sélectionne les pour effectuer une recherche. 3 bulletins sont nécessaires pour effectuer une recherche. Pour une recherche la plus adéquate possible, rentre les 3 derniers !";
 function ReportPage() {
@@ -57,7 +57,7 @@ function ReportPage() {
         var userReports;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, getUserReports()];
+                case 0: return [4 /*yield*/, (0, report_service_1.getUserReports)()];
                 case 1:
                     userReports = _a.sent();
                     setReports(userReports);
@@ -94,25 +94,4 @@ function ReportPage() {
             React.createElement(add_report_1.AddReportModal, { closeModal: closeModal })));
 }
 exports.ReportPage = ReportPage;
-var getUserReports = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var result, jsonReports, smallReportDTOs;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/api/reports")];
-            case 1:
-                result = _a.sent();
-                if (!result.ok)
-                    return [2 /*return*/, []];
-                return [4 /*yield*/, result.json()];
-            case 2:
-                jsonReports = _a.sent();
-                smallReportDTOs = [];
-                jsonReports.forEach(function (jsonReport) {
-                    jsonReport.createdAt = new Date(jsonReport.createdAt);
-                    smallReportDTOs.push(new small_report_dto_1.default(jsonReport));
-                });
-                return [2 /*return*/, smallReportDTOs];
-        }
-    });
-}); };
 //# sourceMappingURL=report.js.map

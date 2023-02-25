@@ -113,7 +113,7 @@ var LoginModal = /** @class */ (function (_super) {
                     React.createElement(error_1.default, { error: _this.state.errorMessage }),
                     React.createElement(input_1.default, { name: "Email", label: "Email", inputType: "email", placeholder: "email@efrei.fr", value: _this.state.email, onChange: _this.handleChangeEmail }),
                     React.createElement(input_1.default, { name: "Password", label: "Mot de passe", inputType: "password", placeholder: "************", value: _this.state.password, onChange: _this.handleChangePassword }),
-                    React.createElement(checkbox_1.Checkbox, { name: "RememberMe", label: "Se souvenir de moi ?", value: "true", checked: _this.state.rememberMe, onChange: _this.handleChangeRememberMe }),
+                    React.createElement(checkbox_1.Checkbox, { name: "RememberMe", label: "Se souvenir de moi ?", checked: _this.state.rememberMe, onChange: _this.handleChangeRememberMe }),
                     React.createElement(formButton_1.default, { name: "Valider", isImg: false })),
                 React.createElement("hr", null),
                 React.createElement("span", { className: "d-block" },

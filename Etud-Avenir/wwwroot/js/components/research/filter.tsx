@@ -17,10 +17,10 @@ export default function Filter() {
                     <option>Sélectionne un mode d’accessibilité</option>
                 </Select>
 
-                <Checkbox name="IsPublic" label="Ecole publique" value="" onChange={() => undefined} checked={false} />
-                <Checkbox name="IsPrivate" label="Ecole privée" value="" onChange={() => undefined} checked={false} />
-                <Checkbox name="IsOfficial" label="Reconnu par l'état" value="" onChange={() => undefined} checked={false} />
-                <Checkbox name="IsApprenticeshipProgram" label="Alternance" value="" onChange={() => undefined} checked={false} />
+                <Checkbox name="IsPublic" label="Ecole publique" onChange={() => undefined} checked={false} />
+                <Checkbox name="IsPrivate" label="Ecole privée" onChange={() => undefined} checked={false} />
+                <Checkbox name="IsOfficial" label="Reconnu par l'état" onChange={() => undefined} checked={false} />
+                <Checkbox name="IsApprenticeshipProgram" label="Alternance" onChange={() => undefined} checked={false} />
 
                 <FormButton isImg={false} name="Rechercher" />
             </form>

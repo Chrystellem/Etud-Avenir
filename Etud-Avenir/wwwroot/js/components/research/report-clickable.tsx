@@ -3,12 +3,14 @@
 type ReportClickableProps = {
     title: string,
     otherInfo: string,
+    onClickHandler: () => void
 }
 
-export function ReportClickable({ title, otherInfo }: ReportClickableProps) {
+export function ReportClickable({ title, otherInfo, onClickHandler }: ReportClickableProps) {
 
     const clickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         event.currentTarget.classList.toggle('clicked');
+        onClickHandler()
     }
 
     return <>

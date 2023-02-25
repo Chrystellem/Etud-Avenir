@@ -4,6 +4,7 @@ import { Button } from '../../components/button';
 import Modal from '../../components/modal';
 import Colors from '../../constants/colors';
 import { AddReportModal } from '../../modals/add-report';
+import { getUserReports } from '../../services/report-service';
 import ReportDTO from '../../types/report-dto';
 import SmallReportDTO from '../../types/small-report-dto';
 import { ProfilePageTemplate } from './page-template';
@@ -63,18 +64,4 @@ export function ReportPage() {
             <AddReportModal closeModal={closeModal} />
         </Modal>
     </ProfilePageTemplate>
-}
-
-const getUserReports = async (): Promise<SmallReportDTO[]> => {
-    const result = await fetch("/api/reports");
-    if (!result.ok) return []
-
-    const jsonReports = await result.json();
-    const smallReportDTOs = []
-    jsonReports.forEach((jsonReport) => {
-        jsonReport.createdAt = new Date(jsonReport.createdAt)
-        smallReportDTOs.push(new SmallReportDTO(jsonReport as SmallReportDTO))
-    })
-
-    return smallReportDTOs;
 }
