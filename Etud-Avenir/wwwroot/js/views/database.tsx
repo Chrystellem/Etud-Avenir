@@ -16,13 +16,13 @@ export default function Database() {
             </div>
         </div>
         <div className="mt-4 d-flex align-items-sm-start">
-            <Filter />
+            {/*<Filter state />*/}
             <div className="school-container px-5">
-                <SchoolArticle />
-                <SchoolArticle />
-                <SchoolArticle />
-                <SchoolArticle />
-                <SchoolArticle />
+                {/*<SchoolArticle />*/}
+                {/*<SchoolArticle />*/}
+                {/*<SchoolArticle />*/}
+                {/*<SchoolArticle />*/}
+                {/*<SchoolArticle />*/}
             </div>
         </div>
     </div>

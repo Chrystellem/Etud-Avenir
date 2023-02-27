@@ -11,6 +11,7 @@ import { BrowserRouter as Router, Route, Routes, useNavigate } from 'react-route
 import ResearchResult from './result';
 import { getUserReports } from '../../services/report-service';
 import SmallReportDTO from '../../types/small-report-dto';
+import Loader from '../../components/loader';
 
 export default function Research() {
     let [step, setStep] = React.useState(1);
@@ -51,7 +52,8 @@ type StepProperties = {
 
 type FirstStepState = {
     reports: SmallReportDTO[],
-    showBtn: boolean
+    showBtn: boolean,
+    fetching: boolean
 }
 
 /**
@@ -62,7 +64,8 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
 
     state: FirstStepState = {
         reports: [],
-        showBtn: false
+        showBtn: false,
+        fetching: true
     }
 
     constructor(props) {
@@ -71,7 +74,7 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
 
     componentDidMount = async () => {
         const reports = await getUserReports()
-        this.setState({ reports })
+        this.setState({ reports, fetching: false })
     }
 
     /**
@@ -100,6 +103,8 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
      * Récupération des bulletins déjà enregistrés sur le compte 
      */
     savedReports = () => {
+        if (this.state.fetching) return <Loader />
+
         return (<>
             {
                 this.state.reports.map(
@@ -138,12 +143,14 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
             <div className="d-flex justify-content-center flex-wrap align-items-stretch my-4">
                 <div className="p-5" style={{ maxWidth: '500px' }}>
                     <h3>Bulletins enregistrés</h3>
-                    { this.savedReports() }
+                    <div style={{ position: 'relative', minHeight: '100px'}}>
+                        { this.savedReports() }
+                    </div>
                 </div>
                 <div className="research-separator"></div>
                 <div className="p-5" style={{ maxWidth: '500px' }}>
                     <h3>Nouveau(x) bulletin(s)</h3>
-
+                    <span className="d-block mb-4">Ces bulletins disparaitront à la fin de la session</span>
                     <Button template='primary' name='Ajouter un nouveau bulletin' />
                 </div>
             </div>
@@ -185,7 +192,6 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
         admissionType: ""
     } as ResearchSecondStepState)
     const navigate = useNavigate();
-    console.log(state)
 
     const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const propertyName = event.currentTarget.name
@@ -203,6 +209,22 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
         })
     }
 
+    const launchResult = () => {
+        // Vérifier que les paramètres obligatoires sont présents
+        if (!state.domain || !state.localization) return
+
+        let urlToNavigateTo = `/recherche/resultats?domain=${state.domain}&localization=${state.localization}`
+        if (state.isInitialFormation) urlToNavigateTo += `&isInitialFormation=${state.isInitialFormation}`
+        if (state.isApprenticeship) urlToNavigateTo += `&isApprenticeship=${state.isApprenticeship}`
+        if (state.isStateApproved) urlToNavigateTo += `&isStateApproved=${state.isStateApproved}`
+        if (state.isPublic) urlToNavigateTo += `&isPublic=${state.isPublic}`
+        if (state.isPrivate) urlToNavigateTo += `&isPrivate=${state.isPrivate}`
+        if (state.admissionType) urlToNavigateTo += `&admissionType=${state.admissionType}`
+
+        urlToNavigateTo += `&reports=${selectedReports.map(s => s.reportId).join(",")}`
+        navigate(urlToNavigateTo)
+    }
+
     return (<>
         <div className="pt-3 d-flex justify-content-center align-items-center w-100">
             <NumberTitle isSelected={false} title="Rentre tes notes" number={1} />
@@ -212,7 +234,7 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
         <p className="pt-3 w-100 text-center">Renseigne tes envies, domaine, lieu d’étude et nous regarderons parmis toutes les écoles présentes dans nos bases de données lesquelles pourront te convenir</p>
         <div className="d-flex justify-content-center flex-wrap align-items-stretch my-4">
             <div className="p-5" style={{ maxWidth: '500px' }}>
-                <Select name="domain" label="Domaine" required={true} onChange={handleChange}>
+                <Select name="domain" label="Domaine" required={true} onChange={handleChange} value={state.domain} >
                     <option>-- Sélectionne un domaine --</option>
                     <option>Informatique</option>
                     <option>Graphisme</option>
@@ -248,7 +270,7 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
                     </div>
                 </div>
 
-                <Select name="admissionType" label="Type d'admission" required={true} onChange={handleChange}>
+                <Select name="admissionType" label="Type d'admission" required={true} onChange={handleChange} value={state.admissionType} >
                     <option>-- Sélectionne un type d'admission --</option>
                     <option>Sur dossier</option>
                     <option>Concours</option>
@@ -260,18 +282,7 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
             <Button
                 template='primary'
                 name='Rechercher'
-                onClick={
-                    () => navigate(`/recherche/resultats?`
-                                + `domain=${state.domain}`
-                                + `&localization=${state.localization}`
-                                + `&isInitialFormation=${state.isInitialFormation}`
-                                + `&isApprenticeship=${state.isApprenticeship}`
-                                + `&isStateApproved=${state.isStateApproved}`
-                                + `&isPublic=${state.isPublic}`
-                                + `&isPrivate=${state.isPrivate}`
-                                + `&admissionType=${state.admissionType}`
-                                + `&reports=${selectedReports.map(s => s.reportId).join(",")}`)
-                }
+                onClick={launchResult}
             />
         </div>
     </>)
