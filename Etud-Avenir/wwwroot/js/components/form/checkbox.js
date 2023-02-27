@@ -23,7 +23,7 @@ var Checkbox = /** @class */ (function (_super) {
         var _this = _super !== null && _super.apply(this, arguments) || this;
         _this.render = function () {
             return React.createElement("div", { className: "d-flex align-items-center mb-3 react-form-group__checkbox" },
-                React.createElement("input", { type: "checkbox", className: "mr-3 cursor-pointer", name: _this.props.name, value: _this.props.value, checked: _this.props.checked, onChange: _this.props.onChange }),
+                React.createElement("input", { type: "checkbox", className: "mr-3 cursor-pointer", name: _this.props.name, checked: _this.props.checked, onChange: _this.props.onChange }),
                 React.createElement("label", { htmlFor: _this.props.name, className: "mb-0" }, _this.props.label));
         };
         return _this;

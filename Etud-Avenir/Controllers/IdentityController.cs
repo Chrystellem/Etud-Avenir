@@ -1,6 +1,7 @@
 ﻿using Etud_Avenir.DTOs.Identity;
 using Etud_Avenir.Models;
 using Etud_Avenir.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -213,6 +214,7 @@ namespace Etud_Avenir.Controllers
         }
 
         [HttpDelete]
+        [Authorize]
         public async Task<IActionResult> DeleteAccountAPI()
         {
             var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
@@ -227,6 +229,22 @@ namespace Etud_Avenir.Controllers
             }
 
             return Ok();
+        }
+
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Me()
+        {
+            var userId = HttpContext.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.NameIdentifier)?.Value;
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var userDTO = new UserDTO
+            {
+                Id = user.Id,
+                Email = user.Email
+            };
+
+            return Ok(userDTO);
         }
     }
 }

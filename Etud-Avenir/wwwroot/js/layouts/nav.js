@@ -45,7 +45,7 @@ var NavLogin = /** @class */ (function (_super) {
             return React.createElement(React.Fragment, null,
                 React.createElement("ul", { className: "navbar-nav" },
                     React.createElement("li", { className: "nav-item" },
-                        React.createElement("a", { className: "nav-link" }, "Rechercher")),
+                        React.createElement("a", { className: "nav-link", href: "/recherche" }, "Rechercher")),
                     React.createElement("li", { className: "nav-item" },
                         React.createElement("a", { className: "nav-link", href: "/ecoles" }, "Base de donn\u00E9es")),
                     React.createElement("li", { className: "nav-item" },

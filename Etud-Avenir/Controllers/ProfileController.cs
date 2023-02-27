@@ -18,15 +18,19 @@ namespace Etud_Avenir.Controllers
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<ProfileController> _logger;
+        private readonly ReportService _reportService;
 
-        public ProfileController(SignInManager<IdentityUser> signInManager,
+        public ProfileController(
+            SignInManager<IdentityUser> signInManager,
             ILogger<ProfileController> logger,
-            UserManager<IdentityUser> userManager
+            UserManager<IdentityUser> userManager,
+            ReportService reportService
             )
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _logger = logger;
+            _reportService = reportService;
         }
 
 

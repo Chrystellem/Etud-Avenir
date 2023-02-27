@@ -10,7 +10,8 @@ module.exports = {
         import: { import: './wwwroot/src/import.tsx', filename: 'bundledImport.js' },
         login: { import: './wwwroot/src/shared.tsx', filename: 'bundledShared.js' },
         profile: { import: './wwwroot/src/profile.tsx', filename: 'bundledProfile.js' },
-        profile: { import: './wwwroot/src/database.tsx', filename: 'bundledDatabase.js' },
+        database: { import: './wwwroot/src/database.tsx', filename: 'bundledDatabase.js' },
+        research: { import: './wwwroot/src/research.tsx', filename: 'bundledResearch.js' },
     },
     module: {
         rules: [

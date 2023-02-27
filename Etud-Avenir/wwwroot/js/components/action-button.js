@@ -5,7 +5,7 @@ var React = require("react");
 var colors_1 = require("../constants/colors");
 var icons_1 = require("../constants/icons");
 function ActionButton(_a) {
-    var onClickHandler = _a.onClickHandler, classIcon = _a.classIcon, styleParent = _a.styleParent, styleIcon = _a.styleIcon, manageConfirmation = _a.manageConfirmation, confirmationHandler = _a.confirmationHandler;
+    var onClickHandler = _a.onClickHandler, classIcon = _a.classIcon, styleParent = _a.styleParent, styleIcon = _a.styleIcon, manageConfirmation = _a.manageConfirmation;
     var _b = React.useState(false), showDeleteConfirmation = _b[0], setShowDeleteConfirmation = _b[1];
     if (!manageConfirmation) {
         return React.createElement("div", { className: "action-icon-btn color-white", onClick: onClickHandler, style: styleParent },
@@ -19,7 +19,7 @@ function ActionButton(_a) {
             React.createElement("div", { className: "action-icon-btn color-white", style: { backgroundColor: colors_1.default.PINK }, onClick: function () { return setShowDeleteConfirmation(false); } },
                 React.createElement("i", { className: icons_1.default.DELETE, style: styleIcon })),
             React.createElement("span", null, "Confirmer la suppression ?"),
-            React.createElement("div", { className: "action-icon-btn color-white", onClick: confirmationHandler, style: { backgroundColor: colors_1.default.GREEN } },
+            React.createElement("div", { className: "action-icon-btn color-white", onClick: onClickHandler, style: { backgroundColor: colors_1.default.GREEN } },
                 React.createElement("i", { className: "fa-solid fa-check" }))));
 }
 exports.ActionButton = ActionButton;

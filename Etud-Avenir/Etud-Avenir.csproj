@@ -95,6 +95,12 @@
     <TypeScriptCompile Include="wwwroot\src\import.tsx" />
   </ItemGroup>
 
+  <ItemGroup>
+    <TypeScriptCompile Update="wwwroot\src\research.tsx">
+      <SubType>Code</SubType>
+    </TypeScriptCompile>
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties /></VisualStudio></ProjectExtensions>
 
 </Project>

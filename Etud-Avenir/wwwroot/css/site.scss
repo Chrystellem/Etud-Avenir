@@ -4,6 +4,7 @@
 * {
     box-sizing: border-box;
 }
+
 body {
     min-height: 100vh;
     display: flex;
@@ -26,8 +27,9 @@ a {
 .color-white {
     color: $white;
 }
+
 .color-green {
-    color: $green!important;
+    color: $green !important;
 }
 
 p, div, li, span, section, article {
@@ -53,7 +55,7 @@ h2 {
 
 
 .color-danger {
-    color: $pink!important;
+    color: $pink !important;
 }
 
 .italic {
@@ -71,11 +73,17 @@ h2 {
 .radius-20 {
     border-radius: 20px;
 }
+
 .border-3 {
     border-width: 3px;
 }
+
 .border-solid {
     border-style: solid;
+}
+
+.circle {
+    border-radius: 50%;
 }
 
 /***** Style sur les listes *****/
@@ -84,6 +92,7 @@ h2 {
     list-style: none;
     margin: 0;
 }
+
 .list-style-none li {
     padding: 0.4rem 0;
 }
@@ -93,7 +102,7 @@ h2 {
 *** Style le profil
 ********/
 .profile-container {
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     background-image: url('../images/decoration/profile/wave.png');
     background-position: left -30px bottom 0;
     background-size: 100% 100%;
@@ -188,11 +197,11 @@ section .container-profile-buttons {
         &__program {
             background-color: $blue;
             padding: 2rem;
-            
+
             h5 {
                 color: $white;
             }
-            
+
             span {
                 color: $white;
             }
@@ -217,23 +226,23 @@ section .container-profile-buttons {
         flex-direction: column;
         align-items: center;
         margin: 2rem;
+    }
+}
 
-        article {
-            max-width: 320px;
-            flex: 1 0 100%;
-            border-radius: 10px;
-            background-color: white;
-            box-shadow: $shadow-box;
+article.article-icon {
+    max-width: 320px;
+    flex: 1 0 100%;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: $shadow-box;
 
-            i {
-                font-size: 50px;
-            }
+    i {
+        font-size: 50px;
+    }
 
-            .info {
-                h5 {
-                    font-weight: bolder;
-                }
-            }
+    .info {
+        h5 {
+            font-weight: bolder;
         }
     }
 }
@@ -245,7 +254,6 @@ section .container-profile-buttons {
     flex-wrap: wrap;
 
     .react-form-group {
-
     }
 }
 
@@ -271,6 +279,37 @@ article.saved-school {
 /**********************
 ***** Composants ******
 ***********************/
+
+.arrow {
+    position: relative;
+    display: block;
+    width: 100%;
+    height: 4px;
+    background-color: $blue;
+
+    &:after {
+        width: 30px;
+        height: 4px;
+        background-color: $blue;
+        top: calc(50% - 9.5px);
+        right: -5px;
+        transform: translateY(-50%) rotate(45deg);
+        position: absolute;
+        content: "";
+    }
+
+    &:before {
+        width: 30px;
+        height: 4px;
+        background-color: $blue;
+        bottom: 50%;
+        right: -4px;
+        top: calc(50% + 9.5px);
+        transform: translateY(-50%) rotate(135deg);
+        position: absolute;
+        content: "";
+    }
+}
 
 .action-danger {
     border-radius: 50%;
@@ -319,11 +358,11 @@ article.saved-school {
         background: $white;
         padding: 0.2rem;
         margin-top: 0.2rem;
-        align-items: center; 
+        align-items: center;
         display: flex;
 
         .action-icon-btn {
-            margin-top: 0!important;
+            margin-top: 0 !important;
         }
 
         span {
@@ -392,7 +431,6 @@ article.saved-school {
     &::-webkit-scrollbar {
         width: 15px;
     }
-
     /* Track */
     &::-webkit-scrollbar-track {
         border-radius: 10px;
@@ -407,4 +445,48 @@ article.saved-school {
     &::-webkit-scrollbar-thumb:hover {
         background: $green-hover;
     }
+}
+
+
+/*************************************
+***** Page recherche (création) ******
+**************************************/
+
+.number-title {
+    color: $blue;
+    font-size: 1.3rem;
+
+    span {
+        font-weight: bold!important;
+    }
+
+    span.circle {
+        background-color: $blue;
+        color: $white;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    &-selected {
+        color: $blue!important;
+
+        span.circle {
+            background-color: $green !important;
+        }
+    }
+}
+
+
+.report-clickable.clicked {
+    border-radius: 10px;
+    border: 3px solid $green;
+}
+
+.research-separator {
+    display: block;
+    width: 2px;
+    background-color: $gray;
 }

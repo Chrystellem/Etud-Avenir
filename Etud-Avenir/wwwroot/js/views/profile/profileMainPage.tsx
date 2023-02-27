@@ -1,21 +1,34 @@
 ﻿import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProfileSaveButton } from '../../components/ProfileSaveButton';
+import UserDTO from '../../types/user-dto';
 
 type ProfileMainPageProps = {}
 type ProfileMainPageState = {}
 
 export function ProfileMainPage(props: ProfileMainPageProps, state: ProfileMainPageState) {
     const navigate = useNavigate()
+    let [userInfo, setUserInfo] = React.useState({ email: "", id: "" } as UserDTO);
+
+    React.useEffect(() => {
+        async function fetchUserInfo() {
+            const data = await getUserInformations()
+            setUserInfo(data);
+            console.log(userInfo)
+        }
+
+        fetchUserInfo();
+    }, []);
 
     const handleEmailClick = () => {
         navigate('/profil/email')
     }
 
+
     return <div className="profile-container">
         <div className="mx-5 px-5">
             <h1 className="text-center mt-4">Profil</h1>
-            <span onClick={handleEmailClick} className="d-block text-center cursor-pointer">Email : <em>xxxxx@gmail.com</em> <i className="ml-2 fa fa-edit"></i></span>
+            <span onClick={handleEmailClick} className="d-block text-center cursor-pointer">Email : <em>{userInfo.email}</em> <i className="ml-2 fa fa-edit"></i></span>
 
             <section className="mt-5">
                 <h2 className="my-saves-title">Mes sauvegardes</h2>
@@ -35,4 +48,12 @@ export function ProfileMainPage(props: ProfileMainPageProps, state: ProfileMainP
             </section>
         </div>
     </div>
+}
+
+
+const getUserInformations = async (): Promise<UserDTO> => {
+    const result = await fetch("/Identity/Me");
+    if (!result.ok) return null;
+
+    return await result.json(); 
 }

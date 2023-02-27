@@ -65,6 +65,14 @@ namespace Etud_Avenir.Services
             var twoAttributesTest = _dbContext.Test2.Where(t => t.City == "Montreal" && t.TestId == _dbContext.Test.Where(t => t.Name == "coco").First().Id).First();
             Console.WriteLine(" twoAttributesTest : id = " + twoAttributesTest.Id + " --> " + twoAttributesTest.City);
 
+            List<Test> AllTests = _dbContext.Test.ToList();
+            Console.WriteLine("ALL TESTS --> ");
+
+            foreach (Test test in AllTests)
+            {
+                Console.WriteLine(" + " + test.Id + " - " + test.Name);
+            }
+
         }
 
     }

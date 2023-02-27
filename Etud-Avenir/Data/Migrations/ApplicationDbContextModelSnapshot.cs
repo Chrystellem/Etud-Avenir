@@ -21,7 +21,7 @@ namespace Etud_Avenir.Data.Migrations
 
             modelBuilder.Entity("Etud_Avenir.Models.Curriculum", b =>
                 {
-                    b.Property<int>("CurriculumID")
+                    b.Property<int>("CurriculumId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
@@ -32,7 +32,7 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("CurriculumID");
+                    b.HasKey("CurriculumId");
 
                     b.ToTable("Curriculum");
                 });
@@ -66,23 +66,15 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Label")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("SchoolId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("FavoriteId");
 
                     b.HasIndex("SchoolId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("Favorite");
                 });
@@ -125,17 +117,12 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LastSearchId");
 
                     b.HasIndex("SchoolId");
-
-                    b.HasIndex("UserId1");
 
                     b.ToTable("LastSearch");
                 });
@@ -171,21 +158,21 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("Quarter")
                         .HasColumnType("int");
 
                     b.Property<string>("SchoolYear")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId1")
+                    b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("ReportId");
 
-                    b.HasIndex("UserId1");
+                    b.HasIndex("UserId");
 
                     b.ToTable("Report");
                 });
@@ -200,11 +187,32 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("AdmissionType")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Apprenticeship")
+                        .HasColumnType("bit");
+
+                    b.Property<float>("AverageSalary")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Domaine")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<float>("InsertionRate")
+                        .HasColumnType("real");
+
+                    b.Property<string>("Localisation")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<float>("Score")
-                        .HasColumnType("real");
+                    b.Property<bool>("PrivateSchool")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("StateRecognition")
+                        .HasColumnType("bit");
 
                     b.Property<string>("Website")
                         .HasColumnType("nvarchar(max)");
@@ -334,6 +342,12 @@ namespace Etud_Avenir.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
+                    b.Property<int?>("FavoriteId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("LastSearchId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("LockoutEnabled")
                         .HasColumnType("bit");
 
@@ -368,6 +382,10 @@ namespace Etud_Avenir.Data.Migrations
                         .HasColumnType("nvarchar(256)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("FavoriteId");
+
+                    b.HasIndex("LastSearchId");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -491,13 +509,7 @@ namespace Etud_Avenir.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("School");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Etud_Avenir.Models.Grade", b =>
@@ -527,20 +539,14 @@ namespace Etud_Avenir.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId1");
-
                     b.Navigation("School");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("Etud_Avenir.Models.Report", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
                         .WithMany()
-                        .HasForeignKey("UserId1");
+                        .HasForeignKey("UserId");
 
                     b.Navigation("User");
                 });
@@ -563,6 +569,17 @@ namespace Etud_Avenir.Data.Migrations
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUser", b =>
+                {
+                    b.HasOne("Etud_Avenir.Models.Favorite", null)
+                        .WithMany("User")
+                        .HasForeignKey("FavoriteId");
+
+                    b.HasOne("Etud_Avenir.Models.LastSearch", null)
+                        .WithMany("User")
+                        .HasForeignKey("LastSearchId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -605,6 +622,16 @@ namespace Etud_Avenir.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.Favorite", b =>
+                {
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("Etud_Avenir.Models.LastSearch", b =>
+                {
+                    b.Navigation("User");
                 });
 #pragma warning restore 612, 618
         }
