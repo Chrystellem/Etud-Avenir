@@ -23,7 +23,7 @@ export function ProfilePageTemplate({ title, description, children, color, parti
     const getPartial = () => {
         if (!partial || !partial.showPartial) return
 
-        return <SchoolInformation onClickHandler={() => partial.setShowPartial(false)} />
+        return <SchoolInformation onClickHandler={() => partial.setShowPartial(false)} schoolId={0} />
     }
 
     return <div className="template-profile-page">

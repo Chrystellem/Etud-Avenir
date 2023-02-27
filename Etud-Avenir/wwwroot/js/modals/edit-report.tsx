@@ -104,7 +104,7 @@ export function EditReportModal({ reportId, closeModal }: EditReportModalPropert
             <legend>Ajouter/Modifier un bulletin</legend>
             <FormError error={error} />
 
-            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true}>
+            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value="">
                 <option>Sélectionne un trimestre</option>
                 {
                     QUARTER_OPTIONS.map(({ label, value }, index) =>

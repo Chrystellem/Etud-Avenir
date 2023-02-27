@@ -72,7 +72,7 @@ export function AddReportModal({ closeModal }: AddReportModalProperties) {
             <legend>Ajouter un bulletin</legend>
             <FormError error={error} />
 
-            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true}>
+            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value="">
                 <option value="0">Sélectionne un trimestre</option>
                 {QUARTER_OPTIONS.map((quarterOption, index) => <option key={`option-${index}`} value={quarterOption.value}>{quarterOption.label}</option>)}
             </Select>

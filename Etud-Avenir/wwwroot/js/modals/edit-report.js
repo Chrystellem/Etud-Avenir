@@ -138,7 +138,7 @@ function EditReportModal(_a) {
         React.createElement(React.Fragment, null,
             React.createElement("legend", null, "Ajouter/Modifier un bulletin"),
             React.createElement(error_1.default, { error: error }),
-            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true },
+            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: "" },
                 React.createElement("option", null, "S\u00E9lectionne un trimestre"),
                 report_1.QUARTER_OPTIONS.map(function (_a, index) {
                     var label = _a.label, value = _a.value;

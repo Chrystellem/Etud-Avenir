@@ -72,6 +72,7 @@ var checkbox_1 = require("../../components/form/checkbox");
 var react_router_dom_1 = require("react-router-dom");
 var result_1 = require("./result");
 var report_service_1 = require("../../services/report-service");
+var loader_1 = require("../../components/loader");
 function Research() {
     var _a = React.useState(1), step = _a[0], setStep = _a[1];
     var _b = React.useState([]), selectedReports = _b[0], setSelectedReports = _b[1];
@@ -102,7 +103,8 @@ var ResearchFirstStep = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             reports: [],
-            showBtn: false
+            showBtn: false,
+            fetching: true
         };
         _this.componentDidMount = function () { return __awaiter(_this, void 0, void 0, function () {
             var reports;
@@ -111,7 +113,7 @@ var ResearchFirstStep = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, (0, report_service_1.getUserReports)()];
                     case 1:
                         reports = _a.sent();
-                        this.setState({ reports: reports });
+                        this.setState({ reports: reports, fetching: false });
                         return [2 /*return*/];
                 }
             });
@@ -140,6 +142,8 @@ var ResearchFirstStep = /** @class */ (function (_super) {
          * Récupération des bulletins déjà enregistrés sur le compte
          */
         _this.savedReports = function () {
+            if (_this.state.fetching)
+                return React.createElement(loader_1.default, null);
             return (React.createElement(React.Fragment, null, _this.state.reports.map(function (r, index) { return React.createElement(report_clickable_1.ReportClickable, { key: "report-clickable-".concat(index), title: "".concat(r.schoolYear, " - Trimestre ").concat(r.quarter), otherInfo: r.createdAt.toLocaleDateString(), onClickHandler: function () { return _this.toggleReportToSelection(r); } }); })));
         };
         /**
@@ -161,10 +165,11 @@ var ResearchFirstStep = /** @class */ (function (_super) {
                 React.createElement("div", { className: "d-flex justify-content-center flex-wrap align-items-stretch my-4" },
                     React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
                         React.createElement("h3", null, "Bulletins enregistr\u00E9s"),
-                        _this.savedReports()),
+                        React.createElement("div", { style: { position: 'relative', minHeight: '100px' } }, _this.savedReports())),
                     React.createElement("div", { className: "research-separator" }),
                     React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
                         React.createElement("h3", null, "Nouveau(x) bulletin(s)"),
+                        React.createElement("span", { className: "d-block mb-4" }, "Ces bulletins disparaitront \u00E0 la fin de la session"),
                         React.createElement(button_1.Button, { template: 'primary', name: 'Ajouter un nouveau bulletin' }))),
                 _this.showBtn()));
         };
@@ -189,7 +194,6 @@ var ResearchSecondStep = function (_a) {
         admissionType: ""
     }), state = _b[0], setState = _b[1];
     var navigate = (0, react_router_dom_1.useNavigate)();
-    console.log(state);
     var handleChange = function (event) {
         var _a, _b;
         var propertyName = event.currentTarget.name;
@@ -199,6 +203,26 @@ var ResearchSecondStep = function (_a) {
         }
         setState(__assign(__assign({}, state), (_b = {}, _b[propertyName] = event.currentTarget.value, _b)));
     };
+    var launchResult = function () {
+        // Vérifier que les paramètres obligatoires sont présents
+        if (!state.domain || !state.localization)
+            return;
+        var urlToNavigateTo = "/recherche/resultats?domain=".concat(state.domain, "&localization=").concat(state.localization);
+        if (state.isInitialFormation)
+            urlToNavigateTo += "&isInitialFormation=".concat(state.isInitialFormation);
+        if (state.isApprenticeship)
+            urlToNavigateTo += "&isApprenticeship=".concat(state.isApprenticeship);
+        if (state.isStateApproved)
+            urlToNavigateTo += "&isStateApproved=".concat(state.isStateApproved);
+        if (state.isPublic)
+            urlToNavigateTo += "&isPublic=".concat(state.isPublic);
+        if (state.isPrivate)
+            urlToNavigateTo += "&isPrivate=".concat(state.isPrivate);
+        if (state.admissionType)
+            urlToNavigateTo += "&admissionType=".concat(state.admissionType);
+        urlToNavigateTo += "&reports=".concat(selectedReports.map(function (s) { return s.reportId; }).join(","));
+        navigate(urlToNavigateTo);
+    };
     return (React.createElement(React.Fragment, null,
         React.createElement("div", { className: "pt-3 d-flex justify-content-center align-items-center w-100" },
             React.createElement(number_title_1.default, { isSelected: false, title: "Rentre tes notes", number: 1 }),
@@ -207,7 +231,7 @@ var ResearchSecondStep = function (_a) {
         React.createElement("p", { className: "pt-3 w-100 text-center" }, "Renseigne tes envies, domaine, lieu d\u2019\u00E9tude et nous regarderons parmis toutes les \u00E9coles pr\u00E9sentes dans nos bases de donn\u00E9es lesquelles pourront te convenir"),
         React.createElement("div", { className: "d-flex justify-content-center flex-wrap align-items-stretch my-4" },
             React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
-                React.createElement(select_1.default, { name: "domain", label: "Domaine", required: true, onChange: handleChange },
+                React.createElement(select_1.default, { name: "domain", label: "Domaine", required: true, onChange: handleChange, value: state.domain },
                     React.createElement("option", null, "-- S\u00E9lectionne un domaine --"),
                     React.createElement("option", null, "Informatique"),
                     React.createElement("option", null, "Graphisme"),
@@ -232,20 +256,11 @@ var ResearchSecondStep = function (_a) {
                         React.createElement(checkbox_1.Checkbox, { name: "isPublic", label: "Public", checked: state.isPublic, onChange: handleChange })),
                     React.createElement("div", { className: "ml-5" },
                         React.createElement(checkbox_1.Checkbox, { name: "isPrivate", label: "Priv\u00E9", checked: state.isPrivate, onChange: handleChange }))),
-                React.createElement(select_1.default, { name: "admissionType", label: "Type d'admission", required: true, onChange: handleChange },
+                React.createElement(select_1.default, { name: "admissionType", label: "Type d'admission", required: true, onChange: handleChange, value: state.admissionType },
                     React.createElement("option", null, "-- S\u00E9lectionne un type d'admission --"),
                     React.createElement("option", null, "Sur dossier"),
                     React.createElement("option", null, "Concours")))),
         React.createElement("div", { className: "w-100 d-flex justify-content-center" },
-            React.createElement(button_1.Button, { template: 'primary', name: 'Rechercher', onClick: function () { return navigate("/recherche/resultats?"
-                    + "domain=".concat(state.domain)
-                    + "&localization=".concat(state.localization)
-                    + "&isInitialFormation=".concat(state.isInitialFormation)
-                    + "&isApprenticeship=".concat(state.isApprenticeship)
-                    + "&isStateApproved=".concat(state.isStateApproved)
-                    + "&isPublic=".concat(state.isPublic)
-                    + "&isPrivate=".concat(state.isPrivate)
-                    + "&admissionType=".concat(state.admissionType)
-                    + "&grades=".concat(selectedReports.map(function (s) { return s.reportId; }).join(","))); } }))));
+            React.createElement(button_1.Button, { template: 'primary', name: 'Rechercher', onClick: launchResult }))));
 };
 //# sourceMappingURL=research.js.map

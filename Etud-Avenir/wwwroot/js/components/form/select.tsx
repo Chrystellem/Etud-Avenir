@@ -5,13 +5,14 @@ type SelectProperties = {
     name: string,
     onChange: React.ChangeEventHandler,
     required: boolean,
-    children: React.ReactNode
+    children: React.ReactNode,
+    value: string | number | string[]
 }
 
 export default function Select(props: SelectProperties) {
     return <div className="react-form-group">
         <label htmlFor={props.name}>{props.label}</label>
-        <select name={props.name} onChange={props.onChange} required={props.required ?? false}>
+        <select name={props.name} onChange={props.onChange} required={props.required} value={ props.value }>
             {props.children}
         </select>
     </div>

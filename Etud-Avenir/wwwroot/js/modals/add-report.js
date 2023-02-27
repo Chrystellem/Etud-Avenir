@@ -116,7 +116,7 @@ function AddReportModal(_a) {
         React.createElement(React.Fragment, null,
             React.createElement("legend", null, "Ajouter un bulletin"),
             React.createElement(error_1.default, { error: error }),
-            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true },
+            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: "" },
                 React.createElement("option", { value: "0" }, "S\u00E9lectionne un trimestre"),
                 report_1.QUARTER_OPTIONS.map(function (quarterOption, index) { return React.createElement("option", { key: "option-".concat(index), value: quarterOption.value }, quarterOption.label); })),
             React.createElement("span", null, "Merci de renseigner tes moyennes du trimestre pour les mati\u00E8res ci-dessous. Laisser vide si tu n'as pas fait l\u2019une des mati\u00E8res indiqu\u00E9es"),

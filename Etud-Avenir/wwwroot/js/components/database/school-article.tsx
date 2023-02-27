@@ -1,8 +1,14 @@
 ﻿import * as React from 'react'
-import Modal from '../modal';
+import SchoolImages from '../../constants/school-images';
+import ResearchResultSchoolDTO from '../../types/research-result-school-dto';
 import SchoolInformation from '../school/school-informations';
 
-export default function SchoolArticle() {
+type SchoolArticleProperties = {
+    school: ResearchResultSchoolDTO
+    isResult: boolean
+}
+
+export default function SchoolArticle({ school, isResult }: SchoolArticleProperties) {
     let [showModal, setShowModal] = React.useState(false);
 
     const getModal = () => {
@@ -10,28 +16,57 @@ export default function SchoolArticle() {
 
         return <div className='modal d-block'>
             <div className="modal-body" style={{ backgroundColor: 'transparent' }} >
-                <SchoolInformation onClickHandler={() => setShowModal(false)} />
+                <SchoolInformation onClickHandler={() => setShowModal(false)} schoolId={school.schoolId} />
             </div>
         </div>
     }
 
+    /**
+     * Ajoute l'école aux favoris (partie profil du compte) 
+     */
+    const saveToFavorite = async () => {
+        const result = await fetch("/api/schools/favorites", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+                schoolId: school.schoolId
+            })
+        })
+
+        if (!result.ok) return
+
+        // TODO
+    }
+
     return <>
-            <article className="d-flex">
-            <img src="https://upload.wikimedia.org/wikipedia/fr/thumb/d/d8/Epita.png/800px-Epita.png?20180717093238" />
+        <article className="d-flex">
+            <img src={SchoolImages[school.name]} />
             <div className="w-100 p-4">
-                <div className="d-flex align-items-end">
-                    <h4>EFREI Paris</h4>
-                    <span className="ml-4">78140 - Villejuif</span>
+                <div className="d-flex align-items-end justify-content-between">
+                    <div className="d-flex align-items-end">
+                        <h4>{school.name}</h4>
+                        <span className="ml-4">{`${school.city} - ${school.zipCode}`}</span>
+                    </div>
+                    {
+                        isResult ?
+                            <div className="compatibility d-flex align-items-end"><p className="mb-0">Indice de compatibilité</p><span className="ml-2">80%</span></div> :
+                            ""
+                    }
                 </div>
                 <div className="d-flex justify-content-between w-100 align-items-end mt-4">
                     <ul className="list-style-none">
-                        <li><i className="fa-solid fa-flask color-green"></i> Domaine 1, 2, xxx</li>
-                        <li><i className="fa-solid fa-vial color-green"></i> Programme 1, 2, 3, ...</li>
+                        <li><i className="fa-solid fa-flask color-green"></i> {school.domain}</li>
+                        <li><i className="fa-solid fa-vial color-green"></i> {school.formation} </li>
                     </ul>
-                    <a className="btn btn-primary" onClick={() => setShowModal(true)}>En savoir +</a>
+                    <div>
+                        <a className="btn btn-primary" onClick={saveToFavorite}>Ajouter aux favoris</a>
+                        <a className="btn btn-primary ml-2" onClick={() => setShowModal(true)}>En savoir +</a>
+                    </div>
                 </div>
             </div>
         </article>
-        { getModal() }
-        </>
+        {getModal()}
+    </>
 }

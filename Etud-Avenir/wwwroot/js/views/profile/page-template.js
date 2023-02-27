@@ -10,7 +10,7 @@ function ProfilePageTemplate(_a) {
     var getPartial = function () {
         if (!partial || !partial.showPartial)
             return;
-        return React.createElement(school_informations_1.default, { onClickHandler: function () { return partial.setShowPartial(false); } });
+        return React.createElement(school_informations_1.default, { onClickHandler: function () { return partial.setShowPartial(false); }, schoolId: 0 });
     };
     return React.createElement("div", { className: "template-profile-page" },
         React.createElement("div", { className: "mx-5 px-5" },
