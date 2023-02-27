@@ -55,9 +55,11 @@ namespace Etud_Avenir
             services.AddTransient<SchoolService>();
             services.AddTransient<SearchService>();
             services.AddTransient<FavoriteService>();
+            services.AddTransient<AdminService>();
             services.AddTransient<ReportService>();
             services.AddTransient<SubjectService>();
             services.AddTransient<GradeService>();
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
