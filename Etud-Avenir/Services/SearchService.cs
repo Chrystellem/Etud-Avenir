@@ -14,6 +14,7 @@ namespace Etud_Avenir.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly SchoolService _schoolService;
 
+
         private Dictionary<School, float> scoreResults;
         private int NB_CRITERIA = 8;
 
@@ -93,6 +94,37 @@ namespace Etud_Avenir.Services
             {
                 scoreResults.Add(school, 1);
             }
+        }
+
+        public void ComputeCoefScore()
+        {
+
+            /* 
+                exemple parcour coef
+                parcour	Mathématiques 	Physique  	SVT 	Histoire/Géographie	Français 	LV2 	Anglais 	Philosophie  	Science économique et sociale	Littérature 	Littérature Etrangère	Droit et grands enjeux du monde contemporain	MI-SVT
+                cycle ingé efrei	    4	        3	    0	                0	        2	    1	        2	            0	                            1,5	            1,5	        0	        0	                                            0
+                cycle ingé esiee	    4	        3	    0	                0	        2	    1	        2	            0	                            1,5	            1,5	        0	        0	                                            0
+
+
+
+              for a student get every note
+
+             select note intitulé 
+            from report join grade jon subject 
+            wherer report.userId = currentUserID
+
+             for each parcour : (a recuperer dans le csv ou une table en fonction du choix final
+                 for each matiere 
+                     coef = select "intitulé" from parcour where name = parcour 
+                     score += note * coef
+
+             mettre score en pourcentage 
+            si pourcentage   > 90% tres favorable 
+                             > 75% favorable
+                             > 60% peu favorable 
+                             < 60% avis defavorable
+
+             */
         }
 
         public Task<List<School>> GetSchoolsByDomaineAsync(string domaine)

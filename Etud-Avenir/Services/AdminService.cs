@@ -35,10 +35,5 @@ namespace Etud_Avenir.Services
             }
         }
 
-        public async Task FormCSV()
-        {
-
-        }
-
     }
 }
