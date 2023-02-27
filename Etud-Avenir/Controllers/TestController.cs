@@ -11,7 +11,6 @@ namespace Etud_Avenir.Controllers
         // Sans meme avoir de bouton, juste aller sur l'url /Test
 
         TestService _testService;
-        //FillDBFromCSV fillDB;
         public TestController(TestService testService)
         {
             _testService = testService;
@@ -44,13 +43,5 @@ namespace Etud_Avenir.Controllers
             _testService.getTests();
         }
 
-        [Route("/test_csv")]
-
-        [HttpGet]
-
-        public async void TestCSV()
-        {
-            _testService.testCSV();
-        }
     }
 }

@@ -47,6 +47,7 @@ namespace Etud_Avenir
             services.AddTransient<SchoolService>();
             services.AddTransient<SearchService>();
             services.AddTransient<FavoriteService>();
+            services.AddTransient<AdminService>();
 
         }
 

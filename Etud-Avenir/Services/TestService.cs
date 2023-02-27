@@ -13,13 +13,10 @@ namespace Etud_Avenir.Services
 
         private readonly ApplicationDbContext _dbContext;
 
-        FillDBFromCSV fillDB;
-
 
         public TestService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            fillDB = new FillDBFromCSV(dbContext);
         }
 
 
@@ -68,11 +65,6 @@ namespace Etud_Avenir.Services
             var twoAttributesTest = _dbContext.Test2.Where(t => t.City == "Montreal" && t.TestId == _dbContext.Test.Where(t => t.Name == "coco").First().Id).First();
             Console.WriteLine(" twoAttributesTest : id = " + twoAttributesTest.Id + " --> " + twoAttributesTest.City);
 
-        }
-
-        public async void testCSV()
-        {
-            await fillDB.ExtractSubject();
         }
 
     }
