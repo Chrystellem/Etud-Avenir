@@ -39,7 +39,7 @@ export default class ResearchResult extends React.Component<ResearchResultProper
         this.setState({ filter: this.state.filter })
 
         // Récupération des résultats
-        const results = await getResearchResults(this.state.filter);
+        const results = await getResearchResults(this.state.filter, this.params["reports"]);
         this.setState({ results, fetching: false })
     }
 
@@ -99,7 +99,7 @@ export default class ResearchResult extends React.Component<ResearchResultProper
         const newUrl = `${FilterState.getUrl(this.state.filter)}&reports=${this.params["reports"]}`
         window.history.pushState({ id: newUrl }, newUrl, `/recherche/resultats${newUrl}`);
 
-        const results = await getResearchResults(this.state.filter);
+        const results = await getResearchResults(this.state.filter, this.params["reports"]);
         this.setState({ results, fetching: false })
     }
 
@@ -126,11 +126,25 @@ export default class ResearchResult extends React.Component<ResearchResultProper
 /**
  * Récupère les résultats de la recherche 
  */
-const getResearchResults = async (filter: FilterState): Promise<ResearchResultSchoolDTO[]> => {
-    const result = await fetch(`/api/research/results${FilterState.getUrl(filter)}`) 
+const getResearchResults = async (filter: FilterState, reportIds: string): Promise<ResearchResultSchoolDTO[]> => {
+    const reportIdsInt = parseReportIds(reportIds)
+    if (reportIdsInt.length !== 3) return
+
+    let url = `/api/research/results${FilterState.getUrl(filter)}`
+    for (let i = 0; i < 3; i++) {
+        url += `&reports=${reportIdsInt[i]}`
+    }
+
+    const result = await fetch(url) 
     if (!result.ok) return []
 
     return result.json()
 }
 
 
+const parseReportIds = (reportIds: string) => {
+    const reportIdsInt = reportIds.split(',').map(e => parseInt(e));
+    if (reportIdsInt.find(r => isNaN(r))) return [];
+
+    return reportIdsInt
+}

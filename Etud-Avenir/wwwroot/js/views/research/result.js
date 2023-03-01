@@ -90,7 +90,7 @@ var ResearchResult = /** @class */ (function (_super) {
                             this.state.filter = __assign(__assign({}, this.state.filter), (_a = {}, _a[filterProperty] = (0, parser_1.autoParse)(this.params[filterProperty]), _a));
                         }
                         this.setState({ filter: this.state.filter });
-                        return [4 /*yield*/, getResearchResults(this.state.filter)];
+                        return [4 /*yield*/, getResearchResults(this.state.filter, this.params["reports"])];
                     case 1:
                         results = _b.sent();
                         this.setState({ results: results, fetching: false });
@@ -139,7 +139,7 @@ var ResearchResult = /** @class */ (function (_super) {
                         this.setState({ fetching: true });
                         newUrl = "".concat(research_filter_1.default.getUrl(this.state.filter), "&reports=").concat(this.params["reports"]);
                         window.history.pushState({ id: newUrl }, newUrl, "/recherche/resultats".concat(newUrl));
-                        return [4 /*yield*/, getResearchResults(this.state.filter)];
+                        return [4 /*yield*/, getResearchResults(this.state.filter, this.params["reports"])];
                     case 1:
                         results = _a.sent();
                         this.setState({ results: results, fetching: false });
@@ -164,11 +164,19 @@ exports.default = ResearchResult;
 /**
  * Récupère les résultats de la recherche
  */
-var getResearchResults = function (filter) { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
+var getResearchResults = function (filter, reportIds) { return __awaiter(void 0, void 0, void 0, function () {
+    var reportIdsInt, url, i, result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/api/research/results".concat(research_filter_1.default.getUrl(filter)))];
+            case 0:
+                reportIdsInt = parseReportIds(reportIds);
+                if (reportIdsInt.length !== 3)
+                    return [2 /*return*/];
+                url = "/api/research/results".concat(research_filter_1.default.getUrl(filter));
+                for (i = 0; i < 3; i++) {
+                    url += "&reports=".concat(reportIdsInt[i]);
+                }
+                return [4 /*yield*/, fetch(url)];
             case 1:
                 result = _a.sent();
                 if (!result.ok)
@@ -177,4 +185,10 @@ var getResearchResults = function (filter) { return __awaiter(void 0, void 0, vo
         }
     });
 }); };
+var parseReportIds = function (reportIds) {
+    var reportIdsInt = reportIds.split(',').map(function (e) { return parseInt(e); });
+    if (reportIdsInt.find(function (r) { return isNaN(r); }))
+        return [];
+    return reportIdsInt;
+};
 //# sourceMappingURL=result.js.map

@@ -36,7 +36,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getUserReports = exports.getQuarterAndSchoolYearFromSelection = void 0;
+exports.getUserReports = exports.getQuarterAndSchoolYearSelectValue = exports.getQuarterAndSchoolYearFromSelection = void 0;
 var small_report_dto_1 = require("../types/small-report-dto");
 /**
  * Permet d'obtenir la correspondance entre la sélection du semestre et la logique du back
@@ -52,6 +52,18 @@ var getQuarterAndSchoolYearFromSelection = function (quarter) {
     }
 };
 exports.getQuarterAndSchoolYearFromSelection = getQuarterAndSchoolYearFromSelection;
+/**
+ * Depuis le trimstre et l'année donne l'équivalent dans le select
+ * @param quarter
+ * @param schoolYear
+ */
+var getQuarterAndSchoolYearSelectValue = function (quarter, schoolYear) {
+    if (!quarter || !schoolYear)
+        return 0;
+    var numberToAdd = schoolYear === "Première" ? 0 : 3;
+    return quarter + numberToAdd;
+};
+exports.getQuarterAndSchoolYearSelectValue = getQuarterAndSchoolYearSelectValue;
 var getUserReports = function () { return __awaiter(void 0, void 0, void 0, function () {
     var result, jsonReports, smallReportDTOs;
     return __generator(this, function (_a) {
@@ -59,7 +71,7 @@ var getUserReports = function () { return __awaiter(void 0, void 0, void 0, func
             case 0: return [4 /*yield*/, fetch("/api/reports")];
             case 1:
                 result = _a.sent();
-                if (!result.ok)
+                if (!result.ok || result.redirected)
                     return [2 /*return*/, []];
                 return [4 /*yield*/, result.json()];
             case 2:

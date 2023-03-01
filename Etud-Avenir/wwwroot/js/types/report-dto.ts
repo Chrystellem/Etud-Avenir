@@ -1,4 +1,5 @@
-﻿import { SubjectGradeDTO } from "./subject-dto";
+﻿import SmallReportDTO from "./small-report-dto";
+import { SubjectGradeDTO } from "./subject-dto";
 
 /**
  * Bulletin de l'utilisateur 

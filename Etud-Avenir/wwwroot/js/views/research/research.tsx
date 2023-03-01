@@ -12,13 +12,24 @@ import ResearchResult from './result';
 import { getUserReports } from '../../services/report-service';
 import SmallReportDTO from '../../types/small-report-dto';
 import Loader from '../../components/loader';
+import Modal from '../../components/modal';
+import { AddReportModal } from '../../modals/add-report';
+//import { getCookieAndDeserialize } from '../../services/cookie-service';
+import ReportDTO, { ReportGradesRequestDTO, ReportGradesResponseDTO } from '../../types/report-dto';
+import { CookiesProvider, useCookies, withCookies } from 'react-cookie';
+import ResearchFirstStep from '../../components/research/research-first-step';
+import ResearchSecondStep from '../../components/research/research-second-step';
 
 export default function Research() {
     let [step, setStep] = React.useState(1);
     let [selectedReports, setSelectedReports] = React.useState([] as SmallReportDTO[])
 
     const displayResearchStep = () => {
-        if (step === 1) return <ResearchFirstStep setStep={setStep} selectedReports={selectedReports} setSelectedReports={setSelectedReports} />
+        if (step === 1) {
+            return <CookiesProvider>
+                <ResearchFirstStep setStep={setStep} selectedReports={selectedReports} setSelectedReports={setSelectedReports} />
+            </CookiesProvider>
+        }
 
         return <ResearchSecondStep selectedReports={selectedReports} />
     }
@@ -42,248 +53,4 @@ export default function Research() {
             </Routes>
         </Router>
     )
-}
-
-type StepProperties = {
-    setStep?: React.Dispatch<React.SetStateAction<number>>
-    selectedReports: SmallReportDTO[],
-    setSelectedReports: React.Dispatch<React.SetStateAction<SmallReportDTO[]>>
-}
-
-type FirstStepState = {
-    reports: SmallReportDTO[],
-    showBtn: boolean,
-    fetching: boolean
-}
-
-/**
- * Représente l'étape "Rentre tes notes" dans la recherche
- * Gère l'affichage
- */
-class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> {
-
-    state: FirstStepState = {
-        reports: [],
-        showBtn: false,
-        fetching: true
-    }
-
-    constructor(props) {
-        super(props)
-    }
-
-    componentDidMount = async () => {
-        const reports = await getUserReports()
-        this.setState({ reports, fetching: false })
-    }
-
-    /**
-     * Ajoute ou retire des éléments sélectionnés
-     * @param reportDTO
-     */
-    toggleReportToSelection = (reportDTO: SmallReportDTO) => {
-        // Vérifier si déjà sélectionné
-        const reportIndex = this.props.selectedReports.findIndex(r => r.reportId === reportDTO.reportId)
-        if (reportIndex !== -1) {
-            this.props.selectedReports.splice(reportIndex, 1)
-        } else {
-            this.props.selectedReports.push(reportDTO)
-        }
-
-        if (this.props.selectedReports.length === 3) {
-            this.setState({ showBtn: true })
-            return this.props.setSelectedReports(this.props.selectedReports)
-        }
-
-        this.props.setSelectedReports(this.props.selectedReports)
-        this.setState({ showBtn: false })
-    }
-
-    /**
-     * Récupération des bulletins déjà enregistrés sur le compte 
-     */
-    savedReports = () => {
-        if (this.state.fetching) return <Loader />
-
-        return (<>
-            {
-                this.state.reports.map(
-                    (r, index) => <ReportClickable
-                        key={ `report-clickable-${index}` }
-                        title={`${r.schoolYear} - Trimestre ${r.quarter}`}
-                        otherInfo={r.createdAt.toLocaleDateString()}
-                        onClickHandler={() => this.toggleReportToSelection(r)}
-                    />
-                )
-            }
-        </>)
-    }
-
-    /**
-     * Gère l'affichae du bouton pour passer à la seconde étape 
-     */
-    showBtn = () => {
-        if (!this.state.showBtn) return
-
-        return (
-            <div className="w-100 d-flex justify-content-center">
-                <Button template='primary' name='Valider' onClick={() => this.props.setStep(2)} />
-            </div>
-        )
-    }
-
-    render = () => {
-        return (<>
-            <div className="pt-3 d-flex justify-content-center align-items-center w-100">
-                <NumberTitle isSelected={true} title="Rentre tes notes" number={1} />
-                <div className="arrow mx-4" style={{ width: '200px' }}></div>
-                <NumberTitle isSelected={false} title="Rentre tes critères" number={2} />
-            </div>
-            <p className="pt-3 w-100 text-center">Sélectionne ou ajoute tes 3 derniers bulletins ! Ils vont aider notre IA à te trouver l’école la plus susceptible de te correspondre</p>
-            <div className="d-flex justify-content-center flex-wrap align-items-stretch my-4">
-                <div className="p-5" style={{ maxWidth: '500px' }}>
-                    <h3>Bulletins enregistrés</h3>
-                    <div style={{ position: 'relative', minHeight: '100px'}}>
-                        { this.savedReports() }
-                    </div>
-                </div>
-                <div className="research-separator"></div>
-                <div className="p-5" style={{ maxWidth: '500px' }}>
-                    <h3>Nouveau(x) bulletin(s)</h3>
-                    <span className="d-block mb-4">Ces bulletins disparaitront à la fin de la session</span>
-                    <Button template='primary' name='Ajouter un nouveau bulletin' />
-                </div>
-            </div>
-
-            { this.showBtn() }
-            
-        </>)
-    }
-}
-
-type ResearchSecondStepState = {
-    domain: string,
-    localization: string
-    isInitialFormation: boolean,
-    isApprenticeship: boolean,
-    isPublic: boolean
-    isPrivate: boolean
-    isStateApproved: boolean
-    admissionType: string
-}
-
-type ResearchSecondStepProperties = {
-    selectedReports: SmallReportDTO[]
-}
-
-/**
- * Représente l'étape "Rentre tes critères" dans la recherche
- * Gère l'affichage
- */
-const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) => {
-    let [state, setState] = React.useState({
-        domain: "",
-        localization: "",
-        isInitialFormation: false,
-        isApprenticeship: false,
-        isPublic: false,
-        isPrivate: false,
-        isStateApproved: false,
-        admissionType: ""
-    } as ResearchSecondStepState)
-    const navigate = useNavigate();
-
-    const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const propertyName = event.currentTarget.name
-        if (event.currentTarget.type === "checkbox") {
-            setState({
-                ...state,
-                [propertyName]: !state[propertyName]
-            })
-            return
-        }
-
-        setState({
-            ...state,
-            [propertyName]: event.currentTarget.value
-        })
-    }
-
-    const launchResult = () => {
-        // Vérifier que les paramètres obligatoires sont présents
-        if (!state.domain || !state.localization) return
-
-        let urlToNavigateTo = `/recherche/resultats?domain=${state.domain}&localization=${state.localization}`
-        if (state.isInitialFormation) urlToNavigateTo += `&isInitialFormation=${state.isInitialFormation}`
-        if (state.isApprenticeship) urlToNavigateTo += `&isApprenticeship=${state.isApprenticeship}`
-        if (state.isStateApproved) urlToNavigateTo += `&isStateApproved=${state.isStateApproved}`
-        if (state.isPublic) urlToNavigateTo += `&isPublic=${state.isPublic}`
-        if (state.isPrivate) urlToNavigateTo += `&isPrivate=${state.isPrivate}`
-        if (state.admissionType) urlToNavigateTo += `&admissionType=${state.admissionType}`
-
-        urlToNavigateTo += `&reports=${selectedReports.map(s => s.reportId).join(",")}`
-        navigate(urlToNavigateTo)
-    }
-
-    return (<>
-        <div className="pt-3 d-flex justify-content-center align-items-center w-100">
-            <NumberTitle isSelected={false} title="Rentre tes notes" number={1} />
-            <div className="arrow mx-4" style={{ width: '200px' }}></div>
-            <NumberTitle isSelected={true} title="Rentre tes critères" number={2} />
-        </div>
-        <p className="pt-3 w-100 text-center">Renseigne tes envies, domaine, lieu d’étude et nous regarderons parmis toutes les écoles présentes dans nos bases de données lesquelles pourront te convenir</p>
-        <div className="d-flex justify-content-center flex-wrap align-items-stretch my-4">
-            <div className="p-5" style={{ maxWidth: '500px' }}>
-                <Select name="domain" label="Domaine" required={true} onChange={handleChange} value={state.domain} >
-                    <option>-- Sélectionne un domaine --</option>
-                    <option>Informatique</option>
-                    <option>Graphisme</option>
-                    <option>Langues</option>
-                    <option>Philosophie</option>
-                    <option>Physique</option>
-                    <option>Génie civile</option>
-                    <option>Communication</option>
-                    <option>Marketing</option>
-                </Select>
-
-                <Input label="Localisation (ville, département, région, toute la france ?)" name="localization" required={false} inputType="text" onChange={handleChange} placeholder="Localisation" value={state.localization} />
-            </div>
-            <div className="research-separator"></div>
-            <div className="p-5" style={{ maxWidth: '700px' }}>
-                <div className="d-flex align-items-center">
-                    <div>
-                        <Checkbox name="isInitialFormation" label="Formation initiale" checked={state.isInitialFormation} onChange={handleChange} />
-                    </div>
-                    <div>
-                        <Checkbox name="isApprenticeship" label="En alternance" checked={state.isApprenticeship} onChange={handleChange} />
-                    </div>
-                    <div className="ml-5">
-                        <Checkbox name="isStateApproved" label="Reconnu par l'état" checked={state.isStateApproved} onChange={handleChange} />
-                    </div>
-                </div>
-                <div className="d-flex align-items-center">
-                    <div>
-                        <Checkbox name="isPublic" label="Public" checked={state.isPublic} onChange={handleChange} />
-                    </div>
-                    <div className="ml-5">
-                        <Checkbox name="isPrivate" label="Privé" checked={state.isPrivate} onChange={handleChange} />
-                    </div>
-                </div>
-
-                <Select name="admissionType" label="Type d'admission" required={true} onChange={handleChange} value={state.admissionType} >
-                    <option>-- Sélectionne un type d'admission --</option>
-                    <option>Sur dossier</option>
-                    <option>Concours</option>
-                </Select>
-            </div>
-        </div>
-
-        <div className="w-100 d-flex justify-content-center">
-            <Button
-                template='primary'
-                name='Rechercher'
-                onClick={launchResult}
-            />
-        </div>
-    </>)
 }

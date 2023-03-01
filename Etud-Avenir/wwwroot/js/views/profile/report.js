@@ -91,7 +91,7 @@ function ReportPage() {
                 toggler: setShowModal,
                 isVisible: showModal
             } },
-            React.createElement(add_report_1.AddReportModal, { closeModal: closeModal })));
+            React.createElement(add_report_1.AddReportModal, { isTemporary: false, closeModal: closeModal })));
 }
 exports.ReportPage = ReportPage;
 //# sourceMappingURL=report.js.map

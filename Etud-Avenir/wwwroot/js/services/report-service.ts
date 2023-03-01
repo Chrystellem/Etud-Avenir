@@ -1,4 +1,5 @@
 ﻿import SmallReportDTO from "../types/small-report-dto"
+import { ReportGradesRequestDTO } from "../types/report-dto"
 
 /**
  * Permet d'obtenir la correspondance entre la sélection du semestre et la logique du back 
@@ -14,9 +15,20 @@ export const getQuarterAndSchoolYearFromSelection = (quarter: string): { quarter
     }
 }
 
+/**
+ * Depuis le trimstre et l'année donne l'équivalent dans le select
+ * @param quarter
+ * @param schoolYear
+ */
+export const getQuarterAndSchoolYearSelectValue = (quarter: number, schoolYear: string) => {
+    if (!quarter || !schoolYear) return 0
+    const numberToAdd = schoolYear === "Première" ? 0 : 3
+    return quarter + numberToAdd
+}
+
 export const getUserReports = async (): Promise<SmallReportDTO[]> => {
     const result = await fetch("/api/reports");
-    if (!result.ok) return []
+    if (!result.ok || result.redirected) return []
 
     const jsonReports = await result.json();
     const smallReportDTOs = []

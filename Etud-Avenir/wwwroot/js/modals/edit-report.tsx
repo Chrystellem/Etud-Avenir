@@ -1,30 +1,16 @@
-﻿import * as React from 'react'
+﻿import { report } from 'process'
+import * as React from 'react'
+import { useCookies } from 'react-cookie'
 import FormError from '../components/form/error'
 import Select from '../components/form/select'
 import FormButton from '../components/formButton'
 import Input from '../components/input'
+import Loader from '../components/loader'
 import Modal from '../components/modal'
 import { QUARTER_OPTIONS } from '../constants/report'
-import { getQuarterAndSchoolYearFromSelection } from '../services/report-service'
+//import { getCookieAndDeserialize } from '../services/cookie-service'
+import { getQuarterAndSchoolYearFromSelection, getQuarterAndSchoolYearSelectValue } from '../services/report-service'
 import { ReportGradesRequestDTO, ReportGradesResponseDTO } from '../types/report-dto'
-import SubjectDTO from '../types/subject-dto'
-
-const subjects = ["Mathématiques", "Physique-Chimie", "SVT", "SI", "Histoire-Géo", "SES", "Philosophie", "Français", "LV2"]
-
-type ReportModalProperties = {
-    reportId: number 
-}
-type Subjects = {
-    "Mathématiques": number,
-    "Physique-Chimie": number,
-    "SVT": number,
-    "SI": number,
-    "Histoire-Géo": number,
-    "SES": number,
-    "Philosophie": number,
-    "Français": number,
-    "LV2" : number
-}
 
 type EditReportModalProperties = {
     reportId: number
@@ -33,9 +19,9 @@ type EditReportModalProperties = {
 
 export function EditReportModal({ reportId, closeModal }: EditReportModalProperties) {
     const [state, setState] = React.useState(new ReportGradesRequestDTO());
+    const [cookies, setCookie] = useCookies(['reports']);
     const [error, setError] = React.useState("")
 
-    console.log(state)
     React.useEffect(() => {
         fetchReport()
     }, []);
@@ -66,6 +52,10 @@ export function EditReportModal({ reportId, closeModal }: EditReportModalPropert
     } 
 
     const getReportGradesDTO = async (reportId: number): Promise<ReportGradesRequestDTO> => {
+        // Vérifier avant si ces notes ne sont pas déjà dans les cookies
+        const reportDTOinCookie = getReportDTOFromCookies(reportId, cookies.reports)
+        if (reportDTOinCookie) return reportDTOinCookie
+
         const result = await fetch(`/api/reports/${reportId}`)
         if (!result.ok) {
             setError("Une erreur est survenue")
@@ -73,8 +63,6 @@ export function EditReportModal({ reportId, closeModal }: EditReportModalPropert
         }
 
         const responseDTO = (await result.json()) as ReportGradesResponseDTO
-        console.log(responseDTO)
-
         return new ReportGradesRequestDTO({
             ReportId: responseDTO.reportId,
             GradeBySubject: responseDTO.gradeBySubject,
@@ -93,23 +81,54 @@ export function EditReportModal({ reportId, closeModal }: EditReportModalPropert
             return setError("Soit tu es un cancre, soit tu n'as pas indiqué tes notes...")
         }
 
+        // Vérifier si dans cookie
+        const reportDTOinCookie = getReportDTOFromCookies(reportId, cookies.reports)
+        if (reportDTOinCookie) {
+            editReportDTOinCookie();
+            return closeModal();
+        }
+
         const result = await fetch("/api/report", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(state) })
         if (!result.ok) return setError("Une erreur est survenue :( Reessaie plus tard")
 
         closeModal()
     }
 
+    const editReportDTOinCookie = () => {
+        const reportDTO = cookies.reports.find(r => r.reportId === reportId) as ReportGradesResponseDTO
+        reportDTO.quarter = state.Quarter
+        reportDTO.schoolYear = state.SchoolYear
+        reportDTO.gradeBySubject = state.GradeBySubject
+
+        setCookie("reports", cookies.reports)
+    }
+
+    const renderGrades = () => {
+        if (!state.GradeBySubject.length) return <Loader /> 
+
+        return state.GradeBySubject.map(({ subject, grade }, index) =>
+                <Input
+                    key={`grade-${index}`}
+                    label={subject}
+                    name={subject}
+                    required={false}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleGradeChange(e, subject)}
+                    placeholder=""
+                    inputType="number"
+                    value={grade.toString()} />)
+    }
+
     return <form onSubmit={handleSubmit}>
         <>
-            <legend>Ajouter/Modifier un bulletin</legend>
+            <legend>Modifier un bulletin</legend>
             <FormError error={error} />
 
-            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value="">
+            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value={getQuarterAndSchoolYearSelectValue(state.Quarter, state.SchoolYear)} >
                 <option>Sélectionne un trimestre</option>
                 {
                     QUARTER_OPTIONS.map(({ label, value }, index) =>
                         <option
-                            key={`option-${index}`} selected={`${state.SchoolYear} - Trimestre ${state.Quarter}` === label}
+                            key={`option-${index}`}
                             value={value}>
                             {label}
                         </option>
@@ -120,21 +139,24 @@ export function EditReportModal({ reportId, closeModal }: EditReportModalPropert
             <span>Merci de renseigner tes moyennes du trimestre pour les matières ci-dessous. Laisser vide si tu n'as pas fait l’une des matières indiquées</span>
 
             <div className="report-modal__grades">
-                {
-                    state.GradeBySubject.map(({ subject, grade }, index) =>
-                        <Input
-                            key={`grade-${index}`}
-                            label={subject}
-                            name={subject}
-                            required={false}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleGradeChange(e, subject)}
-                            placeholder=""
-                            inputType="number"
-                            value={grade.toString()} />)
-                }
+                {renderGrades()}
             </div>
 
             <FormButton name="Valider" isImg={false} />
         </>
     </form>
+}
+
+const getReportDTOFromCookies = (reportId: number, reportDTOs: ReportGradesResponseDTO[]) => {
+    if (!reportDTOs || !reportDTOs.length) return null
+
+    const reportDTO = reportDTOs.find(r => r.reportId === reportId)
+    if (!reportDTO) return null
+
+    return new ReportGradesRequestDTO({
+        ReportId: reportDTO.reportId,
+        Quarter: reportDTO.quarter,
+        SchoolYear: reportDTO.schoolYear,
+        GradeBySubject: reportDTO.gradeBySubject
+    })
 }
