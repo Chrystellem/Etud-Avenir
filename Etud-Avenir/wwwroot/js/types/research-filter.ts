@@ -14,14 +14,23 @@
      */
     static getUrl = (filter: FilterState) => {
         let url = "";
-        if (filter.domain) url += `?domain=${filter.domain}`
-        if (filter.localization) url += `&localization=${filter.localization}`
-        if (filter.isInitialFormation) url += `&isInitialFormation=${filter.isInitialFormation}`
-        if (filter.isApprenticeship) url += `&isApprenticeship=${filter.isApprenticeship}`
-        if (filter.isPublic) url += `&isPublic=${filter.isPublic}`
-        if (filter.isPrivate) url += `&isPrivate=${filter.isPrivate}`
-        if (filter.isStateApproved) url += `&isStateApproved=${filter.isStateApproved}`
-        if (filter.admissionType) url += `&admissionType=${filter.admissionType}`
+        const addToUrl = (param: string) => {
+            if (!url) {
+                url += `?${param}`
+                return
+            }
+
+            url += `&${param}`
+        } 
+
+        if (filter.domain) addToUrl(`domain=${filter.domain}`)
+        if (filter.localization) addToUrl(`localization=${filter.localization}`)
+        if (filter.isInitialFormation) addToUrl(`isInitialFormation=${filter.isInitialFormation}`)
+        if (filter.isApprenticeship) addToUrl(`isApprenticeship=${filter.isApprenticeship}`)
+        if (filter.isPublic) addToUrl(`isPublic=${filter.isPublic}`)
+        if (filter.isPrivate) addToUrl(`isPrivate=${filter.isPrivate}`)
+        if (filter.isStateApproved) addToUrl(`isStateApproved=${filter.isStateApproved}`)
+        if (filter.admissionType) addToUrl(`admissionType=${filter.admissionType}`)
 
         return url
     }
