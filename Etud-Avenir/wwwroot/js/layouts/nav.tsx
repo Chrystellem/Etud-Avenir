@@ -58,13 +58,13 @@ class NavLogout extends React.Component {
         return <>
             <ul className="navbar-nav">
                 <li className="nav-item">
-                    <a className="nav-link" asp-controller="Research" asp-action="Grade">Rechercher</a>
+                    <a className="nav-link" href="/recherche">Rechercher</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">Base de données</a>
+                    <a className="nav-link" href="/ecoles">Base de données</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link">Contact</a>
+                    <a className="nav-link" href="/contact">Contact</a>
                 </li>
             </ul>
             <ul className="navbar-nav">

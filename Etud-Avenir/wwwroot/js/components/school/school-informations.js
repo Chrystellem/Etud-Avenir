@@ -118,7 +118,7 @@ var SchoolInformation = /** @class */ (function (_super) {
                         React.createElement("h5", null, "Informations compl\u00E9mentaires"),
                         React.createElement("p", null, _this.state.otherInformations))
                     : "",
-                React.createElement("a", { className: 'btn btn-parimary', href: schools_1.default[_this.state.name].website }, "Voir le site"),
+                React.createElement("a", { className: 'btn btn-primary', href: schools_1.default[_this.state.name].website, target: "_blank" }, "Voir le site"),
                 React.createElement(button_1.Button, { name: "Fermer", template: "danger", onClick: _this.props.onClickHandler }));
         };
         _this.render = function () {

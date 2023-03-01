@@ -49,6 +49,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AddReportModal = void 0;
 var React = require("react");
+var react_cookie_1 = require("react-cookie");
 var error_1 = require("../components/form/error");
 var select_1 = require("../components/form/select");
 var formButton_1 = require("../components/formButton");
@@ -59,9 +60,11 @@ var report_dto_1 = require("../types/report-dto");
 var subject_dto_1 = require("../types/subject-dto");
 function AddReportModal(_a) {
     var _this = this;
-    var closeModal = _a.closeModal;
+    var closeModal = _a.closeModal, isTemporary = _a.isTemporary;
     var _b = React.useState(new report_dto_1.ReportGradesRequestDTO()), state = _b[0], setState = _b[1];
-    var _c = React.useState(""), error = _c[0], setError = _c[1];
+    var _c = React.useState("0"), selectedQuarter = _c[0], setSelectedQuarter = _c[1];
+    var _d = React.useState(""), error = _d[0], setError = _d[1];
+    var _e = (0, react_cookie_1.useCookies)(['reports']), cookies = _e[0], setCookie = _e[1];
     React.useEffect(function () {
         function fetchSubjects() {
             return __awaiter(this, void 0, void 0, function () {
@@ -89,6 +92,7 @@ function AddReportModal(_a) {
     var handleQuarterChange = function (event) {
         var _a = (0, report_service_1.getQuarterAndSchoolYearFromSelection)(event.currentTarget.value), quarter = _a.quarter, schoolYear = _a.schoolYear;
         setState(__assign(__assign({}, state), { Quarter: quarter, SchoolYear: schoolYear }));
+        setSelectedQuarter(event.currentTarget.value);
     };
     var handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
         var result;
@@ -102,6 +106,10 @@ function AddReportModal(_a) {
                     if (!state.GradeBySubject.reduce(function (a, b) { return a + b.grade; }, 0)) {
                         return [2 /*return*/, setError("Soit tu es un cancre, soit tu n'as pas indiqué tes notes...")];
                     }
+                    if (isTemporary) {
+                        addReportDTOToCookie();
+                        return [2 /*return*/, closeModal()];
+                    }
                     return [4 /*yield*/, fetch("/api/report", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(state) })];
                 case 1:
                     result = _a.sent();
@@ -112,11 +120,24 @@ function AddReportModal(_a) {
             }
         });
     }); };
+    var addReportDTOToCookie = function () {
+        var responseDTO = new report_dto_1.ReportGradesResponseDTO({
+            reportId: Math.floor(Math.random() * 999999) + 100,
+            quarter: state.Quarter,
+            schoolYear: state.SchoolYear,
+            gradeBySubject: state.GradeBySubject
+        });
+        var reportInCookies = cookies.reports;
+        if (!reportInCookies || !reportInCookies.length)
+            reportInCookies = [];
+        reportInCookies.push(responseDTO);
+        setCookie("reports", reportInCookies);
+    };
     return React.createElement("form", { onSubmit: handleSubmit },
         React.createElement(React.Fragment, null,
             React.createElement("legend", null, "Ajouter un bulletin"),
             React.createElement(error_1.default, { error: error }),
-            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: "" },
+            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: selectedQuarter },
                 React.createElement("option", { value: "0" }, "S\u00E9lectionne un trimestre"),
                 report_1.QUARTER_OPTIONS.map(function (quarterOption, index) { return React.createElement("option", { key: "option-".concat(index), value: quarterOption.value }, quarterOption.label); })),
             React.createElement("span", null, "Merci de renseigner tes moyennes du trimestre pour les mati\u00E8res ci-dessous. Laisser vide si tu n'as pas fait l\u2019une des mati\u00E8res indiqu\u00E9es"),

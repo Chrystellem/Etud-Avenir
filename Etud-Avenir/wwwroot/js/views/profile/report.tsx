@@ -61,7 +61,7 @@ export function ReportPage() {
             toggler: setShowModal,
             isVisible: showModal
         }}>
-            <AddReportModal closeModal={closeModal} />
+            <AddReportModal isTemporary={false} closeModal={closeModal} />
         </Modal>
     </ProfilePageTemplate>
 }

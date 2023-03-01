@@ -13,16 +13,41 @@ type ArticleIconProps = {
     otherInfo: string,
     color: string,
     showActionButtons?: boolean,
-    onDelete?: () => void
+    onDelete?: () => void,
+    onClickHandler?: () => void,
+    onEdit?: () => void
 }
 
-export function ArticleIcon({ reportId, classIcon, title, otherInfo, color, showActionButtons, onDelete }: ArticleIconProps) {
+export function ArticleIcon({
+    reportId,
+    classIcon,
+    title,
+    otherInfo,
+    color,
+    showActionButtons,
+    onDelete,
+    onClickHandler,
+    onEdit}: ArticleIconProps) {
     let [showModal, setShowModal] = React.useState(false)
     let [showArticle, setShowArticle] = React.useState(true)
 
     const deleteElement = () => {
         setShowArticle(false)
         onDelete()
+    }
+
+    const clickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.currentTarget.classList.toggle('clicked')
+        if (!onClickHandler) return
+
+        onClickHandler()
+    }
+
+    const closeModal = () => {
+        setShowModal(false)
+        if (!onEdit) return
+
+        onEdit()
     }
 
     if (showActionButtons === undefined || showActionButtons == null) {
@@ -33,7 +58,7 @@ export function ArticleIcon({ reportId, classIcon, title, otherInfo, color, show
 
     return <>
         <div className="my-3 d-flex actions-on-hover cursor-pointer">
-            <article className="p-3 d-flex align-items-center cursor-pointer actions-on-hover article-icon">
+            <article className="p-3 d-flex align-items-center cursor-pointer actions-on-hover article-icon report-clickable" onClick={clickHandler}>
                 <i className={`mr-4 ${classIcon}`} style={{ color }}></i>
                 <div className="info">
                     <h5>{title}</h5>
@@ -53,7 +78,7 @@ export function ArticleIcon({ reportId, classIcon, title, otherInfo, color, show
             toggler: setShowModal,
             isVisible: showModal
         }}>
-            <EditReportModal reportId={reportId} closeModal={() => setShowModal(false)} />
+            <EditReportModal reportId={reportId} closeModal={closeModal} />
         </Modal>
     </>
 }

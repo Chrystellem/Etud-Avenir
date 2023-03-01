@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 using Etud_Avenir.Data;
 using Etud_Avenir.DTOs.Report;
 using Etud_Avenir.Models;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Web;
+using System.Text.Json;
 
 namespace Etud_Avenir.Services
 {
@@ -15,17 +19,20 @@ namespace Etud_Avenir.Services
         private readonly ApplicationDbContext _dbContext;
         private readonly SubjectService _subjectService;
         private readonly GradeService _gradeService;
+        private readonly UserManager<IdentityUser> _userManager;
         private readonly List<string> ClassPossibilities = new List<string>(){"Première","Terminale"};
         private readonly List<int> QuarterPossibilities = new List<int>() { 1, 2, 3 };
         
         public ReportService(
             ApplicationDbContext dbContext,
             SubjectService subjectService,
-            GradeService gradeService)
+            GradeService gradeService,
+            UserManager<IdentityUser> userManager)
         {
             _dbContext = dbContext;
             _subjectService = subjectService;
             _gradeService = gradeService;
+            _userManager = userManager;
         }
 
         public Report GetReportByInfos(string userId, int quarter, string schoolYear)
@@ -33,10 +40,8 @@ namespace Etud_Avenir.Services
             return _dbContext.Report.Where(r => r.Quarter == quarter && r.SchoolYear == schoolYear && r.UserId == userId).Single();
         }
 
-        public Task<Report> GetReportByIdAsync(int reportId)
-        {
-            return _dbContext.Report.FirstOrDefaultAsync(r => r.ReportId == reportId);
-        }
+        public Task<Report> GetReportByIdAsync(int reportId) => 
+            _dbContext.Report.FirstOrDefaultAsync(r => r.ReportId == reportId);
 
         public Task<List<Report>> GetUserAllReportsAsync(string userId) 
             => _dbContext.Report.Where(r => r.UserId == userId).ToListAsync();
@@ -71,12 +76,18 @@ namespace Etud_Avenir.Services
 
         public Task<List<GradeBySubjectDTO>> GetGradeBySubjectDTOs(int reportId)
         {
-            Console.WriteLine("Hello world");
-            return _dbContext.Grade.Join(_dbContext.Subject, g => g.SubjectId, s => s.SubjectId, (g, s) => new GradeBySubjectDTO
-            {
-                Grade = g.GradeValue,
-                Subject = s.Name
-            }).ToListAsync();
+            return _dbContext.Grade
+                .Where(g => g.ReportId == reportId)
+                .Join(
+                    _dbContext.Subject,
+                    g => g.SubjectId, 
+                    s => s.SubjectId, 
+                    (g, s) => new GradeBySubjectDTO
+                    {
+                        Grade = g.GradeValue,
+                        Subject = s.Name
+                    })
+                .ToListAsync();
         }
 
         public async void UpdateReport(int reportId, string schoolyear, int quarter, Dictionary<string, float> grades) 
@@ -107,10 +118,57 @@ namespace Etud_Avenir.Services
         }
 
         /// <summary>
+        /// Sauvegarde le dto dans les cookies de l'utilisateur
+        /// </summary>
+        /// <returns></returns>
+        public void SaveReportDTOInCookies(ReportDTO reportDTO, HttpContext context)
+        {
+            if (string.IsNullOrWhiteSpace(context.Request.Cookies["report"]))
+            {
+                CreateReportCookie(context);
+            }
+
+            AddReportDTOInCookies(reportDTO, context);
+        }
+
+        /// <summary>
+        /// Créer le cookie reports
+        /// </summary>
+        /// <param name="reportDTO"></param>
+        /// <param name="context"></param>
+        public void CreateReportCookie(HttpContext context)
+        {
+            var cookieOptions = new CookieOptions
+            {
+                MaxAge = TimeSpan.FromMinutes(60*24*14), // sauvegarde pendant 2 semaines
+                Path = "/"
+            };
+
+            context.Response.Cookies.Append("reports", JsonSerializer.Serialize(new List<ReportDTO> { }), cookieOptions);
+        }
+
+        /// <summary>
+        /// Ajoute un bulletin dans les cookies
+        /// </summary>
+        /// <param name="reportDTO"></param>
+        /// <param name="context"></param>
+        public void AddReportDTOInCookies(ReportDTO reportDTO, HttpContext context)
+        {
+            var jsonString = context.Request.Cookies["reports"] ?? "[]";
+            var reportDTOs = JsonSerializer.Deserialize<List<ReportDTO>>(jsonString);
+
+            var random = new Random();
+            reportDTO.ReportId = random.Next(0, 1000000);
+            reportDTOs.Add(reportDTO);
+
+            context.Response.Cookies.Append("reports", JsonSerializer.Serialize(reportDTOs));
+        }
+
+        /// <summary>
         /// Ajoute le contenu d'un reportDTO en BDD. Notamment Report et les Grades
         /// </summary>
         /// <param name="reportDTO"></param>
-        /// <param name="userId"></param>
+        /// <param name="context"></param>
         /// <exception cref="KeyNotFoundException"></exception>
         public async Task<bool> AddReportDTOAsync(ReportDTO reportDTO, string userId)
         {
@@ -190,6 +248,48 @@ namespace Etud_Avenir.Services
                 ReportId = report.ReportId,
                 GradeBySubject = await GetGradeBySubjectDTOs(reportId)
             };
+        }
+
+
+        /// <summary>
+        /// Récupère un reportDTO depuis les cookies ou depuis la bdd si pas présent
+        /// </summary>
+        /// <param name="reportIds"></param>
+        /// <returns></returns>
+        public async Task<ReportDTO> GetReportDTOFromCookieOrDatabase(int reportId, HttpContext context)
+        {
+            var jsonString = context.Request.Cookies["reports"] ?? "[]";
+            var reportDTOs = JsonSerializer
+                .Deserialize<List<ReportDTO>>(
+                    jsonString,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true,
+                    });
+
+            var reportDTO = reportDTOs.FirstOrDefault(r => r.ReportId == reportId);
+            if (reportDTO != null) return reportDTO;
+
+            return await GetReportDTO(reportId);            
+        }
+
+
+        /// <summary>
+        /// Récupère une liste de reportDTO dans les cookies ou base de données
+        /// </summary>
+        /// <param name="reportIds"></param>
+        /// <param name="context"></param>
+        /// <returns></returns>
+        public async Task<List<ReportDTO>> GetReportDTOsFromCookiesOrDatabase(List<int> reportIds, HttpContext context)
+        {
+            List<ReportDTO> reportDTOs = new();
+            foreach (var reportId in reportIds)
+            {
+                var reportDTO = await GetReportDTOFromCookieOrDatabase(reportId, context);
+                reportDTOs.Add(reportDTO);
+            }
+
+            return reportDTOs;
         }
     }
 }

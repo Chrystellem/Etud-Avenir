@@ -1,4 +1,5 @@
 ﻿using Etud_Avenir.DTOs.Research;
+using Etud_Avenir.Services;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -10,6 +11,12 @@ namespace Etud_Avenir.Controllers
     [Route("recherche")]
     public class ResearchController : Controller
     {
+        private readonly ReportService _reportService;
+
+        public ResearchController(ReportService reportService)
+        {
+            _reportService = reportService;
+        }
 
         [Route("")]
         [Route("resultats")]
@@ -20,8 +27,17 @@ namespace Etud_Avenir.Controllers
 
         [HttpGet]
         [Route("/api/research/results")]
-        public IActionResult GetResultsDTO([FromQuery] ResearchDTO researchDTO)
+        public async Task<IActionResult> GetResultsDTO([FromQuery] ResearchDTO researchDTO)
         {
+            if (researchDTO.Reports.Count != 3) return BadRequest();
+
+            try
+            {
+                var reportsWithGrades = await _reportService.GetReportDTOsFromCookiesOrDatabase(researchDTO.Reports, HttpContext);
+                if (reportsWithGrades.Count != 3) return NotFound();
+            }
+            catch (KeyNotFoundException) { return NotFound(); }
+
             return Ok(new List<ResearchResultSchoolDTO>
             {
                 new ResearchResultSchoolDTO

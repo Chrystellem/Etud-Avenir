@@ -5,6 +5,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Etud_Avenir.Services;
 using Etud_Avenir.DTOs.School;
+using Etud_Avenir.DTOs.Research;
 
 namespace Etud_Avenir.Controllers
 {
@@ -47,6 +48,25 @@ namespace Etud_Avenir.Controllers
                     },
                 }
             });
-        } 
+        }
+
+
+        [HttpGet]
+        [Route("/api/schools")]
+        public IActionResult Schools([FromQuery] ResearchDTO researchDTO)
+        {
+            return Ok(new List<ResearchResultSchoolDTO>
+            {
+                new ResearchResultSchoolDTO
+                {
+                    Name = "EFREI Paris",
+                    SchoolId = 1,
+                    City = "Villejuif",
+                    ZipCode = 78330,
+                    Domain = "informatique",
+                    Formation = "Cycle ingénieur"
+                }
+            });
+        }
     }
 }
