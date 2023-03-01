@@ -101,30 +101,38 @@ namespace Etud_Avenir.Services
 
             /* 
                 exemple parcour coef
-                parcour	Mathématiques 	Physique  	SVT 	Histoire/Géographie	Français 	LV2 	Anglais 	Philosophie  	Science économique et sociale	Littérature 	Littérature Etrangère	Droit et grands enjeux du monde contemporain	MI-SVT
-                cycle ingé efrei	    4	        3	    0	                0	        2	    1	        2	            0	                            1,5	            1,5	        0	        0	                                            0
-                cycle ingé esiee	    4	        3	    0	                0	        2	    1	        2	            0	                            1,5	            1,5	        0	        0	                                            0
+                parcour	                Mathematiques 	Physique  	SVT 	Histoire/Geographie	Francais 	LV2 	Anglais 	Philosophie  	Science economique et sociale	Litterature 	Litterature Etrangere	Droit et grands enjeux du monde contemporain	MI-SVT
+                cycle ingenieur efrei	4	            3	        0       0	                2   	    1	    2	        0	            1,5	                            1,5 	        0	        0	        0
+                cycle ingenieur esiee	4	            3   	    0	    0       	        2	        1       2	        0	            1,5	                            1,5	            0	        0	        0
 
 
 
               for a student get every note
 
-             select note intitulé 
-            from report join grade jon subject 
+             select [idUser idBulletin idMatiere] note intitulé 
+            from report join grade join subject 
             wherer report.userId = currentUserID
 
-             for each parcour : (a recuperer dans le csv ou une table en fonction du choix final
+             for each parcour : (a recuperer dans le csv ou une table en fonction du choix et des critère
                  for each matiere 
-                     coef = select "intitulé" from parcour where name = parcour 
-                     score += note * coef
+                        
+                    noteMatier = select avg(note) where intitulé = "matiere"
+                     coef = select "matiere" from parcour where name = parcour where domain = info  
+                    
+                     scoreCoef += noteMatiere  * coef
+
+            sort by scoreCoef et return les N premier element 
 
              mettre score en pourcentage 
-            si pourcentage   > 90% tres favorable 
-                             > 75% favorable
-                             > 60% peu favorable 
-                             < 60% avis defavorable
+            pourcentage = scoreCoef / (15*20)
+            si pourcentage   > 85% tres favorable 
+                             > 70% favorable
+                             > 50% peu favorable 
+                             < 50% avis defavorable
 
              */
+
+
         }
 
         public Task<List<School>> GetSchoolsByDomaineAsync(string domaine)
