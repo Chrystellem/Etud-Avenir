@@ -49,8 +49,9 @@ namespace Etud_Avenir.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         [Route("/api/reports")]
-        public async Task<IActionResult> GetGrades()
+        public async Task<IActionResult> GetReports()
         {
             var user = await _userManager.GetUserAsync(User);
 
@@ -58,9 +59,26 @@ namespace Etud_Avenir.Controllers
             return Ok(reports);
         }
 
+        //[HttpPost]
+        //[Route("/api/report/temporary")]
+        //public IActionResult CreateTemporaryReport([FromBody] ReportDTO reportDTO)
+        //{
+        //    if (!ModelState.IsValid)
+        //    {
+        //        return BadRequest(new
+        //        {
+        //            errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage)
+        //        });
+        //    }
+
+        //    _reportService.SaveReportDTOInCookies(reportDTO, HttpContext);
+        //    return Ok();
+        //}
+
         [HttpPost]
+        [Authorize]
         [Route("/api/report")]
-        public async Task<IActionResult> CreateReport([FromBody] ReportDTO model)
+        public async Task<IActionResult> CreateReport([FromBody] ReportDTO reportDTO)
         {
             if (!ModelState.IsValid)
             {
@@ -70,21 +88,11 @@ namespace Etud_Avenir.Controllers
                 });
             }
 
-            var isAnonymous = !User.Identity.IsAuthenticated;
-            if (isAnonymous)
-            {
-                HttpContext.Session.SetString("reports", JsonSerializer.Serialize(model));
-                // TODO : Prendre en compte les objets déjà en session et gérer la concatennaton avec ce nouveau
-
-                return Ok();
-            }
-
-            // Utilisateur authentifié
-            var user = await _userManager.GetUserAsync(User);
-
             try
             {
-                var addState = await _reportService.AddReportDTOAsync(model, user.Id);
+                var user = await _userManager.GetUserAsync(User);
+
+                var addState = await _reportService.AddReportDTOAsync(reportDTO, user.Id);
                 if (!addState) return StatusCode(500);
 
                 return Ok();

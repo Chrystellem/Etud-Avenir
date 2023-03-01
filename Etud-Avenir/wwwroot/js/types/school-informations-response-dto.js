@@ -2,9 +2,13 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var SchoolInformationsResponseDTO = /** @class */ (function () {
     function SchoolInformationsResponseDTO() {
-        this.schoolId = 0;
     }
     return SchoolInformationsResponseDTO;
 }());
 exports.default = SchoolInformationsResponseDTO;
+var FeeDTO = /** @class */ (function () {
+    function FeeDTO() {
+    }
+    return FeeDTO;
+}());
 //# sourceMappingURL=school-informations-response-dto.js.map

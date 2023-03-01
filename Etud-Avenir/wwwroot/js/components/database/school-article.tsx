@@ -1,5 +1,5 @@
 ﻿import * as React from 'react'
-import SchoolImages from '../../constants/school-images';
+import SCHOOLS from '../../constants/schools';
 import ResearchResultSchoolDTO from '../../types/research-result-school-dto';
 import SchoolInformation from '../school/school-informations';
 
@@ -42,7 +42,7 @@ export default function SchoolArticle({ school, isResult }: SchoolArticlePropert
 
     return <>
         <article className="d-flex">
-            <img src={SchoolImages[school.name]} />
+            <img src={SCHOOLS[school.name].img} />
             <div className="w-100 p-4">
                 <div className="d-flex align-items-end justify-content-between">
                     <div className="d-flex align-items-end">

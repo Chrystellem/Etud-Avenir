@@ -37,7 +37,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
-var school_images_1 = require("../../constants/school-images");
+var schools_1 = require("../../constants/schools");
 var school_informations_1 = require("../school/school-informations");
 function SchoolArticle(_a) {
     var _this = this;
@@ -76,7 +76,7 @@ function SchoolArticle(_a) {
     }); };
     return React.createElement(React.Fragment, null,
         React.createElement("article", { className: "d-flex" },
-            React.createElement("img", { src: school_images_1.default[school.name] }),
+            React.createElement("img", { src: schools_1.default[school.name].img }),
             React.createElement("div", { className: "w-100 p-4" },
                 React.createElement("div", { className: "d-flex align-items-end justify-content-between" },
                     React.createElement("div", { className: "d-flex align-items-end" },

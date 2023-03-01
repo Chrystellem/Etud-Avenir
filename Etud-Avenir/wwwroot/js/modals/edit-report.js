@@ -49,20 +49,22 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.EditReportModal = void 0;
 var React = require("react");
+var react_cookie_1 = require("react-cookie");
 var error_1 = require("../components/form/error");
 var select_1 = require("../components/form/select");
 var formButton_1 = require("../components/formButton");
 var input_1 = require("../components/input");
+var loader_1 = require("../components/loader");
 var report_1 = require("../constants/report");
+//import { getCookieAndDeserialize } from '../services/cookie-service'
 var report_service_1 = require("../services/report-service");
 var report_dto_1 = require("../types/report-dto");
-var subjects = ["Mathématiques", "Physique-Chimie", "SVT", "SI", "Histoire-Géo", "SES", "Philosophie", "Français", "LV2"];
 function EditReportModal(_a) {
     var _this = this;
     var reportId = _a.reportId, closeModal = _a.closeModal;
     var _b = React.useState(new report_dto_1.ReportGradesRequestDTO()), state = _b[0], setState = _b[1];
-    var _c = React.useState(""), error = _c[0], setError = _c[1];
-    console.log(state);
+    var _c = (0, react_cookie_1.useCookies)(['reports']), cookies = _c[0], setCookie = _c[1];
+    var _d = React.useState(""), error = _d[0], setError = _d[1];
     React.useEffect(function () {
         fetchReport();
     }, []);
@@ -89,10 +91,14 @@ function EditReportModal(_a) {
         setState(__assign(__assign({}, state), { Quarter: quarter, SchoolYear: schoolYear }));
     };
     var getReportGradesDTO = function (reportId) { return __awaiter(_this, void 0, void 0, function () {
-        var result, responseDTO;
+        var reportDTOinCookie, result, responseDTO;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("/api/reports/".concat(reportId))];
+                case 0:
+                    reportDTOinCookie = getReportDTOFromCookies(reportId, cookies.reports);
+                    if (reportDTOinCookie)
+                        return [2 /*return*/, reportDTOinCookie];
+                    return [4 /*yield*/, fetch("/api/reports/".concat(reportId))];
                 case 1:
                     result = _a.sent();
                     if (!result.ok) {
@@ -102,7 +108,6 @@ function EditReportModal(_a) {
                     return [4 /*yield*/, result.json()];
                 case 2:
                     responseDTO = (_a.sent());
-                    console.log(responseDTO);
                     return [2 /*return*/, new report_dto_1.ReportGradesRequestDTO({
                             ReportId: responseDTO.reportId,
                             GradeBySubject: responseDTO.gradeBySubject,
@@ -113,7 +118,7 @@ function EditReportModal(_a) {
         });
     }); };
     var handleSubmit = function (event) { return __awaiter(_this, void 0, void 0, function () {
-        var result;
+        var reportDTOinCookie, result;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -123,6 +128,11 @@ function EditReportModal(_a) {
                     }
                     if (!state.GradeBySubject.reduce(function (a, b) { return a + b.grade; }, 0)) {
                         return [2 /*return*/, setError("Soit tu es un cancre, soit tu n'as pas indiqué tes notes...")];
+                    }
+                    reportDTOinCookie = getReportDTOFromCookies(reportId, cookies.reports);
+                    if (reportDTOinCookie) {
+                        editReportDTOinCookie();
+                        return [2 /*return*/, closeModal()];
                     }
                     return [4 /*yield*/, fetch("/api/report", { method: "PUT", headers: { "content-type": "application/json" }, body: JSON.stringify(state) })];
                 case 1:
@@ -134,22 +144,47 @@ function EditReportModal(_a) {
             }
         });
     }); };
+    var editReportDTOinCookie = function () {
+        var reportDTO = cookies.reports.find(function (r) { return r.reportId === reportId; });
+        reportDTO.quarter = state.Quarter;
+        reportDTO.schoolYear = state.SchoolYear;
+        reportDTO.gradeBySubject = state.GradeBySubject;
+        setCookie("reports", cookies.reports);
+    };
+    var renderGrades = function () {
+        if (!state.GradeBySubject.length)
+            return React.createElement(loader_1.default, null);
+        return state.GradeBySubject.map(function (_a, index) {
+            var subject = _a.subject, grade = _a.grade;
+            return React.createElement(input_1.default, { key: "grade-".concat(index), label: subject, name: subject, required: false, onChange: function (e) { return handleGradeChange(e, subject); }, placeholder: "", inputType: "number", value: grade.toString() });
+        });
+    };
     return React.createElement("form", { onSubmit: handleSubmit },
         React.createElement(React.Fragment, null,
-            React.createElement("legend", null, "Ajouter/Modifier un bulletin"),
+            React.createElement("legend", null, "Modifier un bulletin"),
             React.createElement(error_1.default, { error: error }),
-            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: "" },
+            React.createElement(select_1.default, { label: "Trimestre", name: "Quarter", onChange: handleQuarterChange, required: true, value: (0, report_service_1.getQuarterAndSchoolYearSelectValue)(state.Quarter, state.SchoolYear) },
                 React.createElement("option", null, "S\u00E9lectionne un trimestre"),
                 report_1.QUARTER_OPTIONS.map(function (_a, index) {
                     var label = _a.label, value = _a.value;
-                    return React.createElement("option", { key: "option-".concat(index), selected: "".concat(state.SchoolYear, " - Trimestre ").concat(state.Quarter) === label, value: value }, label);
+                    return React.createElement("option", { key: "option-".concat(index), value: value }, label);
                 })),
             React.createElement("span", null, "Merci de renseigner tes moyennes du trimestre pour les mati\u00E8res ci-dessous. Laisser vide si tu n'as pas fait l\u2019une des mati\u00E8res indiqu\u00E9es"),
-            React.createElement("div", { className: "report-modal__grades" }, state.GradeBySubject.map(function (_a, index) {
-                var subject = _a.subject, grade = _a.grade;
-                return React.createElement(input_1.default, { key: "grade-".concat(index), label: subject, name: subject, required: false, onChange: function (e) { return handleGradeChange(e, subject); }, placeholder: "", inputType: "number", value: grade.toString() });
-            })),
+            React.createElement("div", { className: "report-modal__grades" }, renderGrades()),
             React.createElement(formButton_1.default, { name: "Valider", isImg: false })));
 }
 exports.EditReportModal = EditReportModal;
+var getReportDTOFromCookies = function (reportId, reportDTOs) {
+    if (!reportDTOs || !reportDTOs.length)
+        return null;
+    var reportDTO = reportDTOs.find(function (r) { return r.reportId === reportId; });
+    if (!reportDTO)
+        return null;
+    return new report_dto_1.ReportGradesRequestDTO({
+        ReportId: reportDTO.reportId,
+        Quarter: reportDTO.quarter,
+        SchoolYear: reportDTO.schoolYear,
+        GradeBySubject: reportDTO.gradeBySubject
+    });
+};
 //# sourceMappingURL=edit-report.js.map

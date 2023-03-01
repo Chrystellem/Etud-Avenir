@@ -1,5 +1,4 @@
-﻿
-/**
+﻿/**
  * Change le type de l'entrée selon sa vrai représentation
  * Renvoi une chaine de caractere si pas capable de la changer en booléen ou nombre
  * 

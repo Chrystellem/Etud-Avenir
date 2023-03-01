@@ -52,6 +52,7 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var React = require("react");
+var schools_1 = require("../../constants/schools");
 var school_informations_response_dto_1 = require("../../types/school-informations-response-dto");
 var button_1 = require("../button");
 var loader_1 = require("../loader");
@@ -67,35 +68,62 @@ var SchoolInformation = /** @class */ (function (_super) {
                     case 0: return [4 /*yield*/, getSchoolInformations(this.props.schoolId)];
                     case 1:
                         result = _a.sent();
+                        this.setState(result);
+                        console.log(result);
                         return [2 /*return*/];
                 }
             });
         }); };
         _this.renderDescription = function () {
             return React.createElement(React.Fragment, null,
-                React.createElement("div", { className: "template-profile-page__description-element__header" },
-                    React.createElement("h5", null, "EFREI PARIS"),
-                    React.createElement("span", null, "Villejuif - 94800")),
+                React.createElement("div", { className: "template-profile-page__description-element__header d-flex align-items-center" },
+                    React.createElement("img", { src: schools_1.default[_this.state.name].img }),
+                    React.createElement("div", { className: "ml-3" },
+                        React.createElement("h5", null, _this.state.name),
+                        React.createElement("span", null,
+                            _this.state.city,
+                            " - ",
+                            _this.state.zipCode))),
                 React.createElement("div", { className: "template-profile-page__description-element__program" },
                     React.createElement("h5", null, "Programme"),
-                    React.createElement("div", { className: "d-flex justify-content-between flex-wrap" },
-                        React.createElement("span", null, "Dur\u00E9e: X ans"),
-                        React.createElement("span", null, "Domaine: XXX"))),
+                    React.createElement("div", { className: "d-flex justify-content-between flex-wrap gap-3" },
+                        React.createElement("span", null,
+                            "Dur\u00E9e: ",
+                            _this.state.programDuration,
+                            " ans"),
+                        React.createElement("span", null,
+                            "Domaine: ",
+                            _this.state.domain),
+                        React.createElement("span", null,
+                            "Type d'admission: ",
+                            _this.state.admissionType),
+                        React.createElement("span", null,
+                            "Apprentissage: ",
+                            _this.state.isInternshipAvailable ? "Oui" : "Non"),
+                        React.createElement("span", null,
+                            "Public: ",
+                            _this.state.isPublic ? "Oui" : "Non"),
+                        React.createElement("span", null,
+                            "Reconnu par l'\u00E9tat: ",
+                            _this.state.isStateApproved ? "Oui" : "Non"))),
                 React.createElement("div", { className: "template-profile-page__description-element__fees" },
                     React.createElement("h5", null, "Frais"),
-                    React.createElement("ul", null,
-                        React.createElement("li", null, "Frais de candidature: xxxxx \u20AC"),
-                        React.createElement("li", null, "Frais de candidature: xxxxx \u20AC"),
-                        React.createElement("li", null, "Frais de candidature: xxxxx \u20AC"))),
-                React.createElement("div", { className: "template-profile-page__description-element__other" },
-                    React.createElement("h5", null, "Informations compl\u00E9mentaires"),
-                    React.createElement("p", null, "blavlablabla")),
-                React.createElement(button_1.Button, { name: "Voir le site", template: "primary" }),
+                    React.createElement("ul", { className: "list-style-none pl-0" }, _this.state.fees.map(function (fee) { return React.createElement("li", { key: fee.name },
+                        fee.name,
+                        ":  ",
+                        fee.amount,
+                        " \u20AC"); }))),
+                _this.state.otherInformations ?
+                    React.createElement("div", { className: "template-profile-page__description-element__other" },
+                        React.createElement("h5", null, "Informations compl\u00E9mentaires"),
+                        React.createElement("p", null, _this.state.otherInformations))
+                    : "",
+                React.createElement("a", { className: 'btn btn-primary', href: schools_1.default[_this.state.name].website, target: "_blank" }, "Voir le site"),
                 React.createElement(button_1.Button, { name: "Fermer", template: "danger", onClick: _this.props.onClickHandler }));
         };
         _this.render = function () {
             return React.createElement("div", null,
-                React.createElement("div", { className: "template-profile-page__description-element" }, !_this.state.schoolId ?
+                React.createElement("div", { className: "template-profile-page__description-element" }, _this.state.schoolId == null || _this.state.schoolId == undefined ?
                     React.createElement(loader_1.default, null) :
                     _this.renderDescription()));
         };

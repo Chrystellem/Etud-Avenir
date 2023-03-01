@@ -12,8 +12,10 @@
   "license": "ISC",
   "dependencies": {
     "css-loader": "^6.7.3",
+    "js-cookie": "^3.0.1",
     "node-sass": "^8.0.0",
     "path": "^0.12.7",
+    "react-cookie": "^4.1.1",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.7.0",
     "sass-loader": "^13.2.0",

@@ -12,6 +12,6 @@ namespace Etud_Avenir.DTOs.Research
         public bool IsPublic { get; set; }
         public bool IsPrivate { get; set; }
         public AdmissionTypeEnum AdmissionType { get; set; }
-        public string Reports { get; set; }
+        public List<int> Reports { get; set; }
     }
 }

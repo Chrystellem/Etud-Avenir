@@ -1,21 +1,24 @@
 ﻿import * as React from 'react'
+import { useCookies } from 'react-cookie'
 import FormError from '../components/form/error'
 import Select from '../components/form/select'
 import FormButton from '../components/formButton'
 import Input from '../components/input'
-import { ParentControlModal } from '../components/modal'
 import { QUARTER_OPTIONS } from '../constants/report'
 import { getQuarterAndSchoolYearFromSelection } from '../services/report-service'
-import { ReportGradesRequestDTO } from '../types/report-dto'
+import { ReportGradesRequestDTO, ReportGradesResponseDTO } from '../types/report-dto'
 import SubjectDTO, { SubjectGradeDTO } from '../types/subject-dto'
 
 type AddReportModalProperties = {
-    closeModal: () => void
+    closeModal: () => void,
+    isTemporary: boolean
 }
 
-export function AddReportModal({ closeModal }: AddReportModalProperties) {
+export function AddReportModal({ closeModal, isTemporary }: AddReportModalProperties) {
     const [state, setState] = React.useState(new ReportGradesRequestDTO());
+    const [selectedQuarter, setSelectedQuarter] = React.useState("0");
     const [error, setError] = React.useState("")
+    const [cookies, setCookie] = useCookies(['reports']);
 
     React.useEffect(() => {
         async function fetchSubjects() {
@@ -49,6 +52,8 @@ export function AddReportModal({ closeModal }: AddReportModalProperties) {
             Quarter: quarter,
             SchoolYear: schoolYear
         })
+
+        setSelectedQuarter(event.currentTarget.value)
     } 
 
     const handleSubmit = async (event: React.FormEvent) => {
@@ -61,10 +66,30 @@ export function AddReportModal({ closeModal }: AddReportModalProperties) {
             return setError("Soit tu es un cancre, soit tu n'as pas indiqué tes notes...")
         }
 
+        if (isTemporary) {
+            addReportDTOToCookie()
+            return closeModal()
+        }
+
         const result = await fetch("/api/report", { method: "POST", headers: {"content-type": "application/json"}, body: JSON.stringify(state) })
         if (!result.ok) return setError("Une erreur est survenue :( Reessaie plus tard")
 
         closeModal()
+    }
+
+    const addReportDTOToCookie = () => {
+        const responseDTO = new ReportGradesResponseDTO({
+            reportId: Math.floor(Math.random() * 999999) + 100,
+            quarter: state.Quarter,
+            schoolYear: state.SchoolYear,
+            gradeBySubject: state.GradeBySubject
+        })
+
+        let reportInCookies = cookies.reports as ReportGradesResponseDTO[]
+        if (!reportInCookies || !reportInCookies.length) reportInCookies = []
+
+        reportInCookies.push(responseDTO)
+        setCookie("reports", reportInCookies)
     }
 
     return <form onSubmit={ handleSubmit }>
@@ -72,7 +97,7 @@ export function AddReportModal({ closeModal }: AddReportModalProperties) {
             <legend>Ajouter un bulletin</legend>
             <FormError error={error} />
 
-            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value="">
+            <Select label="Trimestre" name="Quarter" onChange={handleQuarterChange} required={true} value={selectedQuarter} >
                 <option value="0">Sélectionne un trimestre</option>
                 {QUARTER_OPTIONS.map((quarterOption, index) => <option key={`option-${index}`} value={quarterOption.value}>{quarterOption.label}</option>)}
             </Select>
