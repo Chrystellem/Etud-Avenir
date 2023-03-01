@@ -33,6 +33,8 @@ namespace Etud_Avenir.Data
 
         public DbSet<LastSearch> LastSearch { get; set; }
 
+        public DbSet<CurriculumCoefficient> CurriculumCoefficient { get; set; }
+
         public DbSet<Test> Test { get; set; }
 
         public DbSet<Test2> Test2 { get; set; }

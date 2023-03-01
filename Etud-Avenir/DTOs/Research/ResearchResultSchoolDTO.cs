@@ -8,6 +8,6 @@
         public int ZipCode { get; set; }
         public string Formation { get; set; }
         public string Domain { get; set; }
-        public double Coefficient { get; set; }
+        public float Score { get; set; }
     }
 }
