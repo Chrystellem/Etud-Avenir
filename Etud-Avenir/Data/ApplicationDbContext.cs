@@ -27,8 +27,6 @@ namespace Etud_Avenir.Data
 
         public DbSet<LogEmail> LogEmails { get; set; }
 
-        public DbSet<CurriculumSchool> CurriculumSchool { get; set; }
-
         public DbSet<Favorite> Favorite { get; set; }
 
         public DbSet<LastSearch> LastSearch { get; set; }

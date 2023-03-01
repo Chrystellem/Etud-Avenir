@@ -15,20 +15,22 @@ namespace Etud_Avenir.Services
 
         private readonly ApplicationDbContext _dbContext;
         private ResearchDTO research;
+        private List<ReportDTO> userReports;
 
         public SearchService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
-        public List<ResearchResultSchoolDTO> StartResearch(ResearchDTO researchDTO)
+        public List<ResearchResultSchoolDTO> StartResearch(ResearchDTO researchDTO, List<ReportDTO> userReportsDTO)
         {
             research = researchDTO;
+            userReports = userReportsDTO;
             List<Curriculum> curriculums = GetCurriculumByDomain(research.Domain);
             List<School> schools = GetCurriculumsSchools(curriculums);
             schools = FilterSchoolsByCurriculums(schools);
             curriculums = RemoveCurriculumsOfNoneFilteredSchools(schools, curriculums);
-            Dictionary<Curriculum, float> curriculumsScores = GetCurriculumsWithScores(curriculums);
+            Dictionary<Curriculum, double> curriculumsScores = GetCurriculumsWithScores(curriculums);
             return GetResearchResults(curriculumsScores);
         }
 
@@ -103,13 +105,13 @@ namespace Etud_Avenir.Services
             return curriculumsFiltered;
         }
 
-        public Dictionary<Curriculum, float> GetCurriculumsWithScores(List<Curriculum> curriculums)
+        public Dictionary<Curriculum, double> GetCurriculumsWithScores(List<Curriculum> curriculums)
         {
-            Dictionary<Curriculum, float> curriculumsScores = new Dictionary<Curriculum, float>();
-            List<GradeBySubjectDTO> studentGrades; // A REVOIR
-            foreach(Curriculum curriculum in curriculums)
+            Dictionary<Curriculum, double> curriculumsScores = new Dictionary<Curriculum, double>();
+            List<GradeBySubjectDTO> studentGrades = (List<GradeBySubjectDTO>)userReports.Select(r => r.GradeBySubject); // A REVOIR
+            foreach (Curriculum curriculum in curriculums)
             {
-                float score = ComputeCurriculumScore(curriculum, studentGrades);
+                double score = ComputeCurriculumScore(curriculum, studentGrades);
                 curriculumsScores.Add(curriculum, score);
 
             }
@@ -117,31 +119,31 @@ namespace Etud_Avenir.Services
         }
 
 
-        public float ComputeCurriculumScore(Curriculum curriculum, List<GradeBySubjectDTO> studentsGrades)
+        public double ComputeCurriculumScore(Curriculum curriculum, List<GradeBySubjectDTO> studentsGrades)
         {
             int MaximumGrade = 20;
             int SumCoefficients = 15;
             int TotalCoefficients = MaximumGrade * SumCoefficients;
 
-            float curriculumScore = 0;
+            double curriculumScore = 0;
             
             foreach(Subject subject in _dbContext.Subject.ToList())
             {
                 List<GradeBySubjectDTO> subjectGrades = studentsGrades.FindAll(s => s.Subject == subject.Name);
-                float coefficient = _dbContext.CurriculumCoefficient.Where(c => c.SubjectId == subject.SubjectId && c.CurriculumId == curriculum.CurriculumId ).FirstOrDefault().Value;
+                double coefficient = _dbContext.CurriculumCoefficient.Where(c => c.SubjectId == subject.SubjectId && c.CurriculumId == curriculum.CurriculumId ).FirstOrDefault().Value;
                 curriculumScore += subjectGrades.Average(s => s.Grade) * coefficient;
             }
             return curriculumScore / TotalCoefficients;
         }
 
-        public List<ResearchResultSchoolDTO> GetResearchResults(Dictionary<Curriculum, float> curriculumsScores)
+        public List<ResearchResultSchoolDTO> GetResearchResults(Dictionary<Curriculum, double> curriculumsScores)
         {
-            Dictionary<Curriculum, float> topCurriculumsScores = Get5BestCurriculums(curriculumsScores);
+            Dictionary<Curriculum, double> topCurriculumsScores = Get5BestCurriculums(curriculumsScores);
             return GetResultsDTOs(topCurriculumsScores);
 
         }
 
-        public List<ResearchResultSchoolDTO> GetResultsDTOs(Dictionary<Curriculum, float> topCurriculumsScores)
+        public List<ResearchResultSchoolDTO> GetResultsDTOs(Dictionary<Curriculum, double> topCurriculumsScores)
         {
             List<ResearchResultSchoolDTO> resultsDTOs = new List<ResearchResultSchoolDTO>();
 
@@ -161,9 +163,9 @@ namespace Etud_Avenir.Services
             return resultsDTOs;
         }
 
-        public Dictionary<Curriculum, float> Get5BestCurriculums(Dictionary<Curriculum, float> curriculumsScores)
+        public Dictionary<Curriculum, double> Get5BestCurriculums(Dictionary<Curriculum, double> curriculumsScores)
         {
-            return (Dictionary<Curriculum, float>)curriculumsScores.OrderByDescending(c => c.Value).Take(5);
+            return (Dictionary<Curriculum, double>)curriculumsScores.OrderByDescending(c => c.Value).Take(5);
         }
 
 

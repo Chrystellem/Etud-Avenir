@@ -20,6 +20,6 @@ namespace Etud_Avenir.Models
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
 
-        public float Value { get; set; }
+        public double Value { get; set; }
     }
 }

@@ -46,7 +46,7 @@ namespace Etud_Avenir.Controllers
                     SchoolId = 1,
                     City = "Villejuif",
                     ZipCode = 78330,
-                    Coefficient = 80.3,
+                    Score = 80.3,
                     Domain = "informatique", 
                     Formation = "Cycle ingénieur"
                 }
