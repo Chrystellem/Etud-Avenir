@@ -3,6 +3,7 @@ import { withCookies, Cookies } from 'react-cookie'
 import Colors from '../../constants/colors'
 import { AddReportModal } from '../../modals/add-report'
 import { getUserReports } from '../../services/report-service'
+import { getUserInformations } from '../../services/user-service'
 import { ReportGradesRequestDTO, ReportGradesResponseDTO } from '../../types/report-dto'
 import SmallReportDTO from "../../types/small-report-dto"
 import { ArticleIcon } from '../article-icon'
@@ -24,7 +25,8 @@ type FirstStepState = {
     cookieReports: SmallReportDTO[],
     showBtn: boolean,
     fetching: boolean,
-    showModal: boolean
+    showModal: boolean,
+    displayProfileReport: boolean
 }
 
 /**
@@ -37,7 +39,8 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
         cookieReports: [],
         showBtn: false,
         fetching: true,
-        showModal: false
+        showModal: false,
+        displayProfileReport: false
     }
 
     constructor(props) {
@@ -45,11 +48,21 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
     }
 
     componentDidMount = async () => {
+        const userInformations = await getUserInformations()
+        if (!userInformations || !userInformations.id) {
+            this.setState({
+                fetching: false,
+                cookieReports: this.getSmallReportDTOsinCookies()
+            })
+            return
+        }
+
         const reports = await getUserReports()
         this.setState({
             reports,
             fetching: false,
-            cookieReports: this.getSmallReportDTOsinCookies()
+            cookieReports: this.getSmallReportDTOsinCookies(),
+            displayProfileReport: true
         })
     }
 
@@ -164,6 +177,32 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
         })
     }
 
+    displayReports = () => {
+        return <>
+            {
+                this.state.displayProfileReport ?
+                    <>
+                        <div className="p-5" style={{ maxWidth: '500px' }}>
+                            <h3>Bulletins du profil</h3>
+                            <div style={{ position: 'relative', minHeight: '100px' }}>
+                                {this.savedReports()}
+                            </div>
+                        </div>
+                        <div className="research-separator"></div>
+                    </>
+                    : ""
+            }
+            <div className="p-5" style={{ maxWidth: '500px' }}>
+                <h3>Bulletin(s) temporaire(s)</h3>
+                <span className="d-block mb-4">Ces bulletins sont enregistrés dans vos cookies</span>
+
+                {this.temporaryReports()}
+
+                <Button template='primary' name='Ajouter un bulletin temporaire' onClick={() => this.setState({ showModal: true })} />
+            </div>
+        </>
+    }
+
     render = () => {
         return (<>
             <div className="pt-3 d-flex justify-content-center align-items-center w-100">
@@ -173,21 +212,7 @@ class ResearchFirstStep extends React.Component<StepProperties, FirstStepState> 
             </div>
             <p className="pt-3 w-100 text-center">Sélectionne ou ajoute tes 3 derniers bulletins ! Ils vont aider notre IA à te trouver l’école la plus susceptible de te correspondre</p>
             <div className="d-flex justify-content-center flex-wrap align-items-stretch my-4">
-                <div className="p-5" style={{ maxWidth: '500px' }}>
-                    <h3>Bulletins du profil</h3>
-                    <div style={{ position: 'relative', minHeight: '100px' }}>
-                        {this.savedReports()}
-                    </div>
-                </div>
-                <div className="research-separator"></div>
-                <div className="p-5" style={{ maxWidth: '500px' }}>
-                    <h3>Bulletin(s) temporaire(s)</h3>
-                    <span className="d-block mb-4">Ces bulletins sont enregistrés dans vos cookies</span>
-
-                    {this.temporaryReports()}
-
-                    <Button template='primary' name='Ajouter un bulletin temporaire' onClick={() => this.setState({ showModal: true })} />
-                </div>
+                {this.displayReports()}
             </div>
 
             {this.showBtn()}

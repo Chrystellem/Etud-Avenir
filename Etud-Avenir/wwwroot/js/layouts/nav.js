@@ -54,7 +54,7 @@ var NavLogin = /** @class */ (function (_super) {
                     React.createElement("li", { className: "nav-item" },
                         React.createElement("a", { className: "nav-link", href: "/profil" }, "Profil")),
                     React.createElement("li", { className: "nav-item" },
-                        React.createElement("a", { className: "nav-link", href: "/Identity/Account/Logout" }, "D\u00E9connexion"))));
+                        React.createElement("a", { className: "nav-link", href: "/logout" }, "D\u00E9connexion"))));
         };
         return _this;
     }

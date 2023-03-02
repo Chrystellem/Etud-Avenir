@@ -12,10 +12,13 @@ namespace Etud_Avenir.Controllers
     public class ResearchController : Controller
     {
         private readonly ReportService _reportService;
+        private readonly SearchService _searchService;
 
-        public ResearchController(ReportService reportService)
+        public ResearchController(
+            ReportService reportService, SearchService searchService)
         {
             _reportService = reportService;
+            _searchService = searchService;
         }
 
         [Route("")]
@@ -35,6 +38,8 @@ namespace Etud_Avenir.Controllers
             {
                 var reportsWithGrades = await _reportService.GetReportDTOsFromCookiesOrDatabase(researchDTO.Reports, HttpContext);
                 if (reportsWithGrades.Count != 3) return NotFound();
+
+                return Ok(_searchService.StartResearch(researchDTO, reportsWithGrades));
             }
             catch (KeyNotFoundException) { return NotFound(); }
 

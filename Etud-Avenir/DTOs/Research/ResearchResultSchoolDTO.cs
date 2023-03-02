@@ -3,6 +3,7 @@
     public class ResearchResultSchoolDTO
     {
         public int SchoolId { get; set; }
+        public int CurriculumId { get; set; }
         public string Name { get; set; }
         public string City { get; set; }
         public int ZipCode { get; set; }

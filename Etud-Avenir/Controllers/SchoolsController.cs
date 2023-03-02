@@ -11,7 +11,13 @@ namespace Etud_Avenir.Controllers
 {
     public class SchoolsController : Controller
     {
-        private readonly SchoolService _schoolService;
+        private readonly SearchService _searchService;
+
+        public SchoolsController(SearchService searchService)
+        {
+            _searchService = searchService;
+        }
+
         public IActionResult Index()
         {
             return View();
@@ -50,23 +56,5 @@ namespace Etud_Avenir.Controllers
             });
         }
 
-
-        [HttpGet]
-        [Route("/api/schools")]
-        public IActionResult Schools([FromQuery] ResearchDTO researchDTO)
-        {
-            return Ok(new List<ResearchResultSchoolDTO>
-            {
-                new ResearchResultSchoolDTO
-                {
-                    Name = "EFREI Paris",
-                    SchoolId = 1,
-                    City = "Villejuif",
-                    ZipCode = 78330,
-                    Domain = "informatique",
-                    Formation = "Cycle ingénieur"
-                }
-            });
-        }
     }
 }

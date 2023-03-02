@@ -56,6 +56,7 @@ var react_cookie_1 = require("react-cookie");
 var colors_1 = require("../../constants/colors");
 var add_report_1 = require("../../modals/add-report");
 var report_service_1 = require("../../services/report-service");
+var user_service_1 = require("../../services/user-service");
 var small_report_dto_1 = require("../../types/small-report-dto");
 var article_icon_1 = require("../article-icon");
 var button_1 = require("../button");
@@ -76,19 +77,31 @@ var ResearchFirstStep = /** @class */ (function (_super) {
             cookieReports: [],
             showBtn: false,
             fetching: true,
-            showModal: false
+            showModal: false,
+            displayProfileReport: false
         };
         _this.componentDidMount = function () { return __awaiter(_this, void 0, void 0, function () {
-            var reports;
+            var userInformations, reports;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, (0, report_service_1.getUserReports)()];
+                    case 0: return [4 /*yield*/, (0, user_service_1.getUserInformations)()];
                     case 1:
+                        userInformations = _a.sent();
+                        if (!userInformations || !userInformations.id) {
+                            this.setState({
+                                fetching: false,
+                                cookieReports: this.getSmallReportDTOsinCookies()
+                            });
+                            return [2 /*return*/];
+                        }
+                        return [4 /*yield*/, (0, report_service_1.getUserReports)()];
+                    case 2:
                         reports = _a.sent();
                         this.setState({
                             reports: reports,
                             fetching: false,
-                            cookieReports: this.getSmallReportDTOsinCookies()
+                            cookieReports: this.getSmallReportDTOsinCookies(),
+                            displayProfileReport: true
                         });
                         return [2 /*return*/];
                 }
@@ -166,6 +179,21 @@ var ResearchFirstStep = /** @class */ (function (_super) {
                 cookieReports: _this.getSmallReportDTOsinCookies()
             });
         };
+        _this.displayReports = function () {
+            return React.createElement(React.Fragment, null,
+                _this.state.displayProfileReport ?
+                    React.createElement(React.Fragment, null,
+                        React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
+                            React.createElement("h3", null, "Bulletins du profil"),
+                            React.createElement("div", { style: { position: 'relative', minHeight: '100px' } }, _this.savedReports())),
+                        React.createElement("div", { className: "research-separator" }))
+                    : "",
+                React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
+                    React.createElement("h3", null, "Bulletin(s) temporaire(s)"),
+                    React.createElement("span", { className: "d-block mb-4" }, "Ces bulletins sont enregistr\u00E9s dans vos cookies"),
+                    _this.temporaryReports(),
+                    React.createElement(button_1.Button, { template: 'primary', name: 'Ajouter un bulletin temporaire', onClick: function () { return _this.setState({ showModal: true }); } })));
+        };
         _this.render = function () {
             return (React.createElement(React.Fragment, null,
                 React.createElement("div", { className: "pt-3 d-flex justify-content-center align-items-center w-100" },
@@ -173,16 +201,7 @@ var ResearchFirstStep = /** @class */ (function (_super) {
                     React.createElement("div", { className: "arrow mx-4", style: { width: '200px' } }),
                     React.createElement(number_title_1.default, { isSelected: false, title: "Rentre tes crit\u00E8res", number: 2 })),
                 React.createElement("p", { className: "pt-3 w-100 text-center" }, "S\u00E9lectionne ou ajoute tes 3 derniers bulletins ! Ils vont aider notre IA \u00E0 te trouver l\u2019\u00E9cole la plus susceptible de te correspondre"),
-                React.createElement("div", { className: "d-flex justify-content-center flex-wrap align-items-stretch my-4" },
-                    React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
-                        React.createElement("h3", null, "Bulletins du profil"),
-                        React.createElement("div", { style: { position: 'relative', minHeight: '100px' } }, _this.savedReports())),
-                    React.createElement("div", { className: "research-separator" }),
-                    React.createElement("div", { className: "p-5", style: { maxWidth: '500px' } },
-                        React.createElement("h3", null, "Bulletin(s) temporaire(s)"),
-                        React.createElement("span", { className: "d-block mb-4" }, "Ces bulletins sont enregistr\u00E9s dans vos cookies"),
-                        _this.temporaryReports(),
-                        React.createElement(button_1.Button, { template: 'primary', name: 'Ajouter un bulletin temporaire', onClick: function () { return _this.setState({ showModal: true }); } }))),
+                React.createElement("div", { className: "d-flex justify-content-center flex-wrap align-items-stretch my-4" }, _this.displayReports()),
                 _this.showBtn(),
                 React.createElement(modal_1.default, { minWidth: 600, parentControl: {
                         toggler: function (state) { return _this.setState({ showModal: state }); },

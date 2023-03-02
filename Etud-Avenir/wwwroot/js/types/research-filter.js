@@ -16,22 +16,29 @@ var FilterState = /** @class */ (function () {
      */
     FilterState.getUrl = function (filter) {
         var url = "";
+        var addToUrl = function (param) {
+            if (!url) {
+                url += "?".concat(param);
+                return;
+            }
+            url += "&".concat(param);
+        };
         if (filter.domain)
-            url += "?domain=".concat(filter.domain);
+            addToUrl("domain=".concat(filter.domain));
         if (filter.localization)
-            url += "&localization=".concat(filter.localization);
+            addToUrl("localization=".concat(filter.localization));
         if (filter.isInitialFormation)
-            url += "&isInitialFormation=".concat(filter.isInitialFormation);
+            addToUrl("isInitialFormation=".concat(filter.isInitialFormation));
         if (filter.isApprenticeship)
-            url += "&isApprenticeship=".concat(filter.isApprenticeship);
+            addToUrl("isApprenticeship=".concat(filter.isApprenticeship));
         if (filter.isPublic)
-            url += "&isPublic=".concat(filter.isPublic);
+            addToUrl("isPublic=".concat(filter.isPublic));
         if (filter.isPrivate)
-            url += "&isPrivate=".concat(filter.isPrivate);
+            addToUrl("isPrivate=".concat(filter.isPrivate));
         if (filter.isStateApproved)
-            url += "&isStateApproved=".concat(filter.isStateApproved);
+            addToUrl("isStateApproved=".concat(filter.isStateApproved));
         if (filter.admissionType)
-            url += "&admissionType=".concat(filter.admissionType);
+            addToUrl("admissionType=".concat(filter.admissionType));
         return url;
     };
     return FilterState;

@@ -124,7 +124,7 @@ export default class Database extends React.Component<{}, DatabaseState> {
  * Récupère les résultats de la recherche 
  */
 const getResearchResults = async (filter: FilterState): Promise<ResearchResultSchoolDTO[]> => {
-    const result = await fetch(`/api/schools${FilterState.getUrl(filter)}`)
+    const result = await fetch(`/api/curriculums${FilterState.getUrl(filter)}`)
     if (!result.ok || result.redirected) return []
 
     return result.json()

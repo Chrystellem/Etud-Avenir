@@ -65,7 +65,7 @@ var SchoolInformation = /** @class */ (function (_super) {
             var result;
             return __generator(this, function (_a) {
                 switch (_a.label) {
-                    case 0: return [4 /*yield*/, getSchoolInformations(this.props.schoolId)];
+                    case 0: return [4 /*yield*/, getSchoolInformations(this.props.curriculumId)];
                     case 1:
                         result = _a.sent();
                         this.setState(result);
@@ -96,7 +96,7 @@ var SchoolInformation = /** @class */ (function (_super) {
                             _this.state.domain),
                         React.createElement("span", null,
                             "Type d'admission: ",
-                            _this.state.admissionType),
+                            translateAdmissionType(_this.state.admissionType)),
                         React.createElement("span", null,
                             "Apprentissage: ",
                             _this.state.isInternshipAvailable ? "Oui" : "Non"),
@@ -132,11 +132,11 @@ var SchoolInformation = /** @class */ (function (_super) {
     return SchoolInformation;
 }(React.Component));
 exports.default = SchoolInformation;
-var getSchoolInformations = function (schoolId) { return __awaiter(void 0, void 0, void 0, function () {
+var getSchoolInformations = function (curriculumId) { return __awaiter(void 0, void 0, void 0, function () {
     var result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/api/schools/".concat(schoolId))];
+            case 0: return [4 /*yield*/, fetch("/api/curriculums/".concat(curriculumId))];
             case 1:
                 result = _a.sent();
                 if (!result.ok)
@@ -145,4 +145,13 @@ var getSchoolInformations = function (schoolId) { return __awaiter(void 0, void 
         }
     });
 }); };
+var translateAdmissionType = function (admissionType) {
+    if (admissionType == 0)
+        return "Non renseigné";
+    if (admissionType == 1)
+        return "Sur dossier";
+    if (admissionType == 2)
+        return "Concours";
+    return "Plusieurs méthodes";
+};
 //# sourceMappingURL=school-informations.js.map

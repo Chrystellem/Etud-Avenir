@@ -40,6 +40,7 @@ exports.ProfileMainPage = void 0;
 var React = require("react");
 var react_router_dom_1 = require("react-router-dom");
 var ProfileSaveButton_1 = require("../../components/ProfileSaveButton");
+var user_service_1 = require("../../services/user-service");
 function ProfileMainPage(props, state) {
     var navigate = (0, react_router_dom_1.useNavigate)();
     var _a = React.useState({ email: "", id: "" }), userInfo = _a[0], setUserInfo = _a[1];
@@ -49,11 +50,10 @@ function ProfileMainPage(props, state) {
                 var data;
                 return __generator(this, function (_a) {
                     switch (_a.label) {
-                        case 0: return [4 /*yield*/, getUserInformations()];
+                        case 0: return [4 /*yield*/, (0, user_service_1.getUserInformations)()];
                         case 1:
                             data = _a.sent();
                             setUserInfo(data);
-                            console.log(userInfo);
                             return [2 /*return*/];
                     }
                 });
@@ -88,18 +88,4 @@ function ProfileMainPage(props, state) {
                         " Supprimer le compte")))));
 }
 exports.ProfileMainPage = ProfileMainPage;
-var getUserInformations = function () { return __awaiter(void 0, void 0, void 0, function () {
-    var result;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/Identity/Me")];
-            case 1:
-                result = _a.sent();
-                if (!result.ok)
-                    return [2 /*return*/, null];
-                return [4 /*yield*/, result.json()];
-            case 2: return [2 /*return*/, _a.sent()];
-        }
-    });
-}); };
 //# sourceMappingURL=ProfileMainPage.js.map

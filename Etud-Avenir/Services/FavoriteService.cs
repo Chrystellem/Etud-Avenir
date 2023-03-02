@@ -22,25 +22,25 @@ namespace Etud_Avenir.Services
         public List<SchoolRequest> GetUserFavorites(string UserId)
         {
             List<Favorite> favorites = _dbContext.Favorite.Where(f => f.UserId == UserId).ToList();
-            List<SchoolRequest> favoritesSchools = new List<SchoolRequest>();
+            List<SchoolRequest> favoritesSchools = new();
             foreach(Favorite school in favorites)
             {
-                favoritesSchools.Add(_schoolService.GetSchoolRequest(school.SchoolId));
+                favoritesSchools.Add(_schoolService.GetSchoolRequest(school.CurriculumId));
             }
 
             return favoritesSchools;
         }
 
-        public async Task AddSchoolToFavoritesAsync(int SchoolId, string UserId)
+        public async Task AddCurriculumToFavoritesAsync(int curriculumId, string UserId)
         {
-            Favorite newFavorite = new Favorite {SchoolId = SchoolId, UserId = UserId };
+            Favorite newFavorite = new Favorite {CurriculumId = curriculumId, UserId = UserId };
             await _dbContext.AddAsync(newFavorite);
             _dbContext.SaveChanges();
         }
 
-        public void RemoveSchoolToFavorites(int SchoolId, string UserId)
+        public void RemoveCurriculumToFavorites(int curriculumId, string UserId)
         {
-            Favorite isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.SchoolId == SchoolId).Single();
+            Favorite isFavorite = _dbContext.Favorite.Where(f => f.UserId == UserId && f.CurriculumId == curriculumId).Single();
             if (isFavorite is not null)
             {
                 _dbContext.Remove(isFavorite);
