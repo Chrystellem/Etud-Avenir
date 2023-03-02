@@ -12,9 +12,9 @@ namespace Etud_Avenir.Models
 
         public int FavoriteId { get; set; }
 
-        [ForeignKey("School")]
-        public int SchoolId { get; set; }
-        public virtual School School { get; set; }
+        [ForeignKey("Curriculum")]
+        public int CurriculumId { get; set; }
+        public virtual Curriculum Curriculum { get; set; }
 
 
         [ForeignKey("IdentityUser")] 

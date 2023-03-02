@@ -167,7 +167,5 @@ namespace Etud_Avenir.Services
         {
             return (Dictionary<Curriculum, double>)curriculumsScores.OrderByDescending(c => c.Value).Take(5);
         }
-
-
     }
 }

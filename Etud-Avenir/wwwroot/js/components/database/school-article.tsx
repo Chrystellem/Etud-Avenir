@@ -16,7 +16,7 @@ export default function SchoolArticle({ school, isResult }: SchoolArticlePropert
 
         return <div className='modal d-block'>
             <div className="modal-body" style={{ backgroundColor: 'transparent' }} >
-                <SchoolInformation onClickHandler={() => setShowModal(false)} schoolId={school.schoolId} />
+                <SchoolInformation onClickHandler={() => setShowModal(false)} curriculumId={school.curriculumId} />
             </div>
         </div>
     }
@@ -25,7 +25,7 @@ export default function SchoolArticle({ school, isResult }: SchoolArticlePropert
      * Ajoute l'école aux favoris (partie profil du compte) 
      */
     const saveToFavorite = async () => {
-        const result = await fetch("/api/schools/favorites", {
+        const result = await fetch("/api/curriculums/favorites", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

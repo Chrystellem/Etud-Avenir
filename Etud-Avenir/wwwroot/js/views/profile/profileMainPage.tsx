@@ -1,6 +1,7 @@
 ﻿import * as React from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ProfileSaveButton } from '../../components/ProfileSaveButton';
+import { getUserInformations } from '../../services/user-service';
 import UserDTO from '../../types/user-dto';
 
 type ProfileMainPageProps = {}
@@ -14,7 +15,6 @@ export function ProfileMainPage(props: ProfileMainPageProps, state: ProfileMainP
         async function fetchUserInfo() {
             const data = await getUserInformations()
             setUserInfo(data);
-            console.log(userInfo)
         }
 
         fetchUserInfo();
@@ -48,12 +48,4 @@ export function ProfileMainPage(props: ProfileMainPageProps, state: ProfileMainP
             </section>
         </div>
     </div>
-}
-
-
-const getUserInformations = async (): Promise<UserDTO> => {
-    const result = await fetch("/Identity/Me");
-    if (!result.ok) return null;
-
-    return await result.json(); 
 }

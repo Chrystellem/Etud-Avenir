@@ -43,7 +43,7 @@ class NavLogin extends React.Component {
                     <a className="nav-link" href="/profil">Profil</a>
                 </li>
                 <li className="nav-item">
-                    <a className="nav-link" href="/Identity/Account/Logout">Déconnexion</a>
+                    <a className="nav-link" href="/logout">Déconnexion</a>
                 </li>
             </ul>
         </>

@@ -6,7 +6,7 @@ import Loader from "../loader"
 
 type SchoolInformationProperties = {
     onClickHandler: React.MouseEventHandler,
-    schoolId: number
+    curriculumId: number
 }
 
 export default class SchoolInformation extends React.Component<SchoolInformationProperties, SchoolInformationsResponseDTO> {
@@ -18,7 +18,7 @@ export default class SchoolInformation extends React.Component<SchoolInformation
     }
 
     componentDidMount = async () => {
-        const result = await getSchoolInformations(this.props.schoolId)
+        const result = await getSchoolInformations(this.props.curriculumId)
         this.setState(result)
         console.log(result)
     }
@@ -36,7 +36,7 @@ export default class SchoolInformation extends React.Component<SchoolInformation
                 <div className="d-flex justify-content-between flex-wrap gap-3">
                     <span>Durée: {this.state.programDuration} ans</span>
                     <span>Domaine: {this.state.domain}</span>
-                    <span>Type d'admission: {this.state.admissionType}</span>
+                    <span>Type d'admission: {translateAdmissionType(this.state.admissionType)}</span>
                     <span>Apprentissage: {this.state.isInternshipAvailable ? "Oui" : "Non"}</span>
                     <span>Public: {this.state.isPublic ? "Oui" : "Non"}</span>
                     <span>Reconnu par l'état: {this.state.isStateApproved ? "Oui" : "Non"}</span>
@@ -75,10 +75,19 @@ export default class SchoolInformation extends React.Component<SchoolInformation
 }
 
 
-const getSchoolInformations = async (schoolId: number): Promise<SchoolInformationsResponseDTO> => {
-    const result = await fetch(`/api/schools/${schoolId}`)
+const getSchoolInformations = async (curriculumId: number): Promise<SchoolInformationsResponseDTO> => {
+    const result = await fetch(`/api/curriculums/${curriculumId}`)
 
     if (!result.ok) return
 
     return result.json()
 }
+
+
+const translateAdmissionType = (admissionType: number) => {
+    if (admissionType == 0) return "Non renseigné"
+    if (admissionType == 1) return "Sur dossier"
+    if (admissionType == 2) return "Concours"
+
+    return "Plusieurs méthodes"
+} 

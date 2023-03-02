@@ -58,6 +58,17 @@ namespace Etud_Avenir.Controllers
             return Ok();
         }
 
+        [HttpGet]
+        [Authorize]
+        [Route("/logout")]
+        public async Task<IActionResult> Logout()
+        {
+            await _signInManager.SignOutAsync();
+            _logger.LogInformation("User logged out.");
+
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> RegistrationAPI([FromBody] RegistrationDTO model)

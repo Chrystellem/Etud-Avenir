@@ -48,7 +48,7 @@ function SchoolArticle(_a) {
             return;
         return React.createElement("div", { className: 'modal d-block' },
             React.createElement("div", { className: "modal-body", style: { backgroundColor: 'transparent' } },
-                React.createElement(school_informations_1.default, { onClickHandler: function () { return setShowModal(false); }, schoolId: school.schoolId })));
+                React.createElement(school_informations_1.default, { onClickHandler: function () { return setShowModal(false); }, curriculumId: school.curriculumId })));
     };
     /**
      * Ajoute l'école aux favoris (partie profil du compte)
@@ -57,7 +57,7 @@ function SchoolArticle(_a) {
         var result;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, fetch("/api/schools/favorites", {
+                case 0: return [4 /*yield*/, fetch("/api/curriculums/favorites", {
                         method: "POST",
                         headers: {
                             "Content-Type": "application/json",

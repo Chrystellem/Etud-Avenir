@@ -59,6 +59,7 @@ namespace Etud_Avenir
             services.AddTransient<ReportService>();
             services.AddTransient<SubjectService>();
             services.AddTransient<GradeService>();
+            services.AddTransient<CurriculumService>();
 
         }
 

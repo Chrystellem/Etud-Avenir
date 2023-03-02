@@ -133,9 +133,6 @@ var Database = /** @class */ (function (_super) {
                 switch (_a.label) {
                     case 0:
                         e.preventDefault();
-                        // Vérifier que les paramètres obligatoires sont présents
-                        if (!this.state.filter.domain || !this.state.filter.localization)
-                            return [2 /*return*/];
                         this.setState({ fetching: true });
                         newUrl = research_filter_1.default.getUrl(this.state.filter);
                         window.history.pushState({ id: newUrl }, newUrl, "/ecoles".concat(newUrl));
@@ -172,7 +169,7 @@ var getResearchResults = function (filter) { return __awaiter(void 0, void 0, vo
     var result;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, fetch("/api/schools".concat(research_filter_1.default.getUrl(filter)))];
+            case 0: return [4 /*yield*/, fetch("/api/curriculums".concat(research_filter_1.default.getUrl(filter)))];
             case 1:
                 result = _a.sent();
                 if (!result.ok || result.redirected)
