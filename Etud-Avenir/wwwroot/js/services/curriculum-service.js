@@ -36,43 +36,39 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
     }
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var React = require("react");
-var colors_1 = require("../../constants/colors");
-var icons_1 = require("../../constants/icons");
-var schools_1 = require("../../constants/schools");
-var curriculum_service_1 = require("../../services/curriculum-service");
-var action_button_1 = require("../action-button");
-function SavedSchoolArticle(_a) {
-    var _this = this;
-    var curriculumId = _a.curriculumId, name = _a.name, savedDate = _a.savedDate, formation = _a.formation, setShowPartial = _a.setShowPartial;
-    var _b = React.useState(false), isDeleted = _b[0], setIsDeleted = _b[1];
-    var deleteCurriculumHandler = function () { return __awaiter(_this, void 0, void 0, function () {
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, curriculum_service_1.deleteCurriculum)(curriculumId)];
-                case 1:
-                    if (!(_a.sent()))
-                        return [2 /*return*/];
-                    setIsDeleted(true);
-                    return [2 /*return*/];
-            }
-        });
-    }); };
-    if (isDeleted)
-        return;
-    return React.createElement("div", { className: "my-3 d-flex actions-on-hover cursor-pointer", onClick: function () { return setShowPartial(true); } },
-        React.createElement("article", { className: "saved-school d-flex align-items-center" },
-            React.createElement("div", { className: "saved-school__img" },
-                React.createElement("img", { src: schools_1.default[name].img })),
-            React.createElement("div", { className: "school-info mx-3 py-2" },
-                React.createElement("div", null,
-                    React.createElement("h5", { className: "mb-1" }, name),
-                    React.createElement("span", null, formation)),
-                React.createElement("span", { className: "d-block mt-2" },
-                    "Ajout\u00E9 le ",
-                    savedDate.toLocaleDateString()))),
-        React.createElement("div", { className: "saved-school__actions hidden-actions ml-2" },
-            React.createElement(action_button_1.ActionButton, { onClickHandler: deleteCurriculumHandler, classIcon: icons_1.default.DELETE, styleParent: { backgroundColor: colors_1.default.PINK }, manageConfirmation: true })));
-}
-exports.default = SavedSchoolArticle;
-//# sourceMappingURL=saved-school-article.js.map
+exports.getFavoritesCurriculums = exports.deleteCurriculum = void 0;
+var deleteCurriculum = function (curriculumId) { return __awaiter(void 0, void 0, void 0, function () {
+    var result;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch("/api/curriculums/favorites/" + curriculumId, {
+                    method: "DELETE"
+                })];
+            case 1:
+                result = _a.sent();
+                if (!result.ok || result.redirected)
+                    return [2 /*return*/, false];
+                return [2 /*return*/, true];
+        }
+    });
+}); };
+exports.deleteCurriculum = deleteCurriculum;
+var getFavoritesCurriculums = function () { return __awaiter(void 0, void 0, void 0, function () {
+    var result, curriculums;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, fetch("/api/curriculums/favorites")];
+            case 1:
+                result = _a.sent();
+                if (!result.ok || result.redirected)
+                    return [2 /*return*/, []];
+                return [4 /*yield*/, result.json()];
+            case 2:
+                curriculums = (_a.sent());
+                curriculums.forEach(function (c) { return c.createdDate = new Date(c.createdDate); });
+                return [2 /*return*/, curriculums];
+        }
+    });
+}); };
+exports.getFavoritesCurriculums = getFavoritesCurriculums;
+//# sourceMappingURL=curriculum-service.js.map

@@ -67,6 +67,7 @@ var school_article_1 = require("../../components/database/school-article");
 var loader_1 = require("../../components/loader");
 var filter_1 = require("../../components/research/filter");
 var parser_1 = require("../../services/parser");
+var user_service_1 = require("../../services/user-service");
 var research_filter_1 = require("../../types/research-filter");
 var ResearchResult = /** @class */ (function (_super) {
     __extends(ResearchResult, _super);
@@ -75,14 +76,19 @@ var ResearchResult = /** @class */ (function (_super) {
         _this.state = {
             filter: new research_filter_1.default(),
             fetching: true,
-            results: []
+            results: [],
+            isUserAuthentified: false
         };
         _this.componentDidMount = function () { return __awaiter(_this, void 0, void 0, function () {
-            var filterProperty, results;
+            var userInformations, filterProperty, results;
             var _a;
             return __generator(this, function (_b) {
                 switch (_b.label) {
-                    case 0:
+                    case 0: return [4 /*yield*/, (0, user_service_1.getUserInformations)()];
+                    case 1:
+                        userInformations = _b.sent();
+                        if (userInformations)
+                            this.setState({ isUserAuthentified: true });
                         // initialisation du filtre
                         for (filterProperty in this.state.filter) {
                             if (!(0, parser_1.autoParse)(this.params[filterProperty]))
@@ -91,7 +97,7 @@ var ResearchResult = /** @class */ (function (_super) {
                         }
                         this.setState({ filter: this.state.filter });
                         return [4 /*yield*/, getResearchResults(this.state.filter, this.params["reports"])];
-                    case 1:
+                    case 2:
                         results = _b.sent();
                         this.setState({ results: results, fetching: false });
                         return [2 /*return*/];
@@ -122,7 +128,7 @@ var ResearchResult = /** @class */ (function (_super) {
         _this.showResults = function () {
             if (!_this.state.results)
                 return React.createElement("p", null, "Aucun r\u00E9sultat trouv\u00E9");
-            return _this.state.results.map(function (r) { return React.createElement(school_article_1.default, { key: r.name, school: r, isResult: true }); });
+            return _this.state.results.map(function (r) { return React.createElement(school_article_1.default, { key: r.name, school: r, isResult: true, displayFavoriteBtn: _this.state.isUserAuthentified }); });
         };
         /**
          * L'utilisateur relance la recherche depuis les filtres à gauche

@@ -6,9 +6,10 @@ import SchoolInformation from '../school/school-informations';
 type SchoolArticleProperties = {
     school: ResearchResultSchoolDTO
     isResult: boolean
+    displayFavoriteBtn: boolean
 }
 
-export default function SchoolArticle({ school, isResult }: SchoolArticleProperties) {
+export default function SchoolArticle({ school, isResult, displayFavoriteBtn }: SchoolArticleProperties) {
     let [showModal, setShowModal] = React.useState(false);
 
     const getModal = () => {
@@ -31,7 +32,7 @@ export default function SchoolArticle({ school, isResult }: SchoolArticlePropert
                 "Content-Type": "application/json",
             },
             body: JSON.stringify({
-                schoolId: school.schoolId
+                curriculumId: school.curriculumId
             })
         })
 
@@ -61,7 +62,11 @@ export default function SchoolArticle({ school, isResult }: SchoolArticlePropert
                         <li><i className="fa-solid fa-vial color-green"></i> {school.formation} </li>
                     </ul>
                     <div>
-                        <a className="btn btn-primary" onClick={saveToFavorite}>Ajouter aux favoris</a>
+                        {
+                            displayFavoriteBtn ?  
+                                <a className="btn btn-primary" onClick={saveToFavorite}>Ajouter aux favoris</a>
+                                : ""
+                        }
                         <a className="btn btn-primary ml-2" onClick={() => setShowModal(true)}>En savoir +</a>
                     </div>
                 </div>

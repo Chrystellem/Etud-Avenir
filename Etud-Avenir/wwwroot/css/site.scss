@@ -189,6 +189,7 @@ section .container-profile-buttons {
         background: $white;
         box-shadow: $shadow-box;
         min-width: 400px;
+        max-width: 650px;
 
         h5 {
             font-weight: bold;
@@ -271,6 +272,11 @@ article.article-icon {
 
 /***** Style Profil > Ecoles ******/
 article.saved-school {
+    background: $white;
+    box-shadow: $shadow-box;
+    border-radius: 15px;
+    min-width: 300px;
+
     .saved-school__img {
         width: 75px;
         height: 100%;

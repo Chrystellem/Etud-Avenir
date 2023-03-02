@@ -6,6 +6,7 @@ import SchoolInformation from '../../components/school/school-informations'
 type PartialModalProperties = {
     showPartial: boolean,
     setShowPartial: React.Dispatch<React.SetStateAction<boolean>>
+    elementId: number
 }
 
 type ProfilePageTemplateProps = {
@@ -23,7 +24,7 @@ export function ProfilePageTemplate({ title, description, children, color, parti
     const getPartial = () => {
         if (!partial || !partial.showPartial) return
 
-        return <SchoolInformation onClickHandler={() => partial.setShowPartial(false)} curriculumId={0} />
+        return <SchoolInformation onClickHandler={() => partial.setShowPartial(false)} curriculumId={partial.elementId} />
     }
 
     return <div className="template-profile-page">

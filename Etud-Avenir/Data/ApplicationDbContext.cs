@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.Reflection.Emit;
 using System.Text;
 
 namespace Etud_Avenir.Data
@@ -36,7 +37,5 @@ namespace Etud_Avenir.Data
         public DbSet<Test> Test { get; set; }
 
         public DbSet<Test2> Test2 { get; set; }
-
-
     }
 }
