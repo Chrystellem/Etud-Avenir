@@ -4,6 +4,7 @@ import SchoolArticle from '../../components/database/school-article'
 import Loader from '../../components/loader'
 import Filter from '../../components/research/filter'
 import { autoParse } from '../../services/parser'
+import { getUserInformations } from '../../services/user-service'
 import FilterState from '../../types/research-filter'
 import ResearchResultSchoolDTO from '../../types/research-result-school-dto'
 
@@ -11,7 +12,8 @@ type ResearchResultProperties = {}
 type ResearchResultState = {
     filter: FilterState
     results: ResearchResultSchoolDTO[]
-    fetching: boolean
+    fetching: boolean,
+    isUserAuthentified: boolean
 }
 
 export default class ResearchResult extends React.Component<ResearchResultProperties, ResearchResultState> {
@@ -19,7 +21,8 @@ export default class ResearchResult extends React.Component<ResearchResultProper
     state: ResearchResultState = {
         filter: new FilterState(),
         fetching: true,
-        results: []
+        results: [],
+        isUserAuthentified: false
     }
 
     constructor(props) {
@@ -27,6 +30,9 @@ export default class ResearchResult extends React.Component<ResearchResultProper
     }
 
     componentDidMount = async () => {
+        const userInformations = await getUserInformations()
+        if (userInformations) this.setState({ isUserAuthentified: true })
+
         // initialisation du filtre
         for (const filterProperty in this.state.filter) {
             if (!autoParse(this.params[filterProperty])) continue
@@ -80,6 +86,7 @@ export default class ResearchResult extends React.Component<ResearchResultProper
                 key={r.name}
                 school={r}
                 isResult={true}
+                displayFavoriteBtn={this.state.isUserAuthentified}
             />
         )
     }

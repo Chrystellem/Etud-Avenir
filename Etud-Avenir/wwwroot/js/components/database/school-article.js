@@ -41,7 +41,7 @@ var schools_1 = require("../../constants/schools");
 var school_informations_1 = require("../school/school-informations");
 function SchoolArticle(_a) {
     var _this = this;
-    var school = _a.school, isResult = _a.isResult;
+    var school = _a.school, isResult = _a.isResult, displayFavoriteBtn = _a.displayFavoriteBtn;
     var _b = React.useState(false), showModal = _b[0], setShowModal = _b[1];
     var getModal = function () {
         if (!showModal)
@@ -63,7 +63,7 @@ function SchoolArticle(_a) {
                             "Content-Type": "application/json",
                         },
                         body: JSON.stringify({
-                            schoolId: school.schoolId
+                            curriculumId: school.curriculumId
                         })
                     })];
                 case 1:
@@ -99,7 +99,9 @@ function SchoolArticle(_a) {
                             school.formation,
                             " ")),
                     React.createElement("div", null,
-                        React.createElement("a", { className: "btn btn-primary", onClick: saveToFavorite }, "Ajouter aux favoris"),
+                        displayFavoriteBtn ?
+                            React.createElement("a", { className: "btn btn-primary", onClick: saveToFavorite }, "Ajouter aux favoris")
+                            : "",
                         React.createElement("a", { className: "btn btn-primary ml-2", onClick: function () { return setShowModal(true); } }, "En savoir +"))))),
         getModal());
 }

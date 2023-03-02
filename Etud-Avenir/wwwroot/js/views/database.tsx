@@ -3,6 +3,7 @@ import SchoolArticle from '../components/database/school-article'
 import Loader from '../components/loader'
 import Filter from '../components/research/filter'
 import { autoParse } from '../services/parser'
+import { getUserInformations } from '../services/user-service'
 import FilterState from '../types/research-filter'
 import ResearchResultSchoolDTO from '../types/research-result-school-dto'
 
@@ -10,13 +11,15 @@ type DatabaseState = {
     filter: FilterState
     results: ResearchResultSchoolDTO[]
     fetching: boolean
+    isAuthentified: boolean
 }
 
 export default class Database extends React.Component<{}, DatabaseState> {
     state: DatabaseState = {
         filter: new FilterState(),
         fetching: true,
-        results: []
+        results: [],
+        isAuthentified: false
     }
 
     constructor(props) {
@@ -31,6 +34,9 @@ export default class Database extends React.Component<{}, DatabaseState> {
     });
 
     componentDidMount = async () => {
+        const userInformations = await getUserInformations()
+        if (userInformations) this.setState({ isAuthentified: true })
+
         // initialisation du filtre
         for (const filterProperty in this.state.filter) {
             if (!autoParse(this.params[filterProperty])) continue
@@ -77,6 +83,7 @@ export default class Database extends React.Component<{}, DatabaseState> {
                 key={r.name}
                 school={r}
                 isResult={false}
+                displayFavoriteBtn={this.state.isAuthentified}
             />
         )
     }

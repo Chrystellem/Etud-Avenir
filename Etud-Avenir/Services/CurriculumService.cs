@@ -1,6 +1,7 @@
 ﻿using Etud_Avenir.Data;
 using Etud_Avenir.DTOs.Research;
 using Etud_Avenir.DTOs.School;
+using Etud_Avenir.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -65,5 +66,8 @@ namespace Etud_Avenir.Services
                 ZipCode = q.School.ZipCode,
             }).ToListAsync();
         }
+
+        public Task<Curriculum> GetCurriculum(int curriculumId)
+            => _dbContext.Curriculum.FirstOrDefaultAsync(c => c.CurriculumId == curriculumId);
     }
 }
