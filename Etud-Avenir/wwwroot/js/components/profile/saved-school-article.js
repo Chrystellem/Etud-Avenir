@@ -60,8 +60,8 @@ function SavedSchoolArticle(_a) {
     }); };
     if (isDeleted)
         return;
-    return React.createElement("div", { className: "my-3 d-flex actions-on-hover cursor-pointer", onClick: function () { return setShowPartial(true); } },
-        React.createElement("article", { className: "saved-school d-flex align-items-center" },
+    return React.createElement("div", { className: "my-3 d-flex actions-on-hover cursor-pointer" },
+        React.createElement("article", { className: "saved-school d-flex align-items-center", onClick: function () { return setShowPartial(true); } },
             React.createElement("div", { className: "saved-school__img" },
                 React.createElement("img", { src: schools_1.default[name].img })),
             React.createElement("div", { className: "school-info mx-3 py-2" },

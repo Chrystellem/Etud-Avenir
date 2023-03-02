@@ -25,7 +25,7 @@ export default class SchoolInformation extends React.Component<SchoolInformation
 
     renderDescription = () => {
         return <><div className="template-profile-page__description-element__header d-flex align-items-center">
-            <img src={SCHOOLS[this.state.name].img} />
+            <img src={SCHOOLS[this.state.name]?.img} />
             <div className="ml-3">
                 <h5>{this.state.name}</h5>
                 <span>{this.state.city} - {this.state.zipCode}</span>
@@ -57,7 +57,7 @@ export default class SchoolInformation extends React.Component<SchoolInformation
                     : ""
             }
 
-            <a className='btn btn-primary' href={SCHOOLS[this.state.name].website} target="_blank">Voir le site</a>
+            <a className='btn btn-primary' href={SCHOOLS[this.state.name]?.website} target="_blank">Voir le site</a>
             <Button name="Fermer" template="danger" onClick={this.props.onClickHandler} /></>
     }
 

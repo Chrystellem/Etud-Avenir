@@ -43,7 +43,7 @@ export default function SchoolArticle({ school, isResult, displayFavoriteBtn }: 
 
     return <>
         <article className="d-flex">
-            <img src={SCHOOLS[school.name].img} />
+            <img src={SCHOOLS[school.name]?.img} />
             <div className="w-100 p-4">
                 <div className="d-flex align-items-end justify-content-between">
                     <div className="d-flex align-items-end">

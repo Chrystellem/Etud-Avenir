@@ -63,7 +63,8 @@ var SavedSchoolPage = /** @class */ (function (_super) {
         var _this = _super.call(this, props) || this;
         _this.state = {
             showPartial: false,
-            curriculums: []
+            curriculums: [],
+            curriculumClickedId: 0
         };
         _this.componentDidMount = function () { return __awaiter(_this, void 0, void 0, function () {
             var _a;
@@ -82,10 +83,10 @@ var SavedSchoolPage = /** @class */ (function (_super) {
             });
         }); };
         _this.showSavedCurriculums = function () {
-            return _this.state.curriculums.map(function (c) { return React.createElement(saved_school_article_1.default, { key: c.curriculumId, curriculumId: c.curriculumId, name: c.schoolName, formation: c.name, savedDate: c.createdDate, setShowPartial: function () { return _this.setState({ showPartial: !_this.state.showPartial }); } }); });
+            return _this.state.curriculums.map(function (c) { return React.createElement(saved_school_article_1.default, { key: c.curriculumId, curriculumId: c.curriculumId, name: c.schoolName, formation: c.name, savedDate: c.createdDate, setShowPartial: function () { return _this.setState({ showPartial: !_this.state.showPartial, curriculumClickedId: c.curriculumId }); } }); });
         };
         _this.render = function () {
-            return React.createElement(page_template_1.ProfilePageTemplate, { title: "Ecoles favorites", description: description, color: colors_1.default.PINK, partial: { showPartial: _this.state.showPartial, setShowPartial: function () { return _this.setState({ showPartial: !_this.state.showPartial }); } } }, _this.showSavedCurriculums());
+            return React.createElement(page_template_1.ProfilePageTemplate, { title: "Ecoles favorites", description: description, color: colors_1.default.PINK, partial: { elementId: _this.state.curriculumClickedId, showPartial: _this.state.showPartial, setShowPartial: function () { return _this.setState({ showPartial: !_this.state.showPartial }); } } }, _this.showSavedCurriculums());
         };
         return _this;
     }
