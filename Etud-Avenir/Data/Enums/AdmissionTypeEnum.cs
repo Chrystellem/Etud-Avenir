@@ -2,7 +2,8 @@
 {
     public enum AdmissionTypeEnum
     {
-        Profile = 0, // sur dossier
-        Concours = 1, // concours
+        NoSelection = 0,
+        Profile = 1, // sur dossier
+        Concours = 2, // concours
     }
 }

@@ -3,162 +3,170 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etud_Avenir.Data;
+using Etud_Avenir.DTOs.Report;
+using Etud_Avenir.DTOs.Research;
 using Etud_Avenir.Models;
 using Microsoft.EntityFrameworkCore;
 
 namespace Etud_Avenir.Services
-{ 
+{
     public class SearchService
     {
 
         private readonly ApplicationDbContext _dbContext;
-        private readonly SchoolService _schoolService;
+        private ResearchDTO research;
+        private List<ReportDTO> userReports;
 
-
-        private Dictionary<School, float> scoreResults;
-        private int NB_CRITERIA = 8;
-
-
-        public SearchService(ApplicationDbContext dbContext, SchoolService schoolService)
+        public SearchService(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
-            _schoolService = schoolService;
         }
 
-        public List<SchoolRequest> StartResearch(SearchRequest searchRequest)
+        public List<ResearchResultSchoolDTO> StartResearch(ResearchDTO researchDTO, List<ReportDTO> userReportsDTO)
         {
-            scoreResults = new Dictionary<School, float>();
-
-            return _schoolService.GetSchoolsRequestsFromList(GetResearchResults(searchRequest));
+            research = researchDTO;
+            userReports = userReportsDTO;
+            List<Curriculum> curriculums = GetCurriculumByDomain(research.Domain);
+            List<School> schools = GetCurriculumsSchools(curriculums);
+            schools = FilterSchoolsByCurriculums(schools);
+            curriculums = RemoveCurriculumsOfNoneFilteredSchools(schools, curriculums);
+            Dictionary<Curriculum, double> curriculumsScores = GetCurriculumsWithScores(curriculums);
+            return GetResearchResults(curriculumsScores);
         }
 
-       public Dictionary<School, float> GetResearchResults(SearchRequest searchRequest)
+        public List<Curriculum> GetCurriculumByDomain(string Domain)
         {
-            UpdateResearchResults(GetSchoolsByDomaineAsync(searchRequest.Domaine).Result);
-            UpdateResearchResults(GetSchoolsByLocalisationAsync(searchRequest.Localisation).Result);
-            UpdateResearchResults(GetSchoolsByAdmissionTypeAsync(searchRequest.AdmissionType).Result);
-            UpdateResearchResults(GetSchoolsByApprenticeshipAsync(searchRequest.Apprenticeship).Result);
-            UpdateResearchResults(GetSchoolsByStateRecognitionAsync(searchRequest.StateRecognition).Result);
-            UpdateResearchResults(GetSchoolsByPrivateSchoolAsync(searchRequest.PrivateSchool).Result);
-            UpdateResearchResults(GetSchoolsByAverageSalaryAsync(searchRequest.AverageSalary).Result);
-            UpdateResearchResults(GetSchoolsByInsertionRateAsync(searchRequest.InsertionRate).Result);
-             
-
-            return GetTopResults();
-
+            List<Curriculum> curriculumsOfDomain = _dbContext.Curriculum.Where(c => c.Domain == Domain).ToList();
+            return FilterCurriculumsByDomain(curriculumsOfDomain);
         }
 
-        public Dictionary<School, float> GetTopResults()
+        public List<Curriculum> FilterCurriculumsByDomain(List<Curriculum> curriculums)
         {
-            var sortedScore = scoreResults.OrderBy(s => s.Value).ToDictionary(s => s.Key, sc => sc.Value);
-            Dictionary<School, float> topResults = new Dictionary<School, float>();
-            for (int i = 0; i < 5; i++)
+            List<Curriculum> curriculumsFiltered = new List<Curriculum>();
+            foreach (Curriculum curriculum in curriculums)
             {
-                topResults.Add(sortedScore.ElementAt(i).Key, ConvertScore(sortedScore.ElementAt(i).Value));
-            }
-            return topResults;
-
-        }
-
-        public float ConvertScore(float value)
-        {
-            return value / NB_CRITERIA * 100;
-        }
-
-        public void UpdateResearchResults(List<School> schools)
-        {
-  
-            if (scoreResults.Count == 0)
-            {
-                foreach (School school in schools)
+                if(research.AdmissionType == curriculum.AdmissionType)
                 {
-                    scoreResults.Add(school, 1);
+                    if (research.IsApprenticeship && curriculum.IsApprenticeship)
+                    {
+                        curriculumsFiltered.Add(curriculum);
+                    }
+                    else if (research.IsInitialFormation && curriculum.IsInitialFormation)
+                    {
+                        curriculumsFiltered.Add(curriculum);
+                    }
                 }
             }
-            else
+
+            return curriculumsFiltered;
+        }
+
+        public School GetCurriculumSchool(Curriculum curriculum)
+        {
+            return _dbContext.School.Where(s => curriculum.SchoolId == s.SchoolId).FirstOrDefault();
+        }
+
+        public List<School> GetCurriculumsSchools(List<Curriculum> curriculums)
+        {
+            return _dbContext.School.Where(s => curriculums.Any(c => c.SchoolId == s.SchoolId)).ToList();
+        }
+
+        public List<School> FilterSchoolsByCurriculums(List<School> curriculumSchools)
+        {
+            List<School> schoolsFiltered = new List<School>();
+            foreach (School school in curriculumSchools)
             {
-                foreach (School school in schools)
+                if (school.Address.Contains(research.Localization))
                 {
-                    ComputeSchoolScore(school);
+                    if (research.IsPrivate && school.IsPrivate)
+                    {
+                        schoolsFiltered.Add(school);
+                    }
+                    else if (research.IsPublic && school.IsPublic)
+                    {
+                        schoolsFiltered.Add(school);
+                    }
                 }
             }
+
+            return schoolsFiltered;
         }
 
-        public void ComputeSchoolScore(School school)
+        public List<Curriculum> RemoveCurriculumsOfNoneFilteredSchools(List<School> schools, List<Curriculum> curriculums)
         {
-            if (scoreResults.ContainsKey(school))
+            List<Curriculum> curriculumsFiltered = new List<Curriculum>();
+            foreach (Curriculum curriculum in curriculums)
             {
-                scoreResults[school] += 1;
+                if (schools.Any(s => s.SchoolId == curriculum.SchoolId))
+                {
+                    curriculumsFiltered.Add(curriculum);
+                }
             }
-            else
-            {
-                scoreResults.Add(school, 1);
-            }
+            return curriculumsFiltered;
         }
 
-        public void ComputeCoefScore()
+        public Dictionary<Curriculum, double> GetCurriculumsWithScores(List<Curriculum> curriculums)
         {
+            Dictionary<Curriculum, double> curriculumsScores = new Dictionary<Curriculum, double>();
+            List<GradeBySubjectDTO> studentGrades = (List<GradeBySubjectDTO>)userReports.Select(r => r.GradeBySubject); // A REVOIR
+            foreach (Curriculum curriculum in curriculums)
+            {
+                double score = ComputeCurriculumScore(curriculum, studentGrades);
+                curriculumsScores.Add(curriculum, score);
 
-            /* 
-                exemple parcour coef
-                parcour	                Mathematiques 	Physique  	SVT 	Histoire/Geographie	Francais 	LV2 	Anglais 	Philosophie  	Science economique et sociale	Litterature 	Litterature Etrangere	Droit et grands enjeux du monde contemporain	MI-SVT
-                cycle ingenieur efrei	4	            3	        0       0	                2   	    1	    2	        0	            1,5	                            1,5 	        0	        0	        0
-                cycle ingenieur esiee	4	            3   	    0	    0       	        2	        1       2	        0	            1,5	                            1,5	            0	        0	        0
+            }
+            return curriculumsScores;
+        }
 
 
+        public double ComputeCurriculumScore(Curriculum curriculum, List<GradeBySubjectDTO> studentsGrades)
+        {
+            int MaximumGrade = 20;
+            int SumCoefficients = 15;
+            int TotalCoefficients = MaximumGrade * SumCoefficients;
 
-              for a student get every note
+            double curriculumScore = 0;
+            
+            foreach(Subject subject in _dbContext.Subject.ToList())
+            {
+                List<GradeBySubjectDTO> subjectGrades = studentsGrades.FindAll(s => s.Subject == subject.Name);
+                double coefficient = _dbContext.CurriculumCoefficient.Where(c => c.SubjectId == subject.SubjectId && c.CurriculumId == curriculum.CurriculumId ).FirstOrDefault().Value;
+                curriculumScore += subjectGrades.Average(s => s.Grade) * coefficient;
+            }
+            return curriculumScore / TotalCoefficients;
+        }
 
-             select [idUser idBulletin idMatiere] note intitulé 
-            from report join grade join subject 
-            wherer report.userId = currentUserID
-
-             for each parcour : (a recuperer dans le csv ou une table en fonction du choix et des critère
-                 for each matiere 
-                        
-                    noteMatier = select avg(note) where intitulé = "matiere"
-                     coef = select "matiere" from parcour where name = parcour where domain = info  
-                    
-                     scoreCoef += noteMatiere  * coef
-
-            sort by scoreCoef et return les N premier element 
-
-             mettre score en pourcentage 
-            pourcentage = scoreCoef / (15*20)
-            si pourcentage   > 85% tres favorable 
-                             > 70% favorable
-                             > 50% peu favorable 
-                             < 50% avis defavorable
-
-             */
-
+        public List<ResearchResultSchoolDTO> GetResearchResults(Dictionary<Curriculum, double> curriculumsScores)
+        {
+            Dictionary<Curriculum, double> topCurriculumsScores = Get5BestCurriculums(curriculumsScores);
+            return GetResultsDTOs(topCurriculumsScores);
 
         }
 
-        public Task<List<School>> GetSchoolsByDomaineAsync(string domaine)
-        => _dbContext.School.Where(s => s.Domaine == domaine).ToListAsync();
+        public List<ResearchResultSchoolDTO> GetResultsDTOs(Dictionary<Curriculum, double> topCurriculumsScores)
+        {
+            List<ResearchResultSchoolDTO> resultsDTOs = new List<ResearchResultSchoolDTO>();
 
-        public Task<List<School>> GetSchoolsByLocalisationAsync(string localisation)
-        => _dbContext.School.Where(s => s.Localisation == localisation).ToListAsync();
+            foreach(Curriculum curriculum in topCurriculumsScores.Keys)
+            {
+                School school = GetCurriculumSchool(curriculum);
+                resultsDTOs.Add(new ResearchResultSchoolDTO { 
+                    SchoolId = school.SchoolId, 
+                    Name = school.Name, 
+                    City = school.City, 
+                    Domain = curriculum.Domain, 
+                    ZipCode = school.ZipCode, 
+                    Formation = curriculum.Name, 
+                    Score = topCurriculumsScores[curriculum]
+                });
+            }
+            return resultsDTOs;
+        }
 
-        public Task<List<School>> GetSchoolsByAdmissionTypeAsync(string admissionType)
-        => _dbContext.School.Where(s => s.AdmissionType == admissionType).ToListAsync();
-
-        public Task<List<School>> GetSchoolsByApprenticeshipAsync(bool apprenticeship)
-        => _dbContext.School.Where(s => s.Apprenticeship == apprenticeship).ToListAsync();
-
-        public Task<List<School>> GetSchoolsByStateRecognitionAsync(bool stateRecognition)
-        => _dbContext.School.Where(s => s.StateRecognition == stateRecognition).ToListAsync();
-
-        public Task<List<School>> GetSchoolsByPrivateSchoolAsync(bool privateSchool)
-        => _dbContext.School.Where(s => s.PrivateSchool == privateSchool).ToListAsync();
-
-        public Task<List<School>> GetSchoolsByAverageSalaryAsync(float averageSalary)
-        => _dbContext.School.Where(s => s.AverageSalary == averageSalary).ToListAsync(); //choisir un taux d'encadrement
-
-        public Task<List<School>> GetSchoolsByInsertionRateAsync(float insertionRate)
-        => _dbContext.School.Where(s => s.InsertionRate == insertionRate).ToListAsync(); //choisir un taux d'encadrement
-
+        public Dictionary<Curriculum, double> Get5BestCurriculums(Dictionary<Curriculum, double> curriculumsScores)
+        {
+            return (Dictionary<Curriculum, double>)curriculumsScores.OrderByDescending(c => c.Value).Take(5);
+        }
 
 
     }

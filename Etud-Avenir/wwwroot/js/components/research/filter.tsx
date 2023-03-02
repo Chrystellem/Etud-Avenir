@@ -37,9 +37,9 @@ export default function Filter({ state, handleChange, handleSubmit }: FilterProp
                     inputType="text" />
 
                 <Select name="admissionType" label="Type d'admission" required={true} onChange={handleChange} value={state.admissionType}>
-                    <option>-- Sélectionne un type d'admission --</option>
-                    <option>Sur dossier</option>
-                    <option>Concours</option>
+                    <option value="0">-- Sélectionne un type d'admission --</option>
+                    <option value="1">Sur dossier</option>
+                    <option value="2">Concours</option>
                 </Select>
 
                 <Checkbox

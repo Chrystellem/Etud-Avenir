@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Etud_Avenir.Data;
+using Etud_Avenir.Data.Enums;
 using Etud_Avenir.Models;
 
 namespace Etud_Avenir.Services
@@ -62,8 +63,7 @@ namespace Etud_Avenir.Services
 
         public List<Curriculum> GetSchoolAllCurriculums(int SchoolId)
         {
-            List<CurriculumSchool> schoolCurriculums = _dbContext.CurriculumSchool.Where(cs => cs.SchoolId == SchoolId).ToList();
-            return _dbContext.Curriculum.Where(c => c.CurriculumId == schoolCurriculums.Find(sc => sc.CurriculumId == c.CurriculumId).CurriculumId).ToList();
+            return _dbContext.Curriculum.Where(c => c.SchoolId == SchoolId).ToList();
         }
 
         public async Task AddSchoolAsync(string name, string address, string website)
@@ -74,25 +74,22 @@ namespace Etud_Avenir.Services
             _dbContext.SaveChanges();
         }
 
-        public async Task AddSchoolCurriculumAsync(string name, int duration, int idSchool)
+        public async Task AddSchoolCurriculumAsync(string name, int duration, int schoolId, string domain, bool isApprenticeship, bool isInitialFormation, AdmissionTypeEnum admissiontype)
         {
-            if (GetSchoolModel(idSchool) is not null) 
+            if (GetSchoolModel(schoolId) is not null) 
             {
-                await AddNewCurriculumAsync(name, duration);
-                int newCurriculumId = _dbContext.Curriculum.Where(c => c.Name == name && c.Duration == duration).Single().CurriculumId;
-                CurriculumSchool schoolCurriculum = new CurriculumSchool { SchoolId = idSchool, CurriculumId = newCurriculumId };
-                await _dbContext.AddAsync(schoolCurriculum);
-                _dbContext.SaveChanges();
-            }
-        }
+                Curriculum newCurriculum = new Curriculum { 
+                    Name = name, 
+                    Duration = duration, 
+                    Domain = domain, 
+                    AdmissionType = admissiontype, 
+                    IsApprenticeship = isApprenticeship, 
+                    IsInitialFormation = isInitialFormation, 
+                    SchoolId = schoolId
+                };
 
-        private async Task AddNewCurriculumAsync(string name,int duration)
-        {
-            Curriculum newCurriculum = new Curriculum { Name = name, Duration = duration };
-            Curriculum isCurriculum = _dbContext.Curriculum.Where(c => c.Name == name && c.Duration == duration).Single();
-            if (isCurriculum is null)
-            {
                 await _dbContext.AddAsync(newCurriculum);
+                _dbContext.SaveChanges();
             }
         }
 
