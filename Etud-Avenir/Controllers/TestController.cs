@@ -43,5 +43,15 @@ namespace Etud_Avenir.Controllers
             _testService.getTests();
         }
 
+        [Route("/test/research")]
+
+        [HttpGet]
+
+        public void CheckResearch()
+        {
+            _testService.CheckResearch();
+        }
+        
+
     }
 }

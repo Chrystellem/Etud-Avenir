@@ -1,4 +1,7 @@
 ﻿using Etud_Avenir.Data;
+using Etud_Avenir.Data.Enums;
+using Etud_Avenir.DTOs.Report;
+using Etud_Avenir.DTOs.Research;
 using Etud_Avenir.Models;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -12,11 +15,13 @@ namespace Etud_Avenir.Services
     {
 
         private readonly ApplicationDbContext _dbContext;
+        private readonly SearchService _searchService;
 
 
-        public TestService(ApplicationDbContext dbContext)
+        public TestService(ApplicationDbContext dbContext, SearchService searchService)
         {
             _dbContext = dbContext;
+            _searchService = searchService;
         }
 
 
@@ -73,6 +78,58 @@ namespace Etud_Avenir.Services
                 Console.WriteLine(" + " + test.Id + " - " + test.Name);
             }
 
+        }
+
+        public void CheckResearch()
+        {
+
+            List<ResearchResultSchoolDTO> results = _searchService.StartResearch(getTestsResearch(), getTestsGrades());
+
+            foreach(ResearchResultSchoolDTO result in results)
+            {
+                Console.WriteLine(" > " + result.ToString());
+            }
+
+        }
+
+        public ResearchDTO getTestsResearch()
+        {
+            return new ResearchDTO
+            {
+                Domain = "info",
+                Localization = "Île-de-France",
+                IsApprenticeship = true,
+                IsInitialFormation = false,
+                IsPublic = true,
+                IsPrivate = true,
+                AdmissionType = AdmissionTypeEnum.Profile
+            };
+        }
+
+        public List<ReportDTO> getTestsGrades()
+        {
+            List<ReportDTO> reports = new List<ReportDTO>();
+            for (int i = 0; i < 3; i++)
+            {
+                List<GradeBySubjectDTO> reportsGrades = new List<GradeBySubjectDTO>();
+                foreach (Subject subject in _dbContext.Subject.ToList())
+                {
+                    GradeBySubjectDTO gradeDTO = new GradeBySubjectDTO { Grade = 12+i , Subject = subject.Name };
+                    reportsGrades.Add(gradeDTO);
+                }
+
+                ReportDTO reportDTO = new ReportDTO
+                {
+                    Quarter = i,
+                    SchoolYear = "terminale",
+                    CreatedAt = DateTime.Now,
+                    GradeBySubject = reportsGrades
+                };
+
+                reports.Add(reportDTO);
+
+            }
+            return reports;
         }
 
     }
