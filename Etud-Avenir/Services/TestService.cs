@@ -96,13 +96,13 @@ namespace Etud_Avenir.Services
         {
             return new ResearchDTO
             {
-                Domain = "Info",
-                Localization = "1",
+                Domain = "info",
+                Localization = "Île-de-France",
                 IsApprenticeship = true,
                 IsInitialFormation = false,
                 IsPublic = true,
                 IsPrivate = true,
-                AdmissionType = AdmissionTypeEnum.Concours
+                AdmissionType = AdmissionTypeEnum.Profile
             };
         }
 
