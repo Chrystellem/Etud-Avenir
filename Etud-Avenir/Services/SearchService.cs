@@ -81,7 +81,7 @@ namespace Etud_Avenir.Services
             return false;
         }
 
-        public bool CheckCurriculumRecognition(Curriculum curriculum)
+        /*public bool CheckCurriculumRecognition(Curriculum curriculum)
         {
             if (research.StateRecognition)
             {
@@ -96,7 +96,7 @@ namespace Etud_Avenir.Services
 
             }
             return true;
-        }
+        }*/
 
         public bool CheckCurriculumFormationType(Curriculum curriculum)
         {
