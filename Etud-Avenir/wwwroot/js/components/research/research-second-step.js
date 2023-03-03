@@ -32,7 +32,7 @@ var ResearchSecondStep = function (_a) {
         isPublic: false,
         isPrivate: false,
         isStateApproved: false,
-        admissionType: ""
+        admissionType: 0
     }), state = _b[0], setState = _b[1];
     var navigate = (0, react_router_dom_1.useNavigate)();
     var handleChange = function (event) {
@@ -98,9 +98,9 @@ var ResearchSecondStep = function (_a) {
                     React.createElement("div", { className: "ml-5" },
                         React.createElement(checkbox_1.Checkbox, { name: "isPrivate", label: "Priv\u00E9", checked: state.isPrivate, onChange: handleChange }))),
                 React.createElement(select_1.default, { name: "admissionType", label: "Type d'admission", required: true, onChange: handleChange, value: state.admissionType },
-                    React.createElement("option", null, "-- S\u00E9lectionne un type d'admission --"),
-                    React.createElement("option", null, "Sur dossier"),
-                    React.createElement("option", null, "Concours")))),
+                    React.createElement("option", { value: "0" }, "-- S\u00E9lectionne un type d'admission --"),
+                    React.createElement("option", { value: "1" }, "Sur dossier"),
+                    React.createElement("option", { value: "2" }, "Concours")))),
         React.createElement("div", { className: "w-100 d-flex justify-content-center" },
             React.createElement(button_1.Button, { template: 'primary', name: 'Rechercher', onClick: launchResult }))));
 };
