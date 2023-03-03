@@ -15,7 +15,7 @@ type ResearchSecondStepState = {
     isPublic: boolean
     isPrivate: boolean
     isStateApproved: boolean
-    admissionType: string
+    admissionType: number
 }
 
 type ResearchSecondStepProperties = {
@@ -36,7 +36,7 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
         isPublic: false,
         isPrivate: false,
         isStateApproved: false,
-        admissionType: ""
+        admissionType: 0
     } as ResearchSecondStepState)
     const navigate = useNavigate();
 
@@ -125,9 +125,9 @@ const ResearchSecondStep = ({ selectedReports }: ResearchSecondStepProperties) =
                 </div>
 
                 <Select name="admissionType" label="Type d'admission" required={true} onChange={handleChange} value={state.admissionType} >
-                    <option>-- Sélectionne un type d'admission --</option>
-                    <option>Sur dossier</option>
-                    <option>Concours</option>
+                    <option value="0">-- Sélectionne un type d'admission --</option>
+                    <option value="1">Sur dossier</option>
+                    <option value="2">Concours</option>
                 </Select>
             </div>
         </div>

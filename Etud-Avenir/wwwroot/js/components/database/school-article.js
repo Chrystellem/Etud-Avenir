@@ -41,8 +41,9 @@ var schools_1 = require("../../constants/schools");
 var school_informations_1 = require("../school/school-informations");
 function SchoolArticle(_a) {
     var _this = this;
+    var _b;
     var school = _a.school, isResult = _a.isResult, displayFavoriteBtn = _a.displayFavoriteBtn;
-    var _b = React.useState(false), showModal = _b[0], setShowModal = _b[1];
+    var _c = React.useState(false), showModal = _c[0], setShowModal = _c[1];
     var getModal = function () {
         if (!showModal)
             return;
@@ -76,7 +77,7 @@ function SchoolArticle(_a) {
     }); };
     return React.createElement(React.Fragment, null,
         React.createElement("article", { className: "d-flex" },
-            React.createElement("img", { src: schools_1.default[school.name].img }),
+            React.createElement("img", { src: (_b = schools_1.default[school.name]) === null || _b === void 0 ? void 0 : _b.img }),
             React.createElement("div", { className: "w-100 p-4" },
                 React.createElement("div", { className: "d-flex align-items-end justify-content-between" },
                     React.createElement("div", { className: "d-flex align-items-end" },
