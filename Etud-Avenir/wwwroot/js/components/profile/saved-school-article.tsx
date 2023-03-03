@@ -28,7 +28,7 @@ export default function SavedSchoolArticle({ curriculumId, name, savedDate, form
     return <div className="my-3 d-flex actions-on-hover cursor-pointer">
         <article className="saved-school d-flex align-items-center" onClick={() => setShowPartial(true)}>
             <div className="saved-school__img">
-                <img src={SCHOOLS[name].img} />
+                <img src={SCHOOLS[name]?.img} />
             </div>
             <div className="school-info mx-3 py-2">
                 <div>
