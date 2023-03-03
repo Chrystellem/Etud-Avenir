@@ -1,0 +1,15 @@
+﻿SET IDENTITY_INSERT [dbo].[Subject] ON
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (15, N'Mathematiques')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (16, N'Physique')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (17, N'SVT')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (18, N'Histoire/Geographie')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (19, N'Francais')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (20, N'LV2')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (21, N'Anglais')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (22, N'Philosophie')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (23, N'Science economique et sociale')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (24, N'Litterature')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (25, N'Litterature Etrangere')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (26, N'Droit et grands enjeux du monde contemporain')
+INSERT INTO [dbo].[Subject] ([SubjectId], [Name]) VALUES (27, N'MI-SVT')
+SET IDENTITY_INSERT [dbo].[Subject] OFF

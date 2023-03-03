@@ -29,7 +29,7 @@ namespace Etud_Avenir.Services
                 AdmissionType = result.Curriculum.AdmissionType,
                 IsInternshipAvailable = result.Curriculum.IsApprenticeship,
                 IsPublic = result.School.IsPublic,
-                IsStateApproved = result.School.StateRecognition,
+                IsStateApproved = result.Curriculum.StateRecognition,
                 City = result.School.City,
                 CurriculumId = result.Curriculum.CurriculumId,
                 Domain = result.Curriculum.Domain,

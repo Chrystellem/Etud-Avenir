@@ -17,6 +17,8 @@ namespace Etud_Avenir.Models
         public bool IsApprenticeship { get; set; }
         public bool IsInitialFormation { get; set; }
         public AdmissionTypeEnum AdmissionType { get; set; }
+        public bool StateRecognition { get; set; }
+
 
         [ForeignKey("School")]
         public int SchoolId { get; set; }

@@ -11,6 +11,7 @@ namespace Etud_Avenir.DTOs.Research
         public bool IsInitialFormation { get; set; }
         public bool IsPublic { get; set; }
         public bool IsPrivate { get; set; }
+        public bool IsStateApproved { get; set; }
         public AdmissionTypeEnum AdmissionType { get; set; }
         public List<int> Reports { get; set; }
     }

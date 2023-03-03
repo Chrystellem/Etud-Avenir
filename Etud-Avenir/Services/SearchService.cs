@@ -59,7 +59,7 @@ namespace Etud_Avenir.Services
                 {
                     curriculumsFiltered.Add(curriculum);
                 }*/
-                if (CheckCurriculumAdmissionType(curriculum) && CheckCurriculumFormationType(curriculum)) //&& CheckCurriculumRecognition(curriculum))
+                if (CheckCurriculumAdmissionType(curriculum) && CheckCurriculumFormationType(curriculum) && CheckCurriculumRecognition(curriculum))
                 {
                     curriculumsFiltered.Add(curriculum);
                 }
@@ -81,9 +81,27 @@ namespace Etud_Avenir.Services
             return false;
         }
 
-        /*public bool CheckCurriculumRecognition(Curriculum curriculum)
+        public bool CheckCurriculumFormationType(Curriculum curriculum)
         {
-            if (research.StateRecognition)
+            if (!research.IsInitialFormation && !research.IsApprenticeship)
+            {
+                return true;
+            }
+            else if (research.IsApprenticeship && curriculum.IsApprenticeship)
+            {
+                return true;
+            }
+            else if (research.IsInitialFormation && curriculum.IsInitialFormation)
+            {
+                return true;
+            }
+            
+            return false;
+        }
+
+        public bool CheckCurriculumRecognition(Curriculum curriculum)
+        {
+            if (research.IsStateApproved)
             {
                 if (curriculum.StateRecognition)
                 {
@@ -96,19 +114,6 @@ namespace Etud_Avenir.Services
 
             }
             return true;
-        }*/
-
-        public bool CheckCurriculumFormationType(Curriculum curriculum)
-        {
-            if (research.IsApprenticeship && curriculum.IsApprenticeship)
-            {
-                return true;
-            }
-            else if (research.IsInitialFormation && curriculum.IsInitialFormation)
-            {
-                return true;
-            }
-            return false;
         }
 
         public School GetCurriculumSchool(Curriculum curriculum)
@@ -138,7 +143,7 @@ namespace Etud_Avenir.Services
             {
                 if (CheckSchoolLocalization(school) && CheckSchoolStatus(school))
                 {
-                        schoolsFiltered.Add(school);
+                    schoolsFiltered.Add(school);
                 }
             }
             return schoolsFiltered;
@@ -151,7 +156,11 @@ namespace Etud_Avenir.Services
 
         public bool CheckSchoolStatus(School school)
         {
-            if (research.IsPrivate && school.IsPrivate)
+            if (!research.IsPrivate && !research.IsPrivate)
+            {
+                return true;
+            }
+            else if (research.IsPrivate && school.IsPrivate)
             {
                 return true;
             }
