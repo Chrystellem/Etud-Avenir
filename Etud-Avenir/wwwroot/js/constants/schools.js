@@ -1,11 +1,11 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var SCHOOLS = {
-    'EFREI PARIS': {
+    'EFREI PARIS': {*
         website: "https://www.efrei.fr/",
         img: "./../images/logo/efrei.png"
     },
-    'ESIEE PARIS': {
+    'ESIEE PARIS': {*
         website: "https://www.esiee.fr/",
         img: "./../images/logo/esiee.png"
     },

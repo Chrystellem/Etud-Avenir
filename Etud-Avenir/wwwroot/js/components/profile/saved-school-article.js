@@ -44,8 +44,9 @@ var curriculum_service_1 = require("../../services/curriculum-service");
 var action_button_1 = require("../action-button");
 function SavedSchoolArticle(_a) {
     var _this = this;
+    var _b;
     var curriculumId = _a.curriculumId, name = _a.name, savedDate = _a.savedDate, formation = _a.formation, setShowPartial = _a.setShowPartial;
-    var _b = React.useState(false), isDeleted = _b[0], setIsDeleted = _b[1];
+    var _c = React.useState(false), isDeleted = _c[0], setIsDeleted = _c[1];
     var deleteCurriculumHandler = function () { return __awaiter(_this, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
@@ -63,7 +64,7 @@ function SavedSchoolArticle(_a) {
     return React.createElement("div", { className: "my-3 d-flex actions-on-hover cursor-pointer" },
         React.createElement("article", { className: "saved-school d-flex align-items-center", onClick: function () { return setShowPartial(true); } },
             React.createElement("div", { className: "saved-school__img" },
-                React.createElement("img", { src: schools_1.default[name].img })),
+                React.createElement("img", { src: (_b = schools_1.default[name]) === null || _b === void 0 ? void 0 : _b.img })),
             React.createElement("div", { className: "school-info mx-3 py-2" },
                 React.createElement("div", null,
                     React.createElement("h5", { className: "mb-1" }, name),

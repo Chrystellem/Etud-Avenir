@@ -75,9 +75,10 @@ var SchoolInformation = /** @class */ (function (_super) {
             });
         }); };
         _this.renderDescription = function () {
+            var _a, _b;
             return React.createElement(React.Fragment, null,
                 React.createElement("div", { className: "template-profile-page__description-element__header d-flex align-items-center" },
-                    React.createElement("img", { src: schools_1.default[_this.state.name].img }),
+                    React.createElement("img", { src: (_a = schools_1.default[_this.state.name]) === null || _a === void 0 ? void 0 : _a.img }),
                     React.createElement("div", { className: "ml-3" },
                         React.createElement("h5", null, _this.state.name),
                         React.createElement("span", null,
@@ -118,7 +119,7 @@ var SchoolInformation = /** @class */ (function (_super) {
                         React.createElement("h5", null, "Informations compl\u00E9mentaires"),
                         React.createElement("p", null, _this.state.otherInformations))
                     : "",
-                React.createElement("a", { className: 'btn btn-primary', href: schools_1.default[_this.state.name].website, target: "_blank" }, "Voir le site"),
+                React.createElement("a", { className: 'btn btn-primary', href: (_b = schools_1.default[_this.state.name]) === null || _b === void 0 ? void 0 : _b.website, target: "_blank" }, "Voir le site"),
                 React.createElement(button_1.Button, { name: "Fermer", template: "danger", onClick: _this.props.onClickHandler }));
         };
         _this.render = function () {
