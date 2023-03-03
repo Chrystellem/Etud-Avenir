@@ -68,7 +68,17 @@ namespace Etud_Avenir.Services
 
         public List<School> GetCurriculumsSchools(List<Curriculum> curriculums)
         {
-            return _dbContext.School.Where(s => curriculums.Any(c => c.SchoolId == s.SchoolId)).ToList();
+            List<School> schools = new List<School>();
+            foreach (Curriculum curriculum in curriculums)
+            {
+                School school = _dbContext.School.Where(s => s.SchoolId == curriculum.SchoolId).Single();
+                if (! schools.Contains(school))
+                {
+                    schools.Add(school);
+                }
+            }
+            return schools;
+
         }
 
         public List<School> FilterSchoolsByCurriculums(List<School> curriculumSchools)
@@ -108,7 +118,7 @@ namespace Etud_Avenir.Services
         public Dictionary<Curriculum, double> GetCurriculumsWithScores(List<Curriculum> curriculums)
         {
             Dictionary<Curriculum, double> curriculumsScores = new Dictionary<Curriculum, double>();
-            List<GradeBySubjectDTO> studentGrades = (List<GradeBySubjectDTO>)userReports.Select(r => r.GradeBySubject); // A REVOIR
+            List<GradeBySubjectDTO> studentGrades = GetUserGrades();
             foreach (Curriculum curriculum in curriculums)
             {
                 double score = ComputeCurriculumScore(curriculum, studentGrades);
@@ -118,6 +128,16 @@ namespace Etud_Avenir.Services
             return curriculumsScores;
         }
 
+        public List<GradeBySubjectDTO> GetUserGrades()
+        {
+            List<GradeBySubjectDTO> grades = new List<GradeBySubjectDTO>();
+            foreach (ReportDTO report in userReports)
+            {
+                grades.AddRange(report.GradeBySubject);
+            }
+
+            return grades;
+        }
 
         public double ComputeCurriculumScore(Curriculum curriculum, List<GradeBySubjectDTO> studentsGrades)
         {
@@ -133,7 +153,7 @@ namespace Etud_Avenir.Services
                 double coefficient = _dbContext.CurriculumCoefficient.Where(c => c.SubjectId == subject.SubjectId && c.CurriculumId == curriculum.CurriculumId ).FirstOrDefault().Value;
                 curriculumScore += subjectGrades.Average(s => s.Grade) * coefficient;
             }
-            return curriculumScore / TotalCoefficients;
+            return Math.Round(curriculumScore / TotalCoefficients, 2);
         }
 
         public List<ResearchResultSchoolDTO> GetResearchResults(Dictionary<Curriculum, double> curriculumsScores)
@@ -151,7 +171,8 @@ namespace Etud_Avenir.Services
             {
                 School school = GetCurriculumSchool(curriculum);
                 resultsDTOs.Add(new ResearchResultSchoolDTO { 
-                    SchoolId = school.SchoolId, 
+                    SchoolId = school.SchoolId,
+                    CurriculumId = curriculum.CurriculumId,
                     Name = school.Name, 
                     City = school.City, 
                     Domain = curriculum.Domain, 
@@ -165,7 +186,7 @@ namespace Etud_Avenir.Services
 
         public Dictionary<Curriculum, double> Get5BestCurriculums(Dictionary<Curriculum, double> curriculumsScores)
         {
-            return (Dictionary<Curriculum, double>)curriculumsScores.OrderByDescending(c => c.Value).Take(5);
+            return new Dictionary<Curriculum, double> (curriculumsScores.OrderByDescending(c => c.Value).Take(5));
         }
     }
 }

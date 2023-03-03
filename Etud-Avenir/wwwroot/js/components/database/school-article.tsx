@@ -52,7 +52,7 @@ export default function SchoolArticle({ school, isResult, displayFavoriteBtn }: 
                     </div>
                     {
                         isResult ?
-                            <div className="compatibility d-flex align-items-end"><p className="mb-0">Indice de compatibilité</p><span className="ml-2">80%</span></div> :
+                            <div className="compatibility d-flex align-items-end"><p className="mb-0">Indice de compatibilité</p><span className="ml-2">{school.score}</span></div> :
                             ""
                     }
                 </div>

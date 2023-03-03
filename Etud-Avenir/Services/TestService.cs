@@ -87,7 +87,7 @@ namespace Etud_Avenir.Services
 
             foreach(ResearchResultSchoolDTO result in results)
             {
-                Console.WriteLine(" > " + result.ToString());
+                Console.WriteLine(" > CurriculumId :" + result.CurriculumId);
             }
 
         }
@@ -114,7 +114,7 @@ namespace Etud_Avenir.Services
                 List<GradeBySubjectDTO> reportsGrades = new List<GradeBySubjectDTO>();
                 foreach (Subject subject in _dbContext.Subject.ToList())
                 {
-                    GradeBySubjectDTO gradeDTO = new GradeBySubjectDTO { Grade = 12+i , Subject = subject.Name };
+                    GradeBySubjectDTO gradeDTO = new GradeBySubjectDTO { Grade = (new Random().Next(10,20)) , Subject = subject.Name };
                     reportsGrades.Add(gradeDTO);
                 }
 

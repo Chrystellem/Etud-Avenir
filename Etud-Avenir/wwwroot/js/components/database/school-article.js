@@ -85,7 +85,7 @@ function SchoolArticle(_a) {
                     isResult ?
                         React.createElement("div", { className: "compatibility d-flex align-items-end" },
                             React.createElement("p", { className: "mb-0" }, "Indice de compatibilit\u00E9"),
-                            React.createElement("span", { className: "ml-2" }, "80%")) :
+                            React.createElement("span", { className: "ml-2" }, school.score)) :
                         ""),
                 React.createElement("div", { className: "d-flex justify-content-between w-100 align-items-end mt-4" },
                     React.createElement("ul", { className: "list-style-none" },

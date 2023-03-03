@@ -6,7 +6,7 @@
     description: string
     formation: string
     domain: string
-    coefficient: number
+    score: number
     city: string
     zipCode: number
 }
