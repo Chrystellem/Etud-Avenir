@@ -45,20 +45,70 @@ namespace Etud_Avenir.Services
             List<Curriculum> curriculumsFiltered = new List<Curriculum>();
             foreach (Curriculum curriculum in curriculums)
             {
-                if(research.AdmissionType == curriculum.AdmissionType)
+                /*if(research.AdmissionType != Data.Enums.AdmissionTypeEnum.NoSelection)
                 {
-                    if (research.IsApprenticeship && curriculum.IsApprenticeship)
+                    if (research.AdmissionType == curriculum.AdmissionType)
                     {
-                        curriculumsFiltered.Add(curriculum);
+                        if (CheckCurriculumFormationType(curriculum))
+                        {
+                            curriculumsFiltered.Add(curriculum);
+                        }
                     }
-                    else if (research.IsInitialFormation && curriculum.IsInitialFormation)
-                    {
-                        curriculumsFiltered.Add(curriculum);
-                    }
+                }
+                else if(CheckCurriculumFormationType(curriculum))
+                {
+                    curriculumsFiltered.Add(curriculum);
+                }*/
+                if (CheckCurriculumAdmissionType(curriculum) && CheckCurriculumFormationType(curriculum)) //&& CheckCurriculumRecognition(curriculum))
+                {
+                    curriculumsFiltered.Add(curriculum);
                 }
             }
 
             return curriculumsFiltered;
+        }
+
+        public bool CheckCurriculumAdmissionType(Curriculum curriculum)
+        {
+            if (research.AdmissionType == Data.Enums.AdmissionTypeEnum.NoSelection)
+            {
+                return true;
+            }
+            else if(research.AdmissionType == curriculum.AdmissionType)
+            {
+                return true;
+            }
+            return false;
+        }
+
+        public bool CheckCurriculumRecognition(Curriculum curriculum)
+        {
+            if (research.StateRecognition)
+            {
+                if (curriculum.StateRecognition)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+
+            }
+            return true;
+        }
+
+        public bool CheckCurriculumFormationType(Curriculum curriculum)
+        {
+            if (research.IsApprenticeship && curriculum.IsApprenticeship)
+            {
+                return true;
+            }
+            else if (research.IsInitialFormation && curriculum.IsInitialFormation)
+            {
+                return true;
+            }
+            return false;
         }
 
         public School GetCurriculumSchool(Curriculum curriculum)
@@ -86,20 +136,30 @@ namespace Etud_Avenir.Services
             List<School> schoolsFiltered = new List<School>();
             foreach (School school in curriculumSchools)
             {
-                if (school.Address.Contains(research.Localization))
+                if (CheckSchoolLocalization(school) && CheckSchoolStatus(school))
                 {
-                    if (research.IsPrivate && school.IsPrivate)
-                    {
                         schoolsFiltered.Add(school);
-                    }
-                    else if (research.IsPublic && school.IsPublic)
-                    {
-                        schoolsFiltered.Add(school);
-                    }
                 }
             }
-
             return schoolsFiltered;
+        }
+
+        public bool CheckSchoolLocalization(School school)
+        {
+            return school.Address.Contains(research.Localization);
+        }
+
+        public bool CheckSchoolStatus(School school)
+        {
+            if (research.IsPrivate && school.IsPrivate)
+            {
+                return true;
+            }
+            else if (research.IsPublic && school.IsPublic)
+            {
+                return true;
+            }
+            return false;
         }
 
         public List<Curriculum> RemoveCurriculumsOfNoneFilteredSchools(List<School> schools, List<Curriculum> curriculums)
